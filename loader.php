@@ -6,6 +6,7 @@
     //  echo $_SESSION['loggedin'];
     //  echo " ";
     //  echo $_SESSION["Last_Activity"];
+    //  dummy line
     //  echo " ";
     //  echo time();
      if(!isset($_SESSION['loggedin'])){
