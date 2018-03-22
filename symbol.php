@@ -1,7 +1,5 @@
 <?php
-  ini_set('session.gc_maxlifetime',60*60*6);
-  ini_set('session.gc_probability',1);
-  ini_set('session.gc_divisor',1);
+   
   session_start();
        
   if(!isset($_SESSION['loggedin'])){
@@ -112,6 +110,7 @@
           <button style="margin-left:32px;display:inline; float:left"><a href="logout.php">Log Out</a></button>
           <input style="display:inline; float:left" id="back" type="button" value="Main Page" onClick="Search()">
           <input style="display:inline;float:left" id="save"type="button" value="Save">
+          
           <form style="display:inline;margin-top:0px;margin-left:47%; " action="symbol.php" method="GET" class="navbar-form navbar-left" role="search">         
             <input  type="submit" name="submit"value="Go To">
             <input   type="text" name="symbolSearch" placeholder="Search">
@@ -241,36 +240,22 @@
               $('a').attr('contenteditable','false');
               $('textarea').attr('readonly','readonly');
               $('#note1').attr('contenteditable','false');
+              $('#comment1').attr('contenteditable','false');
             </script>
             ";
           }
         ?>
-        <button type="button" class="add btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Click to Add Comments</button>
-
-      <!-- Modal -->
-        <div id="myModal" class="modal fade" role="dialog">
-          <div class="modal-dialog">
-
-            <!-- Modal content-->
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Write down your comments</h4>
-              </div>
-              <div class="modal-body">
-                <form action="symbol.php" method:"get" ></form>
-                <textarea name="" id="userComment" cols="78" rows="10" autofocus></textarea>
-              </div>
-              <div class="modal-footer">
-                <button class="btn btn-default" id="clear">Clear</button>
-                <button class="btn btn-default" id="submitComment" data-dismiss="modal" type="submit">Submit</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              </div>
-            </div>
-
-          </div>
-        </div>
+        
+        <form action="symbol.php" method:"get" >
+            <h4>Write down your comments:</h4>
+            <textarea name="" style="width:95%;height:100px" id="userComment"></textarea>
+        </form>
+        <button class="btn btn-default" id="submitComment"  type="submit">Submit</button>
+        <button class="btn btn-default" id="clear">Clear</button>
+     
            <?php
+           date_default_timezone_set('America/Chicago');
+           $date = date('Y-m-d H:i:s',time());
            echo 
            '
             <script>
@@ -279,11 +264,11 @@
                     $("#comment1").empty();
                   };
                   if($("#comment1").text().trim()!==""){
-                    $("#comment1").append("<br>"+"'.$user.'"+": "+$("#userComment").val().trim() )
+                    $("#comment1").append("<br>"+"'.$date.'"+" "+"'.$user.'"+": "+$("#userComment").val().trim() )
 
                   }
                   else{
-                    $("#comment1").append("'.$user.'"+": "+$("#userComment").val().trim())
+                    $("#comment1").append("'.$date.'"+" "+"'.$user.'"+": "+$("#userComment").val().trim())
                   }
                   var comment={
                     symbol:$("#mysymbol").text().trim(),
@@ -311,20 +296,7 @@
               $("#clear").on("click",function(){
                 $("#userComment").val("");
               })
-              $("#save").on("click", function() {
-                var re = /(?![\x00-\x7F]|[\xC0-\xDF][\x80-\xBF]|[\xE0-\xEF][\x80-\xBF]{2}|[\xF0-\xF7][\x80-\xBF]{3})./g;
-                $("#catalyst1").val($("#catalyst1").val().replace(/'/g,"''").replace(re, ""))
-                $("#question1").val($("#question1").val().replace(/'/g,"''").replace(re, ""))
-                $("#stra1").val($("#stra1").val().replace(/'/g,"''").replace(re, ""))
-                $("#case1").val($("#case1").val().replace(/'/g,"''").replace(re, ""))
-                $("#ticket1").val($("#ticket1").val().replace(/'/g,"''").replace(re, ""))
-                $("#note1").text($("#note1").text().replace(/'/g,"''").replace(re, ""))
-                $("#comment1").text($("#comment1").text().replace(/'/g,"''").replace(re, ""))
-                
-               
-              })
         </script>
-        <!-- <script src="comment.js"></script> -->
     </body>
 </html>
 

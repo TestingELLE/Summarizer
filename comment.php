@@ -1,4 +1,11 @@
 <?php
+    session_start();
+    if(!isset($_SESSION['loggedin'])){
+       
+    header("Location:logout.php");
+    exit();
+    }
+  
     $newComment=$_POST['newComment'];
     $symbol=$_POST['symbol'];
     $user=$_POST['user'];
@@ -14,5 +21,10 @@
     } else {
         echo "Error: ". mysqli_error($con);
     };
+    $currentuser=$_SESSION['loggedin'];
+    $userAction='added comments';
+    $log="INSERT INTO activity (user, `action`,`page`) VALUES ('$currentuser','$userAction','$symbol')";
+    mysqli_query($con,$log);
+    mysqli_close($con);
 
 ?>

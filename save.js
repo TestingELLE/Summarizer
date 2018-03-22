@@ -1,13 +1,17 @@
 $(document).ready(function() {
-
     $("#save").on("click", function() {
-
+        var re = /(?![\x00-\x7F]|[\xC0-\xDF][\x80-\xBF]|[\xE0-\xEF][\x80-\xBF]{2}|[\xF0-\xF7][\x80-\xBF]{3})./g;
+        $("#catalyst1").val($("#catalyst1").val().replace(/'/g, "''").replace(re, ""))
+        $("#question1").val($("#question1").val().replace(/'/g, "''").replace(re, ""))
+        $("#stra1").val($("#stra1").val().replace(/'/g, "''").replace(re, ""))
+        $("#case1").val($("#case1").val().replace(/'/g, "''").replace(re, ""))
+        $("#ticket1").val($("#ticket1").val().replace(/'/g, "''").replace(re, ""))
+        $("#note1").html($("#note1").html().replace(/'/g, "''").replace(re, ""))
+        $("#comment1").html($("#comment1").html().replace(re, "").replace(/'/g, "\\'"))
         var divv = document.getElementById("note1");
         divv.innerHTML = divv.innerHTML.replace(/<div>/ig, "<br>").replace(/<\/div>/ig, "");
         var divv2 = document.getElementById("comment1");
         divv2.innerHTML = divv2.innerHTML.replace(/<div>/ig, "<br>").replace(/<\/div>/ig, "");
-
-
         var newData = {
             "symbol": $("#mysymbol").text().trim(),
             "price": $("#price").text().trim(),
@@ -57,6 +61,10 @@ $(document).ready(function() {
                 window.location.reload()
             }
         })
+
     })
+
+
+
 
 })
