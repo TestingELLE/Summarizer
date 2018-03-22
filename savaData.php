@@ -1,4 +1,12 @@
 <?php
+     
+     session_start();
+       
+      if(!isset($_SESSION['loggedin'])){
+       
+        header("Location:logout.php");
+        exit();
+    }
     $price=$_POST["price"];
     $intern=$_POST["intern"];
     $LDate=$_POST["LDate"];  
@@ -35,14 +43,18 @@
     $symbol=$_POST["symbol"];
     $yes=TRUE;
     // industry='$industry', mkt_cap='$mktCap', price=$price, biotech='$biotech' , penny_stock='$PStock', active='$active', catalysts='$catalyst', last_earnings='$LDate', next_earnings='$NDate', bo_ah='$boah', intern='$intern', cash='$cash', burn='$burn', related_tickets='$ticket', analysis_date='$AnalysisDate', analysis_price='$analysisPrice', low_target='$LTarget', price_target='$PTarget', upside='$upside', down_risk='$down', rank='$rank', confidence='$confidence', worse_case='$case', target_weight='$Tweight', target_position='$Tposition', actual_position='$actualPosition', actual_weight='$actualWeight', diff='$diff', stragety='$strategy', questions='$question', notes='$note', skype_comments='$comment', last_updates='$LUpdate'
-   $con=mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
+    $con=mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
     if (!$con)
     {
     die('Could not connect: ' . mysqli_error());
     }
+    
     mysqli_select_db($con,"pupone_Summarizer");
+    $currentuser=$_SESSION['loggedin'];
+    $userAction='modified data';
+    $log="INSERT INTO activity (user, `action`,`page`) VALUES ('$currentuser','$userAction','$symbol')";
+    mysqli_query($con,$log);
     $sql="UPDATE main_table SET industry='$industry', mkt_cap='$mktCap', price='$price', biotech='$biotech' , penny_stock='$PStock', active='$active', catalysts='$catalyst', last_earnings='$LDate', next_earnings='$NDate', bo_ah='$boah', intern='$intern', cash='$cash', burn='$burn', related_tickets='$ticket', analysis_date='$AnalysisDate', analysis_price='$analysisPrice', low_target='$LTarget', price_target='$PTarget', upside='$upside', down_risk='$down', rank='$rank', confidence='$confidence', worse_case='$case', target_weight='$Tweight', target_position='$Tposition', actual_position='$actualPosition', actual_weight='$actualWeight', diff='$diff', stragety='$strategy', questions='$question', notes='$note', skype_comments='$comment', last_updates='$LUpdate' WHERE symbol='$symbol'";
-    // $sql="UPDATE test SET notes='$note' WHERE symbol='AABA'";
     if(mysqli_query($con,$sql)){
         echo "Successfully updated";
         mysqli_close($con);

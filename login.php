@@ -1,11 +1,14 @@
 <?php
-    ini_set('session.gc_maxlifetime',60*60*6);
-    ini_set('session.gc_probability',1);
-    ini_set('session.gc_divisor',1);
-    session_start();
-  
-   
     
+    session_start();
+    
+    $_SESSION['count'];
+    isset($PHPSESSID)?session_id($PHPSESSID):$PHPSESSID = session_id(); 
+    
+    $_SESSION['count']++; 
+    setcookie('PHPSESSID', $PHPSESSID, time()+21800);
+   
+
     $year = time() + 31536000;
 
     if($_POST['remember'])  {
@@ -38,7 +41,7 @@
        
         $row = mysqli_fetch_assoc($result);
         
-        if(mysqli_num_rows($result)==1 && $row['type']=="admin"){
+        if(mysqli_num_rows($result)==1 && $row['type']=="Admin" || $row['type']=="Maintainer" ){
             $_SESSION['type']=$row['type'];
             $_SESSION['loggedin']=$uname;
             $_SESSION["Last_Activity"]=time(); 
@@ -54,7 +57,7 @@
             exit();
             mysqli_close($con1);
         };
-        if(mysqli_num_rows($result)==1 && $row['type']=="programmer"){
+        if(mysqli_num_rows($result)==1 && $row['type']=="Programmer"){
             $_SESSION['type']=$row['type'];
             $_SESSION['loggedin']=$uname;
             $_SESSION["Last_Activity"]=time(); 

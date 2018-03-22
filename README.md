@@ -1,1 +1,1 @@
-# Summarizer
+# Stock_Summarizer_Project
