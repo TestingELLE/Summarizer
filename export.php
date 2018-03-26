@@ -31,22 +31,31 @@
             $filename=explode(".",$_FILES["file"]["name"]);
             if($filename[1]=="csv"){
                 $handle=fopen($_FILES["file"]["tmp_name"],"r");
+                $user=$_SESSION['loggedin'];
+                date_default_timezone_set('America/Chicago');
                 $date=date("Y-m-d h:i:sa",time());
                 $tableName='BackUpTable-'.$date.'';
                 $createTB="CREATE TABLE `$tableName` SELECT * FROM main_table";
+                $backTbquery="INSERT INTO backup_table (user,`filename`, `date`) VALUES('$user','$tableName','$date')";
+                mysqli_query($connect,$backTbquery);
                 mysqli_query($connect,$createTB);
                 $row = 1;
                 $sql2="TRUNCATE TABLE main_table";
                 mysqli_query($connect,$sql2);
                 while($data=fgetcsv($handle)){
-                    if($row == 1){ $row++; continue; } 
+                    if($row == 1){ $row++; continue; }
+                    for($x=0;$x<count($data);$x++){
+                        $data[$x]=mysqli_real_escape_string($connect,$data[$x]);
+                     }
+                     if($data[0]==""){
+                        break;
+                    }else{
                     $sql="INSERT INTO main_table (symbol, industry, mkt_cap, price, biotech, penny_stock, active, catalysts, last_earnings, next_earnings, bo_ah, intern, cash, burn, related_tickets, analysis_date, analysis_price, low_target, price_target, upside, down_risk, rank, confidence, worse_case, target_weight, target_position, actual_position, actual_weight, diff, stragety, questions, notes, skype_comments, last_updates)
                     VALUES ('$data[0]','$data[1]','$data[2]','$data[3]','$data[4]','$data[5]','$data[6]','$data[7]','$data[8]','$data[9]','$data[10]','$data[11]','$data[12]','$data[13]','$data[14]','$data[15]','$data[16]','$data[17]','$data[18]','$data[19]','$data[20]','$data[21]','$data[22]','$data[23]','$data[24]','$data[25]','$data[26]','$data[27]','$data[28]','$data[29]','$data[30]','$data[31]','$data[32]','$data[33]')";
                     mysqli_query($connect,$sql);
-                    $run=mysqli_query($connect,$sql);
+                    }
                 }
-                fclose($handle);
-                $user=$_SESSION['loggedin'];
+                fclose($handle);               
                 $userAction="uploaded a CSV file";
                 $log="INSERT INTO activity (user, `action`) VALUES ('$user','$userAction')";
                 mysqli_query($connect,$log);
@@ -66,20 +75,30 @@
             $filename=explode(".",$_FILES["file"]["name"]);
             if($filename[1]=="csv"){
                 $handle=fopen($_FILES["file"]["tmp_name"],"r");
+                $user=$_SESSION['loggedin'];
+                date_default_timezone_set('America/Chicago');
                 $date=date("Y-m-d h:i:sa",time());
                 $tableName='AppendTable-'.$date.'';
                 $createTB="CREATE TABLE `$tableName` SELECT * FROM main_table";
+                $backTbquery="INSERT INTO backup_table (user,`filename`, `date`) VALUES('$user','$tableName','$date')";
+                mysqli_query($connect,$backTbquery);
                 mysqli_query($connect,$createTB);
                 $row = 1;
                 while($data=fgetcsv($handle)){
                     if($row == 1){ $row++; continue; } 
+                    for($x=0;$x<count($data);$x++){
+                        $data[$x]=mysqli_real_escape_string($connect,$data[$x]);
+                     }
+                     if($data[0]==""){
+                        break;
+                    }else{
                     $sql="INSERT INTO main_table (symbol, industry, mkt_cap, price, biotech, penny_stock, active, catalysts, last_earnings, next_earnings, bo_ah, intern, cash, burn, related_tickets, analysis_date, analysis_price, low_target, price_target, upside, down_risk, rank, confidence, worse_case, target_weight, target_position, actual_position, actual_weight, diff, stragety, questions, notes, skype_comments, last_updates)
                     VALUES ('$data[0]','$data[1]','$data[2]','$data[3]','$data[4]','$data[5]','$data[6]','$data[7]','$data[8]','$data[9]','$data[10]','$data[11]','$data[12]','$data[13]','$data[14]','$data[15]','$data[16]','$data[17]','$data[18]','$data[19]','$data[20]','$data[21]','$data[22]','$data[23]','$data[24]','$data[25]','$data[26]','$data[27]','$data[28]','$data[29]','$data[30]','$data[31]','$data[32]','$data[33]')";
                     mysqli_query($connect,$sql);
-                    $run=mysqli_query($connect,$sql);
+                    }
                 }
                 fclose($handle);
-                $user=$_SESSION['loggedin'];
+                
                 $userAction="appended a CSV file";
                 $log="INSERT INTO activity (user, `action`) VALUES ('$user','$userAction')";
                 mysqli_query($connect,$log);
@@ -119,7 +138,9 @@
  
         if (count($users) > 0) {
             foreach ($users as $row) {
-                fputcsv($output, $row);
+                if(!empty($row)){
+                    fputcsv($output, $row);
+                }
             }
         }
         
@@ -129,3 +150,8 @@
 
 
 ?>
+
+
+
+
+  

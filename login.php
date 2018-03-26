@@ -72,33 +72,34 @@
 
 
 ?>
+
+
 <html>
     <body>
         <form action="login.php" method="POST">
-            User: </br>
-            <input type="text" name="username" value="<?php 
-            
-                echo $_COOKIE['remember_me'];
-              ?>"><br/>
-            Password<br/>
-            <input type="password" name="password" value="<?php
-             
-                echo $_COOKIE['remember_me2']; 
-             
-             ?>"><br/>
-            <input type="submit" name="submit"value="Login">
-            <br>
-            <br>
-            <input type="checkbox" name="remember" id="remember" value="1" <?php 
-            if(isset($_COOKIE['remember_me'])&&isset($_COOKIE['remember_me2'])) {
-		        echo 'checked="checked"';
-	            }
-	            else {
-		            echo '';
-	            }
-	        ?>>
-            <label for="remember">Remember me</label>
-        </form>
-     
+                User: </br>
+                <input type="text" name="username" value="<?php 
+                
+                    echo $_COOKIE['remember_me'];
+                ?>"><br/>
+                Password<br/>
+                <input type="password" name="password" value="<?php
+                
+                    echo $_COOKIE['remember_me2']; 
+                
+                ?>"><br/>
+                <input type="submit" name="submit"value="Login">
+                <br>
+                <br>
+                <input type="checkbox" name="remember" id="remember" value="1" <?php 
+                if(isset($_COOKIE['remember_me'])&&isset($_COOKIE['remember_me2'])) {
+                    echo 'checked="checked"';
+                    }
+                    else {
+                        echo '';
+                    }
+                ?>>
+                <label for="remember">Remember me</label>
+            </form>
     </body>
 </html>
