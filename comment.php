@@ -6,7 +6,7 @@
     exit();
     }
   
-    $newComment=$_POST['newComment'];
+    
     $symbol=$_POST['symbol'];
     $user=$_POST['user'];
     echo $newComment;
@@ -15,6 +15,7 @@
     {
     die('Could not connect: ' . mysqli_error());
     }
+    $newComment=mysqli_real_escape_string($con,$_POST['newComment']);
     mysqli_select_db($con,"pupone_Summarizer");
     $sql="UPDATE main_table SET  skype_comments='$newComment' WHERE symbol='$symbol'";
     if(mysqli_query($con,$sql)){

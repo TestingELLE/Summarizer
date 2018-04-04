@@ -12,7 +12,6 @@
     {
     die('Could not connect: ' . mysqli_error());
     }
-    
     $price=$_POST["price"];
     $intern=$_POST["intern"];
     $LDate=$_POST["LDate"];  
@@ -42,7 +41,6 @@
     $catalyst=$_POST["catalyst"];
     $strategy=$_POST["strategy"];
     $case=$_POST["case"];
-   
     $ticket=$_POST["ticket"];
     $note=$_POST["note"];
     $comment=$_POST["comment"];
@@ -60,11 +58,10 @@
     $sql="UPDATE main_table SET industry='$industry', mkt_cap='$mktCap', price='$price', biotech='$biotech' , penny_stock='$PStock', active='$active', catalysts='$catalyst', last_earnings='$LDate', next_earnings='$NDate', bo_ah='$boah', intern='$intern', cash='$cash', burn='$burn', related_tickets='$ticket', analysis_date='$AnalysisDate', analysis_price='$analysisPrice', low_target='$LTarget', price_target='$PTarget', upside='$upside', down_risk='$down', rank='$rank', confidence='$confidence', worse_case='$case', target_weight='$Tweight', target_position='$Tposition', actual_position='$actualPosition', actual_weight='$actualWeight', diff='$diff', stragety='$strategy', questions='$question', notes='$note', skype_comments='$comment', last_updates='$LUpdate' WHERE symbol='$symbol'";
     if(mysqli_query($con,$sql)){
         echo "Successfully updated";
-        mysqli_close($con);
+        
     } else {
         echo "Error: ". mysqli_error($con);
-    };
-
+    }; 
     
 
 

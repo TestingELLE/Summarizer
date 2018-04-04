@@ -30,7 +30,6 @@
     <head>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
       <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
-
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
@@ -43,7 +42,6 @@
   				stroke-width: 3;
   				fill: none;
   			}
-
   			.axis {
   			  shape-rendering: crispEdges;
   			}
@@ -97,29 +95,42 @@
     border:none;
     background:none
   }
-  body { padding-top: 70px; }
+  body { min-width:779px;}
   .navbar{
     min-height:27px;
+  }
+
+  @media screen and (max-width: 764px) {
+      #main-content {
+            margin-top: 14%!important
+        }
   }
 </style>
     </head>
     <body>
-      <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-          <p style="float:left;margin-top: 5px;margin-left:-36px;display:inline"><?php echo $user ?></p>
-          <button style="margin-left:32px;display:inline; float:left"><a href="logout.php">Log Out</a></button>
-          <input style="display:inline; float:left" id="back" type="button" value="Main Page" onClick="Search()">
-          <input style="display:inline;float:left" id="save"type="button" value="Save">
-          
-          <form style="display:inline;margin-top:0px;margin-left:47%; " action="symbol.php" method="GET" class="navbar-form navbar-left" role="search">         
-            <input  type="submit" name="submit"value="Go To">
-            <input   type="text" name="symbolSearch" placeholder="Search">
+      <nav style="border:1px solid #e7e7e7; background:#f8f8f8" class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+          <div class="navbar-header">
+          </div>
+          <ul class="nav navbar-nav">
+              <p style="display:inline;color:black"><?php echo $user ?></p>
+              <p style="display:inline;color:black;"><?php echo $type ?></p>
+              <button class="btn btn-default btn-md"><a href="logout.php">Log Out</a></button>
+              <input  style="margin-left:-5px;" id="back" class="btn btn-default btn-md"type="button" value="Main Page" onClick="Search()">
+              <input style="margin-left:-5px;" class="btn btn-default btn-md" id="save"type="button" value="Save">
+          </ul>
+          <form style="margin-top:0px;float:right!important" class="navbar-form navbar-left"  action="symbol.php" method="GET" role="search" >
+            <div class="input-group">
+            
+              <input   type="text" class="form-control" name="symbolSearch" placeholder="Search">
+              <div class="input-group-btn">
+                <input style="height:34px"class="btn btn-default btn-sm" type="submit" name="submit" value="Go To">
+              </div>
+            </div>
           </form>
-          <div style="clear:both"></div>
-          <p style="float:left;margin-top: -17px;margin-left: -36px;"><?php echo $type ?></p>
         </div>
       </nav>
-      <div style="width:98%; margin:12px; margin-top:-37px;">
+      <div id="main-content" style="width:98%; margin:12px; margin-top:4%;">
       <br>
           <?php
             if(isset($_GET["name"])){
@@ -141,7 +152,8 @@
                 while($row1 = mysqli_fetch_array($result2))
                 {
                   echo 
-                  '<h2 style="text-align:center;display: inline;margin-left:44%" id="mysymbol"><a href="https://seekingalpha.com/symbol/'.$row1['symbol'].'/chart" onclick="javascript:void window.open(`https://seekingalpha.com/symbol/'.$row1['symbol'].'/chart`,`1520620719413`,`width=920,height=1200,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=200px,top=100px`);return false;"><span id="link" style="margin-left: -54px; margin-right: 20px;"  class="glyphicon glyphicon-picture" aria-hidden="true"></span></a>'.$row1['symbol'].'</h2>
+                  '<h4 style="display:inline">Tip: The stock price is refreshed every minute.</h4>
+                   <h2 style="text-align:center;display: inline;margin-left:24%" id="mysymbol"><a href="https://seekingalpha.com/symbol/'.$row1['symbol'].'/chart" onclick="javascript:void window.open(`https://seekingalpha.com/symbol/'.$row1['symbol'].'/chart`,`1520620719413`,`width=920,height=1200,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=200px,top=100px`);return false;"><span id="link" style="margin-left: -54px; margin-right: 20px;"  class="glyphicon glyphicon-picture" aria-hidden="true"></span></a>'.$row1['symbol'].'</h2>
                    <h4 style="display: inline;margin-left:22px"><a contenteditable="true" id="mktCap">'.$row1['mkt_cap'].'</a></h4>
                    <h4 style="display: inline;margin-left:22px"><a contenteditable="true" id="industry">'.$row1['industry'].'</a></h4> 
 
@@ -157,7 +169,7 @@
                           <td><h4 style="display: inline;margin-right:10%">Penny Stock: <a contenteditable="true" id="PStock">'.$row1['penny_stock'].'</a></h4></td>    
                         </tr>
                         <tr>
-                          <td><h4 style="display: inline;margin-right:10%">Next Earnings Date: <a contenteditable="true" id="NDate">'.$row1['next_earnings'].'</a><a style="margin-left:34px" contenteditable="true" id="boah">'." ".$row1['bo_ah'].'</a></h4></td> 
+                          <td><h4 style="display: inline;margin-right:10%">Next Earnings Date: <a contenteditable="true" id="NDate">'.$row1['next_earnings'].'</a><a style="margin-left:4px" contenteditable="true" id="boah">'." ".$row1['bo_ah'].'</a></h4></td> 
  
                           <td><h4 style="display: inline;margin-right:10%">Target Price : <a contenteditable="true" id="PTarget">'.$row1['price_target'].'</a></h4></td>
                           <td><h4 style="display: inline;margin-right:10%">Low Target: <a contenteditable="true" id="LTarget">'.$row1['low_target'].'</a></h4></td>
@@ -291,10 +303,24 @@
         <script src="sym.js"></script>
         <script src="save.js"></script>
         <script>
+            var symbol=$("#mysymbol").text()
+            $.get(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=1min&apikey=J21EQR4V9L83BKWD`, function (data){
+                  $("#price").text(data["Time Series (1min)"][Object.keys(data["Time Series (1min)"])[0]]["4. close"]);
+
+                }); 
+            setInterval(function(){ 
+                
+                $.get(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=1min&apikey=J21EQR4V9L83BKWD`, function (data){
+                  $("#price").text(data["Time Series (1min)"][Object.keys(data["Time Series (1min)"])[0]]["4. close"]);
+
+                }); 
+              }, 60000);
               $("#clear").on("click",function(){
                 $("#userComment").val("");
               })
         </script>
     </body>
 </html>
+
+
 
