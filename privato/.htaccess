@@ -1,9 +1,0 @@
-#blocks access to header.html and navigation.html from all users
-
-<Files "header.html">
-    DENY from all
-</Files>
-
-<Files "navigation.html">
-    DENY from all
-</Files>

@@ -85,8 +85,8 @@ echo '
           <th>Symbol</th>
           <th>Analysis Date</th>
           <th>Current Price ($)</th>
-          <th>Price Target</th>
-          <th>Upside</th>
+          <th>1st Price Target</th>
+          <th>1st Upside</th>
           <th>Rank</th>
           <th>Target Weight</th>
           <th>Actual Weight</th>
@@ -107,23 +107,35 @@ echo '
             }
 
           mysqli_select_db($con,"pupone_Summarizer");
-          if($result = mysqli_query($con,"SELECT symbol, price, analysis_date, price_target, upside, rank, target_weight,actual_weight,diff,next_earnings FROM main_table"))
+          if($result = mysqli_query($con,"SELECT symbol, current_price, analysis_date, 1st_price_target, 1st_upside, rank, target_weight,actual_weight,weight_difference,next_earnings FROM main_table"))
           {
               /* pull data from database and insert into data table. */
               while($row = mysqli_fetch_array($result))
               {
                   echo '<tr>
-                          <td ><a class="name" >'.$row['symbol'].'</a></td>
+                          <td ><a  class="name" >'.$row['symbol'].'</a></td>
                           <td>'.$row['analysis_date'].'</td>
-                          <td>'.$row['price'].'</td>
-                          <td>'.$row['price_target'].'</td>
-                          <td>'.$row['upside'].'</td>
+                          <td id="'.$row['symbol'].'">'.$row['current_price'].'</td>
+                          <td>'.$row['1st_price_target'].'</td>
+                          <td>'.$row['1st_upside'].'</td>
                           <td>'.$row['rank'].'</td>
                           <td>'.$row['target_weight'].'</td>
                           <td>'.$row['actual_weight'].'</td>
-                          <td>'.$row['diff'].'</td>
+                          <td>'.$row['weight_difference'].'</td>
                           <td>'.$row['next_earnings'].'</td>
-                        </tr>'     ;   
+                        </tr>
+                        <script>
+                          $.get(`https://api.iextrading.com/1.0/stock/'.$row['symbol'].'/price`, function (data){
+                            $("#'.$row['symbol'].'").text(" "+data);
+                            }); 
+                         setInterval(function(){ 
+                              $.get(`https://api.iextrading.com/1.0/stock/'.$row['symbol'].'/price`, function (data){
+                                $("#'.$row['symbol'].'").text(" "+data);
+                                    }); 
+                              }, 60000);
+                        </script> 
+                        '     ;  
+                     
               }
               mysqli_free_result($result);
         }
@@ -147,7 +159,17 @@ echo '
 
 <script>
 $(document).ready(function() {
- 
+// var symbol=$(".name").text()
+
+// $.get(`https://api.iextrading.com/1.0/stock/${symbol}/stats`, function (data){
+//   $("#mktCap").text((+data["marketcap"]/1000000).toFixed(2)+"M");
+//     }); 
+// setInterval(function(){ 
+//   $.get(`https://api.iextrading.com/1.0/stock/${symbol}/price`, function (data){
+//         $("#price").text(" "+data);
+//         }); 
+//   }, 60000);
+
 $('#SummarizerTable').DataTable({
     paging: false
    
