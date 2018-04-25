@@ -95,7 +95,7 @@
     border:none;
     background:none
   }
-  body { min-width:779px;}
+  body { min-width:900px;}
   .navbar{
     min-height:27px;
   }
@@ -152,9 +152,9 @@
                 while($row1 = mysqli_fetch_array($result2))
                 {
                   echo 
-                  '<h4 style="display:inline">Tip: The stock price is refreshed every minute.</h4>
+                  '<h4 style="display:inline">Tip: The stock price is 15 minute delayed market price.</h4>
                    <h2 style="text-align:center;display: inline;margin-left:24%" id="mysymbol"><a href="https://seekingalpha.com/symbol/'.$row1['symbol'].'/chart" onclick="javascript:void window.open(`https://seekingalpha.com/symbol/'.$row1['symbol'].'/chart`,`1520620719413`,`width=920,height=1200,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=200px,top=100px`);return false;"><span id="link" style="margin-left: -54px; margin-right: 20px;"  class="glyphicon glyphicon-picture" aria-hidden="true"></span></a>'.$row1['symbol'].'</h2>
-                   <h4 style="display: inline;margin-left:22px"><a contenteditable="true" id="mktCap">'.$row1['mkt_cap'].'</a></h4>
+                   <h4 style="display: inline;margin-left:22px"><a contenteditable="true" id="mktCap">'.$row1['market_cap'].'</a></h4>
                    <h4 style="display: inline;margin-left:22px"><a contenteditable="true" id="industry">'.$row1['industry'].'</a></h4> 
 
                   <div style="clear:both"></div>
@@ -164,56 +164,68 @@
                       <tbody>
                         <tr>
                           <td><h4 style="display: inline;margin-right:10%">Last Earnings Date: <a id="LDate" contenteditable="true">'.$row1['last_earnings'].'</a></h4></td> 
-                          <td><h4 style="display: inline;margin-right:10%">Price ($): <a contenteditable="true" id="price">'.$row1['price'].'</a></h4></td>
-                          <td></td>
+                          <td><h4 style="display: inline;margin-right:10%">Current Price ($): <a contenteditable="true" id="price">'.$row1['current_price'].'</a></h4></td>
+                          <td><h4 style="display: inline;margin-right:10%">Rank: <a contenteditable="true" id="rank">'.$row1['rank'].'</a></h4></td>
                           <td><h4 style="display: inline;margin-right:10%">Penny Stock: <a contenteditable="true" id="PStock">'.$row1['penny_stock'].'</a></h4></td>    
                         </tr>
                         <tr>
                           <td><h4 style="display: inline;margin-right:10%">Next Earnings Date: <a contenteditable="true" id="NDate">'.$row1['next_earnings'].'</a><a style="margin-left:4px" contenteditable="true" id="boah">'." ".$row1['bo_ah'].'</a></h4></td> 
- 
-                          <td><h4 style="display: inline;margin-right:10%">Target Price : <a contenteditable="true" id="PTarget">'.$row1['price_target'].'</a></h4></td>
-                          <td><h4 style="display: inline;margin-right:10%">Low Target: <a contenteditable="true" id="LTarget">'.$row1['low_target'].'</a></h4></td>
+                          <td><h4 style="display: inline;margin-right:10%">1st Price Target : <a contenteditable="true" id="PTarget">'.$row1['1st_price_target'].'</a></h4></td>
+                          <td><h4 style="display: inline;margin-right:10%"> Confidence: <a contenteditable="true" id="confidence">'.$row1['confidence'].'</a></h4></td> 
                           <td><h4 style="display: inline;margin-right:10%">Biotech: <a contenteditable="true" id="biotech">'.$row1['biotech'].'</a></h4></td>
                         </tr>
                         <tr>
-                          <td></td>
-                          <td><h4 style="display: inline;margin-right:10%">Upside: <a contenteditable="true" id="upsdie">'.$row1['upside'].'</a></h4></td> 
-                          <td><h4 style="display: inline;margin-right:10%">Down Risk: <a contenteditable="true" id="down">'.$row1['down_risk'].'</a></h4></td>
+                          <td><h4 style="display: inline;margin-right:10%">Last Update: <a contenteditable="true" id="LUpdate">'.$row1['last_update'].'</a></h4></td> 
+                          <td><h4 style="display: inline;margin-right:10%">1st Upside: <a contenteditable="true" id="upsdie">'.$row1['1st_upside'].'</a></h4></td>
+                          <td></td> 
                           <td><h4 style="display: inline;margin-right:10%">Active: <a contenteditable="true" id="active">'.$row1['active'].'</a></h4></td> 
                         </tr>
                         <tr>
-                          <td><h4 style="display: inline;margin-right:10%">Last Updates: <a contenteditable="true" id="LUpdate">'.$row1['last_updates'].'</a></h4></td> 
-                          <td><h4 style="display: inline;margin-right:10%">Rank: <a contenteditable="true" id="rank">'.$row1['rank'].'</a></h4></td>
-                          <td><h4 style="display: inline;margin-right:10%"></h4><h4 style="display: inline;margin-left:44%"> Confidence: <a contenteditable="true" id="confidence">'.$row1['confidence'].'</a></h4></td> 
+                          <td></td>
+                          <td></td>
+                          <td><h4 style="display: inline;margin-right:10%">Target Weight: <a contenteditable="true" id="Tweight">'.$row1['target_weight'].'</a></h4></td>
                           <td></td>
                         </tr>
                         <tr>
                           <td><h4 style="display: inline;margin-right:10%">Analysis Date: <a contenteditable="true" id="AnalysisDate">'.$row1['analysis_date'].'</a></h4></td>
-                          <td><h4 style="display: inline;margin-right:10%">Target Weight: <a contenteditable="true" id="Tweight">'.$row1['target_weight'].'</a></h4></td>
+                          <td><h4 style="display: inline;margin-right:10%">2nd Price Target : <a contenteditable="true" id="2ndPTarget">'.$row1['2nd_price_target'].'</a></h4></td>
+                          <td><h4 style="display: inline;margin-right:10%">Actual Weight: <a contenteditable="true" id="actualWeight">'.$row1['actual_weight'].'</a></h4></td>
+                          <td><h4 style="display: inline;margin-right:10%">Cash: <a contenteditable="true" id="cash">'.$row1['cash'].'</a></h4></td> 
+                        </tr>
+           
+                        <tr>
+                          <td><h4 style="display: inline;margin-right:10%">Analysis Price: <a contenteditable="true" id="analysisPrice">'.$row1['analysis_price'].'</a></h4></td> 
+                          <td><h4 style="display: inline;margin-right:10%">2nd Upside: <a contenteditable="true" id="2ndupsdie">'.$row1['2nd_upside'].'</a></h4></td> 
+                          <td><h4 style="display: inline;margin-right:10%">Weight Difference: <a contenteditable="true" id="diff">'.$row1['weight_difference'].'</a></h4></td>
+                          <td><h4 style="display: inline;margin-right:10%">Burn: <a contenteditable="true" id="burn">'.$row1['burn'].'</a></h4></td>
+                        </tr>
+                        <tr>
+                          <td><h4 style="display: inline;margin-right:10%">Variation: <a contenteditable="true" id="LTarget">'.$row1['variation'].'</a></h4></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <td></td>
+                          <td><h4 style="display: inline;margin-right:10%">Down Risk: <a contenteditable="true" id="down">'.$row1['downside_risk'].'</a></h4></td>
                           <td><h4 style="display: inline;margin-right:10%">Target Position: <a contenteditable="true" id="Tposition">'.$row1['target_position'].'</a></h4></td>
                           <td></td>
                         </tr>
                         <tr>
-                          <td><h4 style="display: inline;margin-right:10%">Analysis Price: <a contenteditable="true" id="analysisPrice">'.$row1['analysis_price'].'</a></h4></td> 
-                          <td><h4 style="display: inline;margin-right:10%">Actual Weight: <a contenteditable="true" id="actualWeight">'.$row1['actual_weight'].'</a></h4></td>
-                          <td><h4 style="display: inline;margin-right:10%">Actual Position: <a contenteditable="true" id="actualPosition">'.$row1['actual_position'].'</a></h4></td> 
-                          <td><h4 style="display: inline;margin-right:10%">Cash: <a contenteditable="true" id="cash">'.$row1['cash'].'</a></h4></td> 
-                        </tr>
-                        <tr>
                           <td><h4 style="display: inline;margin-right:10%">Intern: <a id="intern" contenteditable="true">'.$row1['intern'].'</a></h4></td>
-                          <td><h4 style="display: inline;margin-right:10%">Burn: <a contenteditable="true" id="burn">'.$row1['burn'].'</a></h4></td>
                           <td></td>
-                          <td><h4 style="display: inline;margin-right:10%">Weight Difference: <a contenteditable="true" id="diff">'.$row1['diff'].'</a></h4></td>
+                          <td><h4 style="display: inline;margin-right:10%">Actual Position: <a contenteditable="true" id="actualPosition">'.$row1['actual_position'].'</a></h4></td> 
+                          <td></td>
                         </tr>
                       </tbody>
                     </table>
-                    <button id="btn1"><span id="first1" class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Question</button>
+                    <button id="btn1"><span id="first1" class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>Discussion</button>
                     <button id="btn2" style="margin-left:50px"><span id="second1" class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Worst Case</button>
                     <button id="btn3" style="margin-left:50px"><span id="third1" class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Catalyst</button>
                     <button id="btn4" style="margin-left:50px"><span id="forth1" class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Related Tickets</button>
                     <button id="btn5" style="margin-left:50px"><span id="fifth1" class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Strategy</button>
-                    <h4 id="question"><span id="first" class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Questions:</h4>
-                    <textarea id="question1"contenteditable="true" style="width:95%;height:100px;display:none">'.$row1['questions'].'
+                    <h4 id="question"><span id="first" class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Discussion:</h4>
+                    <textarea id="question1"contenteditable="true" style="width:95%;height:100px;display:none">'.$row1['discussion'].'
                     </textarea>
                     <h4 id="case"><span id="second" class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Worst Case:</h4>
                     <textarea id="case1"contenteditable="true" style="width:95%;height:100px;display:none">'.$row1['worse_case'].'
@@ -223,20 +235,15 @@
                     </textarea>
                     
 
-                    <h4 id="ticket"><span id="forth" class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Related Tickets:</h4>
-                    <textarea id="ticket1" contenteditable="true" style="width:95%;height:100px;display:none">'.$row1['related_tickets'].'
+                    <h4 id="ticket"><span id="forth" class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Related Tickers:</h4>
+                    <textarea id="ticket1" contenteditable="true" style="width:95%;height:100px;display:none">'.$row1['related_tickers'].'
                     </textarea>
                     
                     <h4 id="stra"><span id="fifth" class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Strategy:</h4>
-                    <textarea id="stra1" contenteditable="true" style="width:95%;height:100px;display:none">'.$row1['stragety'].'
+                    <textarea id="stra1" contenteditable="true" style="width:95%;height:100px;display:none">'.$row1['strategy'].'
                     </textarea>
-                    <h4 id="note">Note:</h4>
+                    <h4 id="note">Notes:</h4>
                     <div class="textarea" id="note1" contenteditable="true">'.$row1['notes'].'</div>
-                    <br>
-                    <h4 id="skype">Comments:</h4>
-                    <div class="textarea" id="comment1" contenteditable="true">'.$row1['skype_comments'].'</div>
-                    <br>
-
               ';
                 
                 };
@@ -245,6 +252,10 @@
             mysqli_close($con1);
         }
           ?>
+          <!-- <br>
+          <h4 id="skype">Comments:</h4>
+          <div class="textarea" id="comment1" contenteditable="true">'.$row1['skype_comments'].'</div>
+          <br> -->
         <?php
           if($_SESSION["type"]=="viewer"){
             echo "
@@ -252,18 +263,19 @@
               $('a').attr('contenteditable','false');
               $('textarea').attr('readonly','readonly');
               $('#note1').attr('contenteditable','false');
-              $('#comment1').attr('contenteditable','false');
+           
             </script>
             ";
+            // $('#comment1').attr('contenteditable','false');
           }
         ?>
         
-        <form action="symbol.php" method:"get" >
+        <!-- <form action="symbol.php" method:"get" >
             <h4>Write down your comments:</h4>
             <textarea name="" style="width:95%;height:100px" id="userComment"></textarea>
         </form>
         <button class="btn btn-default" id="submitComment"  type="submit">Submit</button>
-        <button class="btn btn-default" id="clear">Clear</button>
+        <button class="btn btn-default" id="clear">Clear</button> -->
      
            <?php
            date_default_timezone_set('America/Chicago');
@@ -304,20 +316,20 @@
         <script src="save.js"></script>
         <script>
             var symbol=$("#mysymbol").text()
-            $.get(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=1min&apikey=J21EQR4V9L83BKWD`, function (data){
-                  $("#price").text(data["Time Series (1min)"][Object.keys(data["Time Series (1min)"])[0]]["4. close"]);
-
+            $.get(`https://api.iextrading.com/1.0/stock/${symbol}/price`, function (data1){
+                    $("#price").text(" "+data1)
+            }) 
+            $.get(`https://api.iextrading.com/1.0/stock/${symbol}/stats`, function (data){
+              $("#mktCap").text((+data["marketcap"]/1000000).toFixed(2)+"M");
                 }); 
             setInterval(function(){ 
-                
-                $.get(`https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=1min&apikey=J21EQR4V9L83BKWD`, function (data){
-                  $("#price").text(data["Time Series (1min)"][Object.keys(data["Time Series (1min)"])[0]]["4. close"]);
-
-                }); 
+              $.get(`https://api.iextrading.com/1.0/stock/${symbol}/price`, function (data){
+                    $("#price").text(" "+data);
+                    }); 
               }, 60000);
-              $("#clear").on("click",function(){
-                $("#userComment").val("");
-              })
+              // $("#clear").on("click",function(){
+              //   $("#userComment").val("");
+              // })
         </script>
     </body>
 </html>

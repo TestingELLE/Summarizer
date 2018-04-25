@@ -20,9 +20,23 @@
         <script>
             alert('You do not have privilege to access the page. Please contact website manager.');
             window.location.href='Summarizer.php';
-        </script>";
-        
+        </script>";   
     }
+    if(isset($_SESSION["break"]) || isset($_SESSION["symbolNotExists"]) || isset($_SESSION["duplicates"])){
+        echo '
+        <script>
+            alert(`New symbols: '.$_SESSION["symbolNotExists"].'; Null value in field "symbol" in row:'.$_SESSION["break"].'; Duplicated symbols:'.$_SESSION["duplicates"].';`);
+        </script>
+        ';
+        $_SESSION["break"]=null;
+        $_SESSION["symbolNotExists"]=null;
+        $_SESSION["duplicates"]=null;
+        echo '
+        <script>
+        window.location.href="loader.php";
+        </script>
+        ';  
+    };
   
 
 ?>
@@ -119,6 +133,7 @@
     <form name="form" action="export.php" method="POST" enctype="multipart/form-data">
         <input type="file" name="file" accept=".csv">
         <input type="submit" name="submit" value="Truncate and load new file">
+        <input type="submit" name="update" value="Update">
         <input type="submit" name="append" value="Append">
     </form>
     <form method="POST" action="export.php">

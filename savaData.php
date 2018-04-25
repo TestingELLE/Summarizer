@@ -21,6 +21,8 @@
     $LTarget=$_POST["LTarget"]; 
     $industry=$_POST["industry"];
     $upside=$_POST["upside"];
+    $secondPTarget=$_POST["2ndPTarget"];
+    $secondupside=$_POST["2ndupside"];
     $down=$_POST["down"]; 
     $PStock=$_POST["PStock"]; 
     $biotech=$_POST["biotech"]; 
@@ -43,7 +45,7 @@
     $case=$_POST["case"];
     $ticket=$_POST["ticket"];
     $note=$_POST["note"];
-    $comment=$_POST["comment"];
+    // $comment=$_POST["comment"];
     $boah=$_POST["boah"];
     $symbol=$_POST["symbol"];
     $yes=TRUE;
@@ -55,7 +57,7 @@
     $userAction='modified data';
     $log="INSERT INTO activity (user, `action`,`page`) VALUES ('$currentuser','$userAction','$symbol')";
     mysqli_query($con,$log);
-    $sql="UPDATE main_table SET industry='$industry', mkt_cap='$mktCap', price='$price', biotech='$biotech' , penny_stock='$PStock', active='$active', catalysts='$catalyst', last_earnings='$LDate', next_earnings='$NDate', bo_ah='$boah', intern='$intern', cash='$cash', burn='$burn', related_tickets='$ticket', analysis_date='$AnalysisDate', analysis_price='$analysisPrice', low_target='$LTarget', price_target='$PTarget', upside='$upside', down_risk='$down', rank='$rank', confidence='$confidence', worse_case='$case', target_weight='$Tweight', target_position='$Tposition', actual_position='$actualPosition', actual_weight='$actualWeight', diff='$diff', stragety='$strategy', questions='$question', notes='$note', skype_comments='$comment', last_updates='$LUpdate' WHERE symbol='$symbol'";
+    $sql="UPDATE main_table SET industry='$industry', market_cap='$mktCap', current_price='$price', biotech='$biotech' , penny_stock='$PStock', active='$active', catalysts='$catalyst', last_earnings='$LDate', next_earnings='$NDate', bo_ah='$boah', intern='$intern', cash='$cash', burn='$burn', related_tickers='$ticket', analysis_date='$AnalysisDate', analysis_price='$analysisPrice', variation='$LTarget', 1st_price_target='$PTarget', 1st_upside='$upside',2nd_price_target='$secondPTarget',2nd_upside='$secondupside', downside_risk='$down', rank='$rank', confidence='$confidence', worse_case='$case', target_weight='$Tweight', target_position='$Tposition', actual_position='$actualPosition', actual_weight='$actualWeight', weight_difference='$diff', strategy='$strategy', discussion='$question', notes='$note', last_update='$LUpdate' WHERE symbol='$symbol'";
     if(mysqli_query($con,$sql)){
         echo "Successfully updated";
         
