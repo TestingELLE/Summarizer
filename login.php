@@ -2,16 +2,19 @@
     
     session_start();
     
-    $_SESSION['count'];
+    //$_SESSION['count'];
+    //commenting out for the purpose of removing undefined index error
     isset($PHPSESSID)?session_id($PHPSESSID):$PHPSESSID = session_id(); 
     
-    $_SESSION['count']++; 
+    //$_SESSION['count']++; 
+     //commenting out for the purpose of removing undefined index error
     setcookie('PHPSESSID', $PHPSESSID, time()+21800);
-   
-
+    $_COOKIE['remember_me']='';//initializing cookies as empty string in order to prevent undefined index error
+    $_COOKIE['remember_me2']='';//initializing cookies as empty string in order to prevent undefined index error
     $year = time() + 31536000;
 
-    if($_POST['remember'])  {
+    if(isset($_POST['remember']))  //added isset() in order to avoid undefined index for 'remember' in post as well
+        {
         setcookie('remember_me', $_POST['username'], $year);
         setcookie('remember_me2', $_POST['password'], $year);  
         }
