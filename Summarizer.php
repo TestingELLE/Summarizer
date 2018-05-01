@@ -107,7 +107,7 @@ echo '
             }
 
           mysqli_select_db($con,"pupone_Summarizer");
-          if($result = mysqli_query($con,"SELECT symbol, current_price, analysis_date, 1st_price_target, 1st_upside, rank, target_weight,actual_weight,weight_difference,next_earnings FROM main_table"))
+          if($result = mysqli_query($con,"SELECT symbol, current_price, analysis_date, 1st_price_target, 1st_upside, rank, target_weight,actual_weight,weight_difference,next_earnings FROM main_table LIMIT 10"))
           {
               /* pull data from database and insert into data table. */
               while($row = mysqli_fetch_array($result))
