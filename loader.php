@@ -1,8 +1,6 @@
 <?php
-    ini_set('session.gc_maxlifetime',60*60*6);
-    ini_set('session.gc_probability',1);
-    ini_set('session.gc_divisor',1);
     session_start();
+    
     //  echo $_SESSION['loggedin'];
     //  echo " ";
     //  echo $_SESSION["Last_Activity"];
@@ -22,15 +20,17 @@
             window.location.href='Summarizer.php';
         </script>";   
     }
-    if(isset($_SESSION["break"]) || isset($_SESSION["symbolNotExists"]) || isset($_SESSION["duplicates"])){
+    //export error messages during uploading or uploading
+    if(isset($_SESSION["break"]) || isset($_SESSION["symbolNotExists"]) || isset($_SESSION["duplicates"])|| isset($_SESSION["colNotExists"])){
         echo '
         <script>
-            alert(`New symbols: '.$_SESSION["symbolNotExists"].'; Null value in field "symbol" in row:'.$_SESSION["break"].'; Duplicated symbols:'.$_SESSION["duplicates"].';`);
+            alert(`You are updating '.$_SESSION["table"].';\n\nThe following symbols do not exist in the database:\n   '.$_SESSION["symbolNotExists"].';\nDuplicated symbols:'.$_SESSION["duplicates"].';\nColumns not exist: '.$_SESSION["colNotExists"].'`);
         </script>
         ';
         $_SESSION["break"]=null;
         $_SESSION["symbolNotExists"]=null;
         $_SESSION["duplicates"]=null;
+        $_SESSION["colNotExists"]=null;
         echo '
         <script>
         window.location.href="loader.php";
@@ -46,7 +46,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <title>Document</title>
     <style type="text/css">
 		body {
@@ -130,24 +130,25 @@
 	</style>
 </head>
 <body>
-    <form name="form" action="export.php" method="POST" enctype="multipart/form-data">
+    <form name="form" action="tableTools.php" method="POST" enctype="multipart/form-data">
         <input type="file" name="file" accept=".csv">
         <input type="submit" name="submit" value="Truncate and load new file">
         <input type="submit" name="update" value="Update">
         <input type="submit" name="append" value="Append">
     </form>
-    <form method="POST" action="export.php">
+    <form method="POST" action="tableTools.php">
         <input type="submit" name="download" value="Download table as CSV file">
     </form>
     <hr>
     <button><a href="Summarizer.php">Main Page</a></button>
+   
 <?php
 if($_SESSION['type']=="Admin" || $_SESSION["type"]=="Programmer"){
     echo '
     <div id="mytable">
-        <h1>Backup Table</h1>
+        <h1>Backup Table </h1>
         <table class="data-table">
-            <caption class="title">Backup table Data</caption>
+            <caption class="title">Backup table Data (only available to programmers and administrators)</caption>
             <thead>
                 <tr>
                     <th>Id</th>
@@ -155,7 +156,6 @@ if($_SESSION['type']=="Admin" || $_SESSION["type"]=="Programmer"){
                     <th>Filename</th>
                     <th>DATE</th>
                     <th>Locked</th>
-                    <th>Deleted</th>
                     <th>Edit</th>
                 </tr>
             </thead>
@@ -164,6 +164,7 @@ if($_SESSION['type']=="Admin" || $_SESSION["type"]=="Programmer"){
     }
         ?>
             <?php
+            // create and load backup_table
             $connect=mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
             if (!$connect)
             {
@@ -180,12 +181,6 @@ if($_SESSION['type']=="Admin" || $_SESSION["type"]=="Programmer"){
                 else{
                     $row['locked']="NO";
                 }
-                if($row['deleted']==1){
-                    $row['deleted']="YES";
-                }
-                else{
-                    $row['deleted']="NO";
-                }
                 if($_SESSION["type"]=="Admin"){
                 echo '<tr>
                         <td>'.$row['id'].'</td>
@@ -193,9 +188,17 @@ if($_SESSION['type']=="Admin" || $_SESSION["type"]=="Programmer"){
                         <td id='.'deleteTB'.$row['id'].'>'.$row['filename'].'</td>
                         <td>'.$row['date'].'</td>
                         <td id='.$row['id'].'>'.$row['locked'].'</td>
-                        <td id='.'delete'.$row['id'].'>'.$row['deleted'].'</td>
-                        <td><input class="lockRow" data-id='.$row['id'].' type="button" name="edit" value="Lock"><input class="unlockRow" data-id='.$row['id'].' type="button" name="edit" value="Unlock"><input class="delete" data-id='.$row['id'].' type="button" name="edit" value="Delete"></td>
+                        <td><input id='.'btn'.$row['id'].' class="lockRow" data-id='.$row['id'].' type="button" name="edit"><input class="delete" data-id='.$row['id'].' type="button" name="edit" value="Delete"><a href="tableTools.php?filename='.$row['filename'].'"><input class="downloadTable" data-id='.$row['filename'].' type="button" name="edit" value="Download"></a></td>
                     </tr>
+                    <script>
+                        if($("#'.$row['id'].'").text()=="YES"){
+                            $("#'.'btn'.$row['id'].'").val("Unlock")
+                            $("#'.'btn'.$row['id'].'").removeClass("lockRow").addClass("unlockRow")
+                        }else{
+                            $("#'.'btn'.$row['id'].'").val("Lock")
+                            $("#'.'btn'.$row['id'].'").removeClass("unlockRow").addClass("lockRow")
+                        }
+                    </script>
                 ';
                 }else if($_SESSION["type"]=="Programmer"){
                     echo '<tr>
@@ -204,8 +207,7 @@ if($_SESSION['type']=="Admin" || $_SESSION["type"]=="Programmer"){
                     <td id='.'deleteTB'.$row['id'].'>'.$row['filename'].'</td>
                     <td>'.$row['date'].'</td>
                     <td id='.$row['id'].'>'.$row['locked'].'</td>
-                    <td id='.'delete'.$row['id'].'>'.$row['deleted'].'</td>
-                    <td><input class="delete" data-id='.$row['id'].' type="button" name="edit" value="Delete"></td>
+                    <td><input class="delete" data-id='.$row['id'].' type="button" name="edit" value="Delete"><a href="tableTools.php?filename='.$row['filename'].'"><input class="downloadTable" data-id='.$row['filename'].' type="button" name="edit" value="Download"></a></td>
                 </tr>
             ';
                 }
@@ -216,37 +218,37 @@ if($_SESSION['type']=="Admin" || $_SESSION["type"]=="Programmer"){
     </div>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
 <?php
+    //lock the selected row in backup_table 
     if(isset($_POST["id"])) {
     $id=$_POST["id"];
     $editSQL="UPDATE backup_table SET locked=1 WHERE id=$id";
     mysqli_query($connect,$editSQL);
     }
+    //unlock the selected row in backup_table
     if(isset($_POST["unlockId"])) {
         $unlockId=$_POST["unlockId"];
         $editSQL="UPDATE backup_table SET locked=0 WHERE id=$unlockId";
         mysqli_query($connect,$editSQL);
     }
+    //delete the selected row from backup_table and the table in database
     if($_SESSION["type"]=="Programmer"){
         if(isset($_POST["deleteId"])) {
                 $unlockId=$_POST["deleteId"];
                 $newID=$_POST["newID"];
-            
                 $checkStatus="SELECT * FROM backup_table WHERE id=$newID limit 1";
                 if($result = mysqli_query($connect,$checkStatus))
                 {
                     while ($row = mysqli_fetch_array($result))
                     { 
                         if($row["locked"]==1){
-
                         }
+                        //if it is unlocked, drop the table
                         if($row["locked"]==0){
-                            $updateSQL="UPDATE backup_table SET `deleted`=1 WHERE id=$newID";
+                            $updateSQL="DELETE FROM backup_table WHERE id=$newID";
                             $editSQL="DROP TABLE `$unlockId`";
                             mysqli_query($connect,$editSQL);
                             mysqli_query($connect,$updateSQL);
                         }
-                    
-            
                     }
                 }
         };
@@ -258,7 +260,7 @@ if($_SESSION['type']=="Admin" || $_SESSION["type"]=="Programmer"){
         
             $checkStatus="SELECT * FROM backup_table WHERE id=$newID limit 1";
            
-            $updateSQL="UPDATE backup_table SET `deleted`=1 WHERE id=$newID";
+            $updateSQL="DELETE FROM backup_table WHERE id=$newID";
             $editSQL="DROP TABLE `$unlockId`";
             mysqli_query($connect,$editSQL);
             mysqli_query($connect,$updateSQL);
@@ -267,23 +269,28 @@ if($_SESSION['type']=="Admin" || $_SESSION["type"]=="Programmer"){
         
     };
     
-    
+    //send post request for "lock", "unlock" and "delete" button
     echo '
     <script>
         $(document).on("click",".lockRow",function(){
             let id=$(this).attr("data-id")
             console.log(id)
+            $(this).val("Unlock")
+            $(this).removeClass("lockRow").addClass("unlockRow")
         $.ajax({
             url:"loader.php",
             type:"POST",
             data:{"id":id}
         }).then(function(data){
                 $(`#${id}`).text("YES")
+               
         })
             
         })
         $(document).on("click",".unlockRow",function(){
             let unlockId=$(this).attr("data-id")
+            $(this).val("Lock")
+            $(this).removeClass("unlockRow").addClass("lockRow")
         $.ajax({
             url:"loader.php",
             type:"POST",
@@ -309,16 +316,12 @@ if($_SESSION['type']=="Admin" || $_SESSION["type"]=="Programmer"){
                 data:{"deleteId":fileName,
                       "newID":id}
             }).then(function(data){
-                if($(`#delete${id}`).text()=="YES"){
-                    alert("The table is alreadly deleted");
-                }else{
                     if($(`#${id}`).text().trim()=="YES"){
                         alert("The table is locked");
+                    }else{
+                        window.location.reload();
                     }
-                    else{
-                        $(`#delete${id}`).text("YES");
-                    }
-                }
+
             })
                 
             })
@@ -339,18 +342,14 @@ if($_SESSION['type']=="Admin" || $_SESSION["type"]=="Programmer"){
                 data:{"deleteId":fileName,
                         "newID":id}
             }).then(function(data){
-                if($(`#delete${id}`).text()=="YES"){
-                    alert("The table is alreadly deleted");
-                }else{
-                     $(`#delete${id}`).text("YES");
-                }
+                window.location.reload();
             })
                 
             })
         </script>
         ';
     };
-
+ 
 ?>
     
  
