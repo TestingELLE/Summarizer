@@ -94,20 +94,14 @@ echo '
           <th>Next Earnings Date</th>
         </tr>
       </thead>
-      <tbody>';
-    
-     
-      
-       
-         
+      <tbody>';     
           $con = mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
           if (!$con)
             {
             die('Could not connect: '.mysqli_error());
             }
-
           mysqli_select_db($con,"pupone_Summarizer");
-          if($result = mysqli_query($con,"SELECT symbol, current_price, analysis_date, 1st_price_target, 1st_upside, rank, target_weight,actual_weight,weight_difference,next_earnings FROM main_table LIMIT 10"))
+          if($result = mysqli_query($con,"SELECT symbol, current_price, analysis_date, 1st_price_target, 1st_upside, rank, target_weight,actual_weight,weight_difference,next_earnings FROM main_table"))
           {
               /* pull data from database and insert into data table. */
               while($row = mysqli_fetch_array($result))
@@ -159,29 +153,12 @@ echo '
 
 <script>
 $(document).ready(function() {
-// var symbol=$(".name").text()
-
-// $.get(`https://api.iextrading.com/1.0/stock/${symbol}/stats`, function (data){
-//   $("#mktCap").text((+data["marketcap"]/1000000).toFixed(2)+"M");
-//     }); 
-// setInterval(function(){ 
-//   $.get(`https://api.iextrading.com/1.0/stock/${symbol}/price`, function (data){
-//         $("#price").text(" "+data);
-//         }); 
-//   }, 60000);
-
 $('#SummarizerTable').DataTable({
     paging: false
-   
 });
-
-
 $(document).on("click", ".name", function() {
-    var mySymbol = $(this).text();
-             
-    window.location.href = 'symbol.php?name='+mySymbol;
-
-       
+    var mySymbol = $(this).text();  
+    window.location.href = 'symbol.php?name='+mySymbol; 
 });
 })
 </script>

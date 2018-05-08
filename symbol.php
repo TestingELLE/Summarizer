@@ -228,7 +228,7 @@
                     <textarea id="question1"contenteditable="true" style="width:95%;height:100px;display:none">'.$row1['discussion'].'
                     </textarea>
                     <h4 id="case"><span id="second" class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Worst Case:</h4>
-                    <textarea id="case1"contenteditable="true" style="width:95%;height:100px;display:none">'.$row1['worse_case'].'
+                    <textarea id="case1"contenteditable="true" style="width:95%;height:100px;display:none">'.$row1['worst_case'].'
                     </textarea>
                     <h4 id="catalyst"><span id="third" class="glyphicon glyphicon-menu-right" aria-hidden="true"></span> Catalysts:</h4>
                     <textarea id="catalyst1" contenteditable="true" style="width:95%;height:100px;display:none">'.$row1['catalysts'].'
