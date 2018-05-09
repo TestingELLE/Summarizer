@@ -43,6 +43,7 @@
         //$result=mysqli_query($con1,"SELECT * FROM account WHERE username='".$_SESSION['uname']."' and password='".$_SESSION['psw']."'limit 1");
         $result=mysqli_query($con1,"SELECT * FROM account WHERE username='".$_SESSION['uname']."'limit 1");
         $row = mysqli_fetch_assoc($result);
+        //check the user type and save user name in session
         
         $_SESSION['type']=$row['type'];
         $_SESSION["Last_Activity"]=time(); 
