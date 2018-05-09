@@ -2,7 +2,7 @@
    
   session_start();
        
-  if(!isset($_SESSION['loggedin'])){
+  if(!isset($_SESSION['uname'])){
    
     header("Location:logout.php");
     exit();
@@ -11,7 +11,7 @@
     $name=$_GET["symbolSearch"];
     header("Location:symbol.php?name=$name");
   }
-  $user=$_SESSION['loggedin'];
+  $user=$_SESSION['uname'];
   $type=$_SESSION['type'];
 //  if(!isset($_SESSION['loggedin'])){
 //   header("location:logout.php");

@@ -17,15 +17,11 @@
         }
         
     
-    $con1=mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
-    if (!$con1)
-    {
-    die('Could not connect: ' . mysqli_error());
-    }
-    mysqli_select_db($con1,"pupone_Summarizer");
     if(isset($_POST["submit"])){
-        $uname=$_POST["username"];
-        $psw=$_POST["password"];
+        $_SESSION['uname']=$_POST["username"];//we need uname for access to table
+        $_SESSION['uname_long']="pupone_".$_SESSION['uname'];//we need uname_long for access to database
+        $_SESSION['psw']=$_POST["password"];
+        
         if(!$_POST['remember']) {
             if(isset($_COOKIE['remember_me'])) {
                     $past = time() - 100;
@@ -36,32 +32,32 @@
                     setcookie('remember_me2',"", $past);
                 }
             }
-        // $sql="select * from account where username='".$uname."' and password='".$psw."'limit 1";
-        $result=mysqli_query($con1,"SELECT * FROM account WHERE username='".$uname."' and password='".$psw."'limit 1");
-       
+        
+        $con1=mysqli_connect("rendertech.com",$_SESSION['uname_long'],$_SESSION['psw'],"pupone_Summarizer");
+        if (!$con1)
+        {
+            die('Could not connect: ' . mysqli_error());
+        }
+        mysqli_select_db($con1,"pupone_Summarizer");
+  
+        //$result=mysqli_query($con1,"SELECT * FROM account WHERE username='".$_SESSION['uname']."' and password='".$_SESSION['psw']."'limit 1");
+        $result=mysqli_query($con1,"SELECT * FROM account WHERE username='".$_SESSION['uname']."'limit 1");
         $row = mysqli_fetch_assoc($result);
         
+        $_SESSION['type']=$row['type'];
+        $_SESSION["Last_Activity"]=time(); 
+        header("location: Summarizer.php");
+        
         if(mysqli_num_rows($result)==1 && $row['type']=="Admin" || $row['type']=="Maintainer" ){
-            $_SESSION['type']=$row['type'];
-            $_SESSION['loggedin']=$uname;
-            $_SESSION["Last_Activity"]=time(); 
-            header("location: Summarizer.php");
+            
             exit();
             mysqli_close($con1);
         };
         if(mysqli_num_rows($result)==1 && $row['type']=="viewer"){
-            $_SESSION['type']=$row['type'];
-            $_SESSION['loggedin']=$uname;
-            $_SESSION["Last_Activity"]=time(); 
-            header("location: Summarizer.php");
             exit();
             mysqli_close($con1);
         };
         if(mysqli_num_rows($result)==1 && $row['type']=="Programmer"){
-            $_SESSION['type']=$row['type'];
-            $_SESSION['loggedin']=$uname;
-            $_SESSION["Last_Activity"]=time(); 
-            header("location: Summarizer.php");
             exit();
             mysqli_close($con1);
         };
@@ -79,7 +75,7 @@
         <form action="login.php" method="POST">
                 User: </br>
                 <input type="text" name="username" value="<?php 
-                
+                    
                     echo $_COOKIE['remember_me'];
                 ?>"><br/>
                 Password<br/>
