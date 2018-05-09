@@ -1,5 +1,7 @@
 $(document).ready(function() {
+    //save user changes on symbol page
     $("#save").on("click", function() {
+        //escape string
         var re = /(?![\x00-\x7F]|[\xC0-\xDF][\x80-\xBF]|[\xE0-\xEF][\x80-\xBF]{2}|[\xF0-\xF7][\x80-\xBF]{3})./g;
         $("#catalyst1").val($("#catalyst1").val().replace(/'/g, "\\'").replace(re, ""))
         $("#question1").val($("#question1").val().replace(/'/g, "\\'").replace(re, ""))

@@ -7,11 +7,13 @@
         header("Location:logout.php");
         exit();
     }
+    //set up database connection
     $con=mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
     if (!$con)
     {
     die('Could not connect: ' . mysqli_error());
     }
+    //get the data from symbol page and update the database 
     $price=$_POST["price"];
     $intern=$_POST["intern"];
     $LDate=$_POST["LDate"];  

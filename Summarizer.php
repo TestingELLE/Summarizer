@@ -13,17 +13,7 @@
   exit();
 }
 
-// if (isset($_SESSION["Last_Activity"]) && (time() - $_SESSION["Last_Activity"] >2880000)) {
-
-//   header("Location:logout.php");
-
-
-
-// }else{
-
-//  $_SESSION["Last_Activity"] = time();
- 
-// }
+//get the user information
   $user=$_SESSION['loggedin'];
   $type=$_SESSION['type'];
 
@@ -156,6 +146,8 @@ $(document).ready(function() {
 $('#SummarizerTable').DataTable({
     paging: false
 });
+
+//redirect users to a specific symbol page
 $(document).on("click", ".name", function() {
     var mySymbol = $(this).text();  
     window.location.href = 'symbol.php?name='+mySymbol; 
