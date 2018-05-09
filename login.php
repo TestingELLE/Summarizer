@@ -16,7 +16,7 @@
         setcookie('remember_me2', $_POST['password'], $year);  
         }
         
-    
+    //setup database connection
     $con1=mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
     if (!$con1)
     {
@@ -40,7 +40,7 @@
         $result=mysqli_query($con1,"SELECT * FROM account WHERE username='".$uname."' and password='".$psw."'limit 1");
        
         $row = mysqli_fetch_assoc($result);
-        
+        //check the user type and save user name in session
         if(mysqli_num_rows($result)==1 && $row['type']=="Admin" || $row['type']=="Maintainer" ){
             $_SESSION['type']=$row['type'];
             $_SESSION['loggedin']=$uname;

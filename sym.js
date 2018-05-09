@@ -2,7 +2,7 @@ $(document).on("keypress", "td", function(e) {
     return e.which != 13;
 });
 
-
+//hide or display question, worst case, catalyst,strategy
 $(document).on("click", "#question", function() {
     if ($("#question1").is(":hidden")) {
         $("#first").attr("class", "glyphicon glyphicon-menu-down")

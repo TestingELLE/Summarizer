@@ -133,8 +133,10 @@
       <div id="main-content" style="width:98%; margin:12px; margin-top:4%;">
       <br>
           <?php
+          //check if user wanna redirect to other symbol page from the current symbol page
             if(isset($_GET["name"])){
-            $name=$_GET["name"];
+              //get the symbol from the user input
+              $name=$_GET["name"];
             };
             $con1 = mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
             if (!$con1)
@@ -143,8 +145,10 @@
               }
              
             mysqli_select_db($con1,"pupone_Summarizer");
+            //select data from db for the searched symbol
             if($result2 = mysqli_query($con1,"SELECT * FROM main_table WHERE symbol='".$name."'"))
             {
+              
               if(mysqli_num_rows($result2)==0){
                 echo "<br><h3>Your input does not exist!</h3>";
               }else{
@@ -252,69 +256,25 @@
             mysqli_close($con1);
         }
           ?>
-          <!-- <br>
-          <h4 id="skype">Comments:</h4>
-          <div class="textarea" id="comment1" contenteditable="true">'.$row1['skype_comments'].'</div>
-          <br> -->
         <?php
           if($_SESSION["type"]=="viewer"){
+            //if the user type is viewer, set all fields as readonly
             echo "
             <script>
               $('a').attr('contenteditable','false');
               $('textarea').attr('readonly','readonly');
               $('#note1').attr('contenteditable','false');
-           
             </script>
             ";
-            // $('#comment1').attr('contenteditable','false');
           }
         ?>
-        
-        <!-- <form action="symbol.php" method:"get" >
-            <h4>Write down your comments:</h4>
-            <textarea name="" style="width:95%;height:100px" id="userComment"></textarea>
-        </form>
-        <button class="btn btn-default" id="submitComment"  type="submit">Submit</button>
-        <button class="btn btn-default" id="clear">Clear</button> -->
-     
-           <?php
-           date_default_timezone_set('America/Chicago');
-           $date = date('Y-m-d H:i:s',time());
-           echo 
-           '
-            <script>
-                $("#submitComment").on("click", function() {
-                  if($("#comment1").text().trim()==""){
-                    $("#comment1").empty();
-                  };
-                  if($("#comment1").text().trim()!==""){
-                    $("#comment1").append("<br>"+"'.$date.'"+" "+"'.$user.'"+": "+$("#userComment").val().trim() )
-
-                  }
-                  else{
-                    $("#comment1").append("'.$date.'"+" "+"'.$user.'"+": "+$("#userComment").val().trim())
-                  }
-                  var comment={
-                    symbol:$("#mysymbol").text().trim(),
-                    newComment:$("#comment1").html().trim(),
-                    user: "'.$user.'"
-                  }
-                  $.ajax({
-                    url: "comment.php",
-                    type: "POST",
-                    data: comment,
-                }).done(function(res) {
-
-                  })
-              });
-            </script>
-           '
-           ?>
       </div>
-      
+      <!-- script for hiding and displaying discussion, worst case .... -->
         <script src="sym.js"></script>
+        <!-- script for saving symbol data on user click -->
         <script src="save.js"></script>
         <script>
+          // API call to get the current stock price
             var symbol=$("#mysymbol").text()
             $.get(`https://api.iextrading.com/1.0/stock/${symbol}/price`, function (data1){
                     $("#price").text(" "+data1)
