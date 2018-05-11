@@ -2,29 +2,19 @@
  
   session_start();
 
-//  echo $_SESSION['uname'];
+//  echo $_SESSION['loggedin'];
 //  echo " ";
 //  echo $_SESSION["Last_Activity"];
 //  echo " ";
 //  echo time();
- if(!isset($_SESSION['uname'])){
+ if(!isset($_SESSION['loggedin'])){
    
   header("Location:logout.php");
   exit();
 }
 
-// if (isset($_SESSION["Last_Activity"]) && (time() - $_SESSION["Last_Activity"] >2880000)) {
-
-//   header("Location:logout.php");
-
-
-
-// }else{
-
-//  $_SESSION["Last_Activity"] = time();
- 
-// }
-  $user=$_SESSION['uname'];
+//get the user information
+  $user=$_SESSION['loggedin'];
   $type=$_SESSION['type'];
 
 ?>
@@ -94,14 +84,12 @@ echo '
           <th>Next Earnings Date</th>
         </tr>
       </thead>
-      <tbody>'; 
-         /* we should be able to use the login connection (con1) and this code should not be needed.--Professor 5/9*/
-           $con=mysqli_connect("rendertech.com",$_SESSION['uname_long'],$_SESSION['psw'],"pupone_Summarizer");
+      <tbody>';     
+          $con = mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
           if (!$con)
             {
             die('Could not connect: '.mysqli_error());
-            } 
-
+            }
           mysqli_select_db($con,"pupone_Summarizer");
           if($result = mysqli_query($con,"SELECT symbol, current_price, analysis_date, 1st_price_target, 1st_upside, rank, target_weight,actual_weight,weight_difference,next_earnings FROM main_table"))
           {
@@ -163,6 +151,8 @@ $(document).ready(function() {
 $('#SummarizerTable').DataTable({
     paging: false
 });
+
+//redirect users to a specific symbol page
 $(document).on("click", ".name", function() {
     var mySymbol = $(this).text();  
     window.location.href = 'symbol.php?name='+mySymbol; 
