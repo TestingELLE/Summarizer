@@ -6,7 +6,7 @@
     //  echo $_SESSION["Last_Activity"];
     //  echo " ";
     //  echo time();
-     if(!isset($_SESSION['uname'])){
+     if(!isset($_SESSION['loggedin'])){
        
       header("Location:logout.php");
       exit();
@@ -165,7 +165,7 @@ if($_SESSION['type']=="Admin" || $_SESSION["type"]=="Programmer"){
         ?>
             <?php
             // create and load backup_table
-            $connect=mysqli_connect("rendertech.com",$_SESSION['uname_long'],$_SESSION['psw'],"pupone_Summarizer");
+            $connect=mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
             if (!$connect)
             {
             die('Could not connect: ' . mysqli_error());
