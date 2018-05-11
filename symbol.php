@@ -180,7 +180,7 @@
                         </tr>
                         <tr>
                           <td><h4 style="display: inline;margin-right:10%">Last Update: <a contenteditable="true" id="LUpdate">'.$row1['last_update'].'</a></h4></td> 
-                          <td><h4 style="display: inline;margin-right:10%">1st Upside: <a contenteditable="true" id="upsdie">'.$row1['1st_upside'].'</a></h4></td>
+                          <td><h4 style="display: inline;margin-right:10%">1st Upside: <a contenteditable="true" id="upside">'.$row1['1st_upside'].'</a></h4></td>
                           <td></td> 
                           <td><h4 style="display: inline;margin-right:10%">Active: <a contenteditable="true" id="active">'.$row1['active'].'</a></h4></td> 
                         </tr>
@@ -199,8 +199,8 @@
            
                         <tr>
                           <td><h4 style="display: inline;margin-right:10%">Analysis Price: <a contenteditable="true" id="analysisPrice">'.$row1['analysis_price'].'</a></h4></td> 
-                          <td><h4 style="display: inline;margin-right:10%">2nd Upside: <a contenteditable="true" id="2ndupsdie">'.$row1['2nd_upside'].'</a></h4></td> 
-                          <td><h4 style="display: inline;margin-right:10%">Weight Difference: <a contenteditable="true" id="diff">'.$row1['weight_difference'].'</a></h4></td>
+                           <td><h4 style="display: inline;margin-right:10%">2nd Upside: <a contenteditable="true" id="2ndupside">'.$row1['2nd_upside'].'</a></h4></td> 
+                         <td><h4 style="display: inline;margin-right:10%">Weight Difference: <a contenteditable="true" id="diff">'.$row1['weight_difference'].'</a></h4></td>
                           <td><h4 style="display: inline;margin-right:10%">Burn: <a contenteditable="true" id="burn">'.$row1['burn'].'</a></h4></td>
                         </tr>
                         <tr>
@@ -276,16 +276,21 @@
         <script>
           // API call to get the current stock price
             var symbol=$("#mysymbol").text()
+            
+            var firstPriceTarget=$("#PTarget").text()
             $.get(`https://api.iextrading.com/1.0/stock/${symbol}/price`, function (data1){
                     $("#price").text(" "+data1)
-            }) 
+                    $("#upside").text(Math.round((firstPriceTarget/data1-1)*100)+"%")
+                  })
+                     
             $.get(`https://api.iextrading.com/1.0/stock/${symbol}/stats`, function (data){
               $("#mktCap").text((+data["marketcap"]/1000000).toFixed(2)+"M");
                 }); 
             setInterval(function(){ 
               $.get(`https://api.iextrading.com/1.0/stock/${symbol}/price`, function (data){
                     $("#price").text(" "+data);
-                    }); 
+                    $("#upside").text(Math.round((firstPriceTarget/data-1)*100)+"%")
+                    }) 
               }, 60000);
               // $("#clear").on("click",function(){
               //   $("#userComment").val("");
