@@ -180,7 +180,8 @@
                         </tr>
                         <tr>
                           <td><h4 style="display: inline;margin-right:10%">Last Update: <a contenteditable="true" id="LUpdate">'.$row1['last_update'].'</a></h4></td> 
-                          <td><h4 style="display: inline;margin-right:10%">Current Price ($): <a contenteditable="true" id="price">'.$row1['current_price'].'</a></h4></td>
+                          <td><h4 style="display: inline;margin-right:10%">1st Upside: <a contenteditable="true" id="upside">'.$row1['1st_upside'].'</a></h4></td>
+                          <td></td> 
                           <td><h4 style="display: inline;margin-right:10%">Active: <a contenteditable="true" id="active">'.$row1['active'].'</a></h4></td> 
                         </tr>
                         <tr>
