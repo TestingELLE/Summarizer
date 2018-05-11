@@ -112,8 +112,8 @@ echo '
                           <td ><a  class="name" >'.$row['symbol'].'</a></td>
                           <td>'.$row['analysis_date'].'</td>
                           <td id="'.$row['symbol'].'">'.$row['current_price'].'</td>
-                          <td>'.$row['1st_price_target'].'</td>
-                          <td>'.$row['1st_upside'].'</td>
+                          <td id="pt'.$row['symbol'].'">'.$row['1st_price_target'].'</td>
+                          <td id="upside'.$row['symbol'].'">'.$row['1st_upside'].'</td>
                           <td>'.$row['rank'].'</td>
                           <td>'.$row['target_weight'].'</td>
                           <td>'.$row['actual_weight'].'</td>
@@ -121,12 +121,17 @@ echo '
                           <td>'.$row['next_earnings'].'</td>
                         </tr>
                         <script>
+                         
                           $.get(`https://api.iextrading.com/1.0/stock/'.$row['symbol'].'/price`, function (data){
                             $("#'.$row['symbol'].'").text(" "+data);
-                            }); 
+                            var firstPriceTarget=$("#pt'.$row['symbol'].'").text()
+                            $("#upside'.$row['symbol'].'").text(Math.round((firstPriceTarget/data-1)*100)+"%")
+                          })
                          setInterval(function(){ 
                               $.get(`https://api.iextrading.com/1.0/stock/'.$row['symbol'].'/price`, function (data){
                                 $("#'.$row['symbol'].'").text(" "+data);
+                                var firstPriceTarget=$("#pt'.$row['symbol'].'").text()
+                                $("#upside'.$row['symbol'].'").text(Math.round((firstPriceTarget/data-1)*100)+"%")
                                     }); 
                               }, 60000);
                         </script> 

@@ -23,8 +23,8 @@
     $LTarget=$_POST["LTarget"]; 
     $industry=$_POST["industry"];
     $upside=$_POST["upside"];
-    $secondPTarget=$_POST["2ndPTarget"];
-    $secondupside=$_POST["2ndupside"];
+    $secondPTarget=$_POST["secondPTarget"];
+    $secondupside=$_POST["secondupside"];
     $down=$_POST["down"]; 
     $PStock=$_POST["PStock"]; 
     $biotech=$_POST["biotech"]; 
