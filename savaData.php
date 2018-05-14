@@ -1,14 +1,14 @@
 <?php
      
      session_start();
-       
-      if(!isset($_SESSION['loggedin'])){
+
+     if(!isset($_SESSION['uname'])){
        
         header("Location:logout.php");
         exit();
     }
     //set up database connection
-    $con=mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
+    $con=mysqli_connect("rendertech.com",$_SESSION['uname_long'],$_SESSION['psw'],"pupone_Summarizer");
     if (!$con)
     {
     die('Could not connect: ' . mysqli_error());
@@ -55,7 +55,7 @@
     
     
     mysqli_select_db($con,"pupone_Summarizer");
-    $currentuser=$_SESSION['loggedin'];
+    $currentuser=$_SESSION['uname'];
     $userAction='modified data';
     $log="INSERT INTO activity (user, `action`,`page`) VALUES ('$currentuser','$userAction','$symbol')";
     mysqli_query($con,$log);

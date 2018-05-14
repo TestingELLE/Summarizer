@@ -2,11 +2,6 @@
  
   session_start();
 
-//  echo $_SESSION['uname'];
-//  echo " ";
-//  echo $_SESSION["Last_Activity"];
-//  echo " ";
-//  echo time();
  if(!isset($_SESSION['uname'])){
    
   header("Location:logout.php");
@@ -17,17 +12,17 @@
 
 //   header("Location:logout.php");
 
-
-
 // }else{
 
 //  $_SESSION["Last_Activity"] = time();
  
 // }
-  $user=$_SESSION['uname'];
-  $type=$_SESSION['type'];
-
+ $user=$_SESSION['uname'];
+ $type=$_SESSION['type'];
+  
 ?>
+
+
 <html lang="en">
 <head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -60,19 +55,22 @@
 
 
 </head>
-<?php
 
-echo ' 
   <body>
   
     <div style="width:80%;margin-left:auto;margin-right:auto">
       <nav class="navbar navbar-default navbar-fixed-top">
-        <div class="container">
-          <p style="display:inline">'.$user.'</p>
+        <div class="container"> 
+            <p style="display:inline"> <?= ''.$user.'' ?></p>
+            <!-- <p style="display:inline"> <?php echo ''.$user.'' ?></p>  alternative 1 less compact-->
+            <!--   <?php echo '<p style="display:inline">'.$user.'</p>' ?>  alternative 2 least compact-->
+            
           <button style="margin-left:40px;display:inline-block" ><a href="logout.php">Log Out</a></button>
           <button style="margin-top:5px;display:inline-block"><a href="loader.php">Loader</a></button>
           <h2 style="text-align:center; margin-top:-29px;">Summarizer</h2>
-          <p style="margin-top:-23px;">'.$type.'</p>
+         <!-- <p style="margin-top:-23px;"> <?php echo ''.$type.''?></p> -->
+          <p style="margin-top:-23px;"> <?= ''.$type.''?></p> <!-- see above for alternatives -->
+    
         </div>
       </nav>
   
@@ -93,8 +91,8 @@ echo '
           <th>Next Earnings Date</th>
         </tr>
       </thead>
-      <tbody>'; 
-         /* we should be able to use the login connection (con1) and this code should not be needed.--Professor 5/9*/
+      <tbody> 
+<?php
            $con=mysqli_connect("rendertech.com",$_SESSION['uname_long'],$_SESSION['psw'],"pupone_Summarizer");
           if (!$con)
             {
@@ -147,8 +145,8 @@ echo '
 </div>
 <?php $_SESSION["selected_symbol"]=$_POST["symbol"] ?>
 <footer style="text-align:center">
-  <p>Prototype Posted by: Runhao Zhao</p>
-  <p>Date Released: 02/04/2018</p>
+  <p>working prototype 1.1.0L</p>
+  <p>Date Released: 2018-05-12</p>
   <nav>
   <a href="SummarizerLogin.html">Login</a>
   <a href="SummarizerStock.html">Stock</a>

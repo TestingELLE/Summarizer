@@ -1,6 +1,6 @@
 <?php
     session_start();
-    if(!isset($_SESSION['loggedin'])){
+    if(!isset($_SESSION['uname'])){
        
     header("Location:logout.php");
     exit();
@@ -10,7 +10,7 @@
     $symbol=$_POST['symbol'];
     $user=$_POST['user'];
     echo $newComment;
-    $con=mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
+    $con=mysqli_connect("rendertech.com",$_SESSION['uname_long'],$_SESSION['psw'],"pupone_Summarizer");
     if (!$con)
     {
     die('Could not connect: ' . mysqli_error());
@@ -22,7 +22,7 @@
     } else {
         echo "Error: ". mysqli_error($con);
     };
-    $currentuser=$_SESSION['loggedin'];
+    $currentuser=$_SESSION['uname'];
     $userAction='added comments';
     $log="INSERT INTO activity (user, `action`,`page`) VALUES ('$currentuser','$userAction','$symbol')";
     mysqli_query($con,$log);

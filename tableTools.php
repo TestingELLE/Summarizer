@@ -1,6 +1,6 @@
 <?php
     session_start();
-     if(!isset($_SESSION['loggedin'])){
+     if(!isset($_SESSION['uname'])){
       header("Location:logout.php");
       exit();
     }
@@ -15,7 +15,7 @@
   if($_SESSION['type']=="Programmer"){
       //truncate and load new csv file
     if(isset($_POST["submit"])){
-        $connect=mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
+        $connect=mysqli_connect("rendertech.com",$_SESSION['uname_long'],$_SESSION['psw'],"pupone_Summarizer");
         if (!$connect)
         {
         die('Could not connect: ' . mysqli_error());
@@ -56,7 +56,7 @@
     };
     //load csv file and update data 
     if(isset($_POST["update"])){
-        $connect=mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
+        $connect=mysqli_connect("rendertech.com",$_SESSION['uname_long'],$_SESSION['psw'],"pupone_Summarizer");
         if (!$connect)
         {
         die('Could not connect: ' . mysqli_error());
@@ -109,7 +109,7 @@
     }
     //load csv file and append new symbols
     if(isset($_POST["append"])){
-        $connect=mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
+        $connect=mysqli_connect("rendertech.com",$_SESSION['uname_long'],$_SESSION['psw'],"pupone_Summarizer");
         if (!$connect)
         {
         die('Could not connect: ' . mysqli_error());
@@ -161,7 +161,7 @@
     }
     //dowload current table
     if($_POST["download"]){
-        $con=mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
+        $con=mysqli_connect("rendertech.com",$_SESSION['uname_long'],$_SESSION['psw'],"pupone_Summarizer");
         if (!$con)
         {
         die('Could not connect: ' . mysqli_error());
@@ -197,7 +197,7 @@
 
      //download data
      if(isset($_GET["filename"])){
-        $connect=mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
+        $connect=mysqli_connect("rendertech.com",$_SESSION['uname_long'],$_SESSION['psw'],"pupone_Summarizer");
         if (!$connect)
         {
         die('Could not connect: ' . mysqli_error());
@@ -229,7 +229,7 @@
     }
   }else if($_SESSION['type']=="Admin" || $_SESSION['type']=="Maintainer"){
     if(isset($_POST["submit"])){
-        $connect=mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
+        $connect=mysqli_connect("rendertech.com",$_SESSION['uname_long'],$_SESSION['psw'],"pupone_Summarizer");
         if (!$connect)
         {
         die('Could not connect: ' . mysqli_error());
@@ -284,7 +284,7 @@
     };
     //load a csv file and update current table
     if(isset($_POST["update"])){
-        $connect=mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
+        $connect=mysqli_connect("rendertech.com",$_SESSION['uname_long'],$_SESSION['psw'],"pupone_Summarizer");
         if (!$connect)
         {
         die('Could not connect: ' . mysqli_error());
@@ -351,7 +351,7 @@
     }
     //load a new csv file and append new symbols
     if(isset($_POST["append"])){
-        $connect=mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
+        $connect=mysqli_connect("rendertech.com",$_SESSION['uname_long'],$_SESSION['psw'],"pupone_Summarizer");
         if (!$connect)
         {
         die('Could not connect: ' . mysqli_error());
@@ -416,7 +416,7 @@
     }
     //download the current table
     if($_POST["download"]){
-        $con=mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
+        $con=mysqli_connect("rendertech.com",$_SESSION['uname_long'],$_SESSION['psw'],"pupone_Summarizer");
         if (!$con)
         {
         die('Could not connect: ' . mysqli_error());
@@ -456,7 +456,7 @@
 
      //download data
      if(isset($_GET["filename"])){
-        $connect=mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
+        $connect=mysqli_connect("rendertech.com",$_SESSION['uname_long'],$_SESSION['psw'],"pupone_Summarizer");
         if (!$connect)
         {
         die('Could not connect: ' . mysqli_error());

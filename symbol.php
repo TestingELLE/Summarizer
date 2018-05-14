@@ -3,6 +3,7 @@
   session_start();
        
   if(!isset($_SESSION['uname'])){
+      
    
     header("Location:logout.php");
     exit();
@@ -10,21 +11,9 @@
   if(isset($_GET["symbolSearch"])){
     $name=$_GET["symbolSearch"];
     header("Location:symbol.php?name=$name");
-  }
-  $user=$_SESSION['uname'];
-  $type=$_SESSION['type'];
-//  if(!isset($_SESSION['loggedin'])){
-//   header("location:logout.php");
-// }
-// if (isset($_SESSION["Last_Activity"]) && (time() - $_SESSION["Last_Activity"] >28800)) {
-//   // last request was more than 30 minutes ago
-  
-//   header("location:logout.php");
-
-// }else{
-
-//   $_SESSION["Last_Activity"]= time();
-// }
+  };
+ $user=$_SESSION['uname'];
+ $type=$_SESSION['type'];
 ?>
 <html lang="en">
     <head>
@@ -114,6 +103,7 @@
           </div>
           <ul class="nav navbar-nav">
               <p style="display:inline;color:black"><?php echo $user ?></p>
+     
               <p style="display:inline;color:black;"><?php echo $type ?></p>
               <button class="btn btn-default btn-md"><a href="logout.php">Log Out</a></button>
               <input  style="margin-left:-5px;" id="back" class="btn btn-default btn-md"type="button" value="Main Page" onClick="Search()">
@@ -138,7 +128,7 @@
               //get the symbol from the user input
               $name=$_GET["name"];
             };
-            $con1 = mysqli_connect("rendertech.com","pupone_Runhao","Runhao1212","pupone_Summarizer");
+            $con1=mysqli_connect("rendertech.com",$_SESSION['uname_long'],$_SESSION['psw'],"pupone_Summarizer");
             if (!$con1)
               {
               die('Could not connect: ' . mysqli_error());
