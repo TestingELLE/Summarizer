@@ -8,9 +8,7 @@
     $_SESSION['count']++; 
     setcookie('PHPSESSID', $PHPSESSID, time()+21800);
    
-
     $year = time() + 31536000;
-
     if($_POST['remember'])  {
         setcookie('remember_me', $_POST['username'], $year);
         setcookie('remember_me2', $_POST['password'], $year);  
@@ -66,8 +64,6 @@
        
     }
     
-
-
 ?>
 
 

@@ -1,11 +1,6 @@
 <?php
     session_start();
-    
-    //  echo $_SESSION['loggedin'];
-    //  echo " ";
-    //  echo $_SESSION["Last_Activity"];
-    //  echo " ";
-    //  echo time();
+
      if(!isset($_SESSION['uname'])){
        
       header("Location:logout.php");
