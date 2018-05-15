@@ -54,7 +54,7 @@ $(document).ready(function() {
         }
 
         $.ajax({
-            url: "savaData.php",
+            url: "saveData.php",
             type: "POST",
             data: newData,
         }).done(function(res) {
