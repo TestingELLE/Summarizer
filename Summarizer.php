@@ -37,47 +37,33 @@
 
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
-  <style>
-    .paginate_button{
-      margin-left:5px;
-    } 
-    .navbar{
-      z-index:1;
-      min-height:33px;
-    }
-    #SummarizerTable_filter{
-      position:fixed;
-      margin-left:60%;
-      margin-top:-77px;
-      z-index:9999;
-    }
-  </style>
+<link rel="stylesheet" href="summarizer_styleSheet.css">
 
 
 </head>
 
   <body>
   
-    <div style="width:80%;margin-left:auto;margin-right:auto">
+    <div id="outer">
       <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container"> 
-            <p style="display:inline"> <?= ''.$user.'' ?></p>
+            <p id="user_id"> <?= ''.$user.'' ?></p>
             <!-- <p style="display:inline"> <?php echo ''.$user.'' ?></p>  alternative 1 less compact-->
             <!--   <?php echo '<p style="display:inline">'.$user.'</p>' ?>  alternative 2 least compact-->
             
-          <button style="margin-left:40px;display:inline-block" ><a href="logout.php">Log Out</a></button>
-          <button style="margin-top:5px;display:inline-block"><a href="loader.php">Loader</a></button>
-          <h2 style="text-align:center; margin-top:-29px;">Summarizer</h2>
+          <button id="logout_button" ><a href="logout.php">Log Out</a></button>
+          <button id="loader_button"><a href="loader.php">Loader</a></button>
+          <h2>Summarizer</h2>
          <!-- <p style="margin-top:-23px;"> <?php echo ''.$type.''?></p> -->
-          <p style="margin-top:-23px;"> <?= ''.$type.''?></p> <!-- see above for alternatives -->
+          <p id="user_type"> <?= ''.$type.''?></p> <!-- see above for alternatives -->
     
         </div>
       </nav>
   
-    <p style="text-align:center; margin-top:58px">List of active securities</p>
+    <p id="securities_notice">List of active securities</p>
     
-    <table style="margin-right:10%" id="SummarizerTable" class="table table-striped">
-      <thead>
+    <table id="SummarizerTable" class="table table-striped table-condensed">
+      <thead class="fixed-header">
         <tr>
           <th>Symbol</th>
           <th>Analysis Date</th>
@@ -144,7 +130,7 @@
   </table>
 </div>
 <?php $_SESSION["selected_symbol"]=$_POST["symbol"] ?>
-<footer style="text-align:center">
+<footer>
   <p>working prototype 1.1.0L</p>
   <p>Date Released: 2018-05-12</p>
   <nav>
