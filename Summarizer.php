@@ -132,8 +132,8 @@
 <?php $_SESSION["selected_symbol"]=$_POST["symbol"] ?>
 
 <footer style="text-align:center">
-  <p>working prototype 1.1.1a</p>
-  <p>Date Released: 2018-05-15</p>
+  <p>working prototype 1.1.1b</p>
+  <p>Date Released: 2018-05-21</p>
 
   <nav>
   <a href="SummarizerLogin.html">Login</a>
