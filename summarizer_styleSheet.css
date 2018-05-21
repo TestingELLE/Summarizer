@@ -1,0 +1,58 @@
+ .paginate_button{
+      margin-left:5px;
+    }
+	div#outer{
+	width:80%;
+	margin-left:auto;
+	margin-right:auto;
+	}	
+    .navbar{
+      z-index:1;
+      min-height:33px;
+    }
+	p#user_id{
+	display:inline;
+	}
+	button{
+		display:inline-block;
+	}
+	#logout_button{
+		margin-left:40px;
+	}
+	#loader_button{
+		margin-top:5px;
+	}
+	h2{
+		text-align:center; 
+		margin-top:-29px;
+	}
+	p#user_type{
+		margin-top:-23px;
+	}
+	p#securities_notice{
+		text-align:center; 
+		margin-top:58px
+	}
+    #SummarizerTable_filter{
+      position:fixed;
+      display:block;/**/
+      margin-left:60%;
+	  margin-right:10%;/*<table style="margin-right:10%"*/
+      margin-top:-77px;
+      z-index:9999;
+       width:100%;
+    }
+    table th,table td{
+        width:200px;
+    }
+    tr{
+        display:block;
+    }
+    table  tbody{
+  display:block;
+  height:800px;
+  overflow:auto;
+}
+footer{
+	text-align:center;
+}

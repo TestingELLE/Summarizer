@@ -1,0 +1,66 @@
+
+nav{
+	border:1px solid #e7e7e7; 
+	background:#f8f8f8;
+} 
+ td{
+    max-width:180px;
+    width:180px;
+    
+    }
+  p{
+	display:inline;
+	color:black;  
+  }
+  .btn.btn-default.btn-md{
+	margin-left:-5px;  
+  }
+  form div div input.btn.btn-default.btn-sm, form div input.form-control{
+	margin-top:0px;
+	float:right!important;
+  }
+  input.btn.btn-default.btn-sm{
+	height:34px;  
+  }
+  h1{
+    font-size:30px;
+  }
+  h4{
+   
+    font-size: 12px;
+  }
+  h2{
+    margin-left:10px;
+  }
+  .textarea {
+    width:95%;
+    min-height:140px;
+    height:auto;
+    border:1px solid grey;
+    white-space: pre-wrap;
+}
+  #question, #case,#catalyst, #ticket ,#stra {
+    display:none;
+  }
+  #btn1,#btn2,#btn3,#btn4,#btn5{
+    border:none;
+    background:none
+  }
+  #main-content{
+	width:98%; 
+	margin:12px; 
+	margin-top:4%
+  }
+  body { min-width:900px;}
+  .navbar{
+    min-height:27px;
+	border:1px solid #e7e7e7;
+	background:#f8f8f8;
+  }
+
+  @media screen and (max-width: 764px) {
+      #main-content {
+            margin-top: 14%!important
+        }
+  }
+   /*<nav style="border:1px solid #e7e7e7; background:#f8f8f8"*/
