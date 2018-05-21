@@ -238,7 +238,7 @@
             $filename=explode(".",$_FILES["file"]["name"]);
             if($filename[1]=="csv"){
                 $handle=fopen($_FILES["file"]["tmp_name"],"r");
-                $user=$_SESSION['loggedin'];
+                $user=$_SESSION['uname'];
                 date_default_timezone_set('America/Chicago');
                 $date=date("Y-m-d h:i:sa",time());
                 $date = preg_replace('/\s+/', '_', $date);
@@ -293,7 +293,7 @@
             $filename=explode(".",$_FILES["file"]["name"]);
             if($filename[1]=="csv"){
                 $handle=fopen($_FILES["file"]["tmp_name"],"r");
-                $user=$_SESSION['loggedin'];
+                $user=$_SESSION['uname'];
                 date_default_timezone_set('America/Chicago');
                 $date=date("Y-m-d h:i:sa",time());
                 $date = preg_replace('/\s+/', '_', $date);
@@ -360,7 +360,7 @@
             $filename=explode(".",$_FILES["file"]["name"]);
             if($filename[1]=="csv"){
                 $handle=fopen($_FILES["file"]["tmp_name"],"r");
-                $user=$_SESSION['loggedin'];
+                $user=$_SESSION['uname'];
                 date_default_timezone_set('America/Chicago');
                 $date=date("Y-m-d h:i:sa",time());
                 $date = preg_replace('/\s+/', '_', $date);
@@ -421,7 +421,7 @@
         {
         die('Could not connect: ' . mysqli_error());
         }
-        $currentuser=$_SESSION['loggedin'];
+        $currentuser=$_SESSION['uname'];
         $userAction="downloaded current table";
         $log="INSERT INTO activity (user, `action`) VALUES ('$currentuser','$userAction')";
         mysqli_query($con,$log);
@@ -462,7 +462,7 @@
         die('Could not connect: ' . mysqli_error());
         }
         $filename=$_GET["filename"];
-        $currentuser=$_SESSION['loggedin'];
+        $currentuser=$_SESSION['uname'];
         $userAction="downloaded backup table";
         $log="INSERT INTO activity (user, `action`) VALUES ('$currentuser','$userAction')";
         mysqli_query($connect,$log);

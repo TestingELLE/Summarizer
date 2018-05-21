@@ -130,9 +130,11 @@
   </table>
 </div>
 <?php $_SESSION["selected_symbol"]=$_POST["symbol"] ?>
-<footer>
-  <p>working prototype 1.1.0L</p>
-  <p>Date Released: 2018-05-12</p>
+
+<footer style="text-align:center">
+  <p>working prototype 1.1.1a</p>
+  <p>Date Released: 2018-05-15</p>
+
   <nav>
   <a href="SummarizerLogin.html">Login</a>
   <a href="SummarizerStock.html">Stock</a>

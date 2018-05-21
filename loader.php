@@ -31,7 +31,8 @@
         window.location.href="loader.php";
         </script>
         ';  
-    };
+    }
+    ;
   
 
 ?>
