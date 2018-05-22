@@ -10,7 +10,8 @@ nav{
     }
   p{
 	display:inline;
-	color:black;  
+	color:black; 
+        margin-right: 20px;
   }
   .btn.btn-default.btn-md{
 	margin-left:-5px;  
