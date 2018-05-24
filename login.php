@@ -46,7 +46,6 @@
         $_SESSION['type']=$row['type'];
         $_SESSION["Last_Activity"]=time(); 
         header("location: Summarizer.php");
-        
         if(mysqli_num_rows($result)==1 && $row['type']=="Admin" || $row['type']=="Maintainer" ){
             
             exit();
