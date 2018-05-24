@@ -30,8 +30,56 @@ nav{
    
     font-size: 12px;
   }
+  #delay{
+	  margin-top:-20px;
+  }
   h2{
     margin-left:10px;
+  }
+  #mysymbol{
+	text-align:center;
+	display: inline;
+	margin-left:40%;  
+  }
+  span#link{
+	margin-left: -54px; 
+	margin-right: 20px;
+  }
+  h4.stock_title{
+	display: inline;
+	margin-left:22px
+  }
+  ul{
+	float:right;
+	margin-right:150px;
+	margin-top:-5px;
+	white-space: nowrap;
+  }
+  ul li{
+	list-style-type: none;  
+  }
+  ul li h4{
+	display: inline;
+	margin-right:10%  
+  }
+  table{
+	text-align:left;
+  }
+  td h4{
+	display: inline;
+	margin-right:10%;
+  }
+  button{
+	 margin-left:50px;  
+  }
+  #btn1,#btn2,#btn3,#btn4,#btn5{
+    border:none;
+    background:none
+  }
+  textarea{
+	width:95%;
+	height:100px;
+	display:none;
   }
   .textarea {
     width:95%;
@@ -43,10 +91,7 @@ nav{
   #question, #case,#catalyst, #ticket ,#stra {
     display:none;
   }
-  #btn1,#btn2,#btn3,#btn4,#btn5{
-    border:none;
-    background:none
-  }
+  
   #main-content{
 	width:98%; 
 	margin:12px; 
