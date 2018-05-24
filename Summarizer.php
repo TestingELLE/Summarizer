@@ -34,11 +34,9 @@
 <!-- jQuery library -->
 
 <!-- Latest compiled JavaScript -->
-
+<link rel="stylesheet" href="summarizer_styleSheet.css">
 <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
-<link rel="stylesheet" href="summarizer_styleSheet.css">
-
 
 </head>
 
@@ -91,17 +89,30 @@
               /* pull data from database and insert into data table. */
               while($row = mysqli_fetch_array($result))
               {
-                  echo '<tr>
-                          <td ><a  class="name" >'.$row['symbol'].'</a></td>
-                          <td>'.$row['analysis_date'].'</td>
-                          <td id="'.$row['symbol'].'">'.$row['current_price'].'</td>
-                          <td id="pt'.$row['symbol'].'">'.$row['1st_price_target'].'</td>
-                          <td id="upside'.$row['symbol'].'">'.$row['1st_upside'].'</td>
-                          <td>'.$row['rank'].'</td>
-                          <td>'.$row['target_weight'].'</td>
-                          <td>'.$row['actual_weight'].'</td>
-                          <td>'.$row['weight_difference'].'</td>
-                          <td>'.$row['next_earnings'].'</td>
+                 $correct_format=preg_match_all('/(19|20)(\d{2})-(\d{1,2})-(\d{1,2})/', $row['analysis_date']);
+                  if($correct_format===0)
+                  {
+                    $row['analysis_date']=preg_replace('/(\d{1,2})[^a-zA-Z0-9](\d{1,2})[^a-zA-Z0-9]((19|20)?(\d{2}))/','20\3-\2-\1',$row['analysis_date']);
+                  }
+                  $correct_format1=preg_match_all('/(19|20)(\d{2})-(\d{1,2})-(\d{1,2})/', $row['next_earnings']);
+                  if($correct_format1===0)
+                  {
+                    $row['next_earnings']=preg_replace('/(\d{1,2})[^a-zA-Z0-9](\d{1,2})[^a-zA-Z0-9]((19|20)?(\d{2}))/','20\3-\2-\1',$row['next_earnings']);
+                  }
+                  $row['current_price']=floatval($row['current_price']);
+                  $row['current_price']= number_format($row['current_price'],2,'.',',');
+                  ?>
+                  <tr>
+                  <td ><a  class="name" ><?= $row['symbol']?></a></td>
+                  <td><?= $row['analysis_date']?></td>
+                  <td id="<?= $row['symbol'] ?>"><?= $row['current_price'] ?></td>
+                          <td id="pt<?= $row['symbol'] ?>"><?= $row['1st_price_target'] ?></td>
+                          <td id="upside<?= $row['symbol'] ?>"><?= $row['1st_upside'] ?></td>
+                          <td><?= $row['rank'] ?></td>
+                          <td><?= $row['target_weight'] ?></td>
+                          <td><?= $row['actual_weight'] ?></td>
+                          <td><?= $row['weight_difference'] ?></td>
+                          <td><?= $row['next_earnings'] ?></td>
                         </tr>
                         <script>
                           $.get(`https://api.iextrading.com/1.0/stock/'.$row['symbol'].'/price`, function (data){
@@ -117,23 +128,22 @@
                                     }); 
                               }, 60000);
                         </script> 
-                        '     ;  
-                     
+                        <?php 
               }
               mysqli_free_result($result);
         }
           mysqli_close($con);
           
       
-          ?>
+         ?>
     </tbody>
   </table>
 </div>
 <?php $_SESSION["selected_symbol"]=$_POST["symbol"] ?>
 
-<footer style="text-align:center">
-  <p>working prototype 1.1.1b</p>
-  <p>Date Released: 2018-05-21</p>
+<footer>
+  <p>working prototype 1.1.1c</p>
+  <p>Date Released: 2018-05-24</p>
 
   <nav>
   <a href="SummarizerLogin.html">Login</a>
@@ -151,7 +161,7 @@ $(document).on("click", ".name", function() {
     var mySymbol = $(this).text();  
     window.location.href = 'symbol.php?name='+mySymbol; 
 });
-})
+});
 </script>
 </body>
 </html>

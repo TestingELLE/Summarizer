@@ -40,10 +40,11 @@
 	  margin-right:10%;/*<table style="margin-right:10%"*/
       margin-top:-77px;
       z-index:9999;
-       /*width:100%; */
+
     }
     table th,table td{
         width:200px;
+        text-align: right;
     }
     tr{
         display:block;
