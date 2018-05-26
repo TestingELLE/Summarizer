@@ -77,6 +77,19 @@
                     die(mysqli_error($connect));
                 }
                 $colExists=implode(",",array_intersect($header,$headerName));
+                
+                  /* This will truncate the temp update table before loading the information into main_table
+                  by Tom Tran 2018-05-26 */
+                $sqlTruncate5="TRUNCATE TABLE temp_update_table;";
+                mysqli_query($connect,$sqlTruncate5);
+                
+                  /* This will delete any NULL rows after the file has been created and inserted into update_table.
+                 which will prevent the issue of empty rows before inserting into main_table. 
+                 by Tom Tran 2018-5-26 */
+                
+                $removeEmptyRow2="DELETE FROM temp_update_table WHERE symbol='' or symbol IS NULL"; 
+                mysqli_query($connect,$removeEmptyRow2);
+                
                 $dropTABLE="DROP TABLE IF EXISTS temp_update_table";
                 mysqli_query($connect,$dropTABLE);
                 $createTable="CREATE TABLE temp_update_table AS SELECT $colExists FROM temp_main_table WHERE 1=0";
@@ -339,11 +352,24 @@
                 $colExists=implode(",",array_intersect($header,$headerName));
                 $dropTABLE="DROP TABLE IF EXISTS update_table";
                 mysqli_query($connect,$dropTABLE);
+                
+                /* This will truncate the update table before loading the information into main_table
+                  by Tom Tran 2018-05-25 */
+                $sqlTruncate4="TRUNCATE TABLE update_table;";
+                mysqli_query($connect,$sqlTruncate4);
+                
+                 /* This will delete any NULL rows after the file has been created and inserted into update_table.
+                 which will prevent the issue of empty rows before inserting into main_table. 
+                 by Tom Tran 2018-5-24 */
+                
+                $removeEmptyRow2="DELETE FROM update_table WHERE symbol='' or symbol IS NULL"; 
+                mysqli_query($connect,$removeEmptyRow2);
+                
                 $createTable="CREATE TABLE update_table AS SELECT $colExists FROM main_table WHERE 1=0";
                 mysqli_query($connect,$createTable);
                 $loadQuery="LOAD DATA LOCAL INFILE '".$_FILES['file']['tmp_name']."' INTO TABLE update_table FIELDS OPTIONALLY ENCLOSED BY '\"' TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES";
                 mysqli_query($connect,$loadQuery) or die(mysqli_error($connect));
-                $selectSymbolNotExists="SELECT symbol from update_table where symbol not in (select distinct symbol from main_table);";
+                $selectSymbolNotExists="SELECT symbol FROM update_table where symbol NOT IN (SELECT DISTINCT symbol from main_table);";
                 $symbolNotExists=mysqli_query($connect,$selectSymbolNotExists);
                 while($row = mysqli_fetch_assoc($symbolNotExists)){
                     $_SESSION["symbolNotExists"]=$row["symbol"]." ".$_SESSION["symbolNotExists"];
@@ -407,7 +433,7 @@
                 $dropTABLE="DROP TABLE IF EXISTS append_table";
                 mysqli_query($connect,$dropTABLE);
                 
-                                
+                
                 /* This will truncate the append table before loading the information into main_table
                   by Tom Tran 2018-05-24 */
                 $sqlTruncate3="TRUNCATE TABLE append_table;";
