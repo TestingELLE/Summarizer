@@ -89,9 +89,8 @@
                 
                 $removeEmptyRow2="DELETE FROM temp_update_table WHERE symbol='' or symbol IS NULL"; 
                 mysqli_query($connect,$removeEmptyRow2);
+               
                 
-                $dropTABLE="DROP TABLE IF EXISTS temp_update_table";
-                mysqli_query($connect,$dropTABLE);
                 $createTable="CREATE TABLE temp_update_table AS SELECT $colExists FROM temp_main_table WHERE 1=0";
                 mysqli_query($connect,$createTable);
                 $loadQuery="LOAD DATA LOCAL INFILE '".$_FILES['file']['tmp_name']."' INTO TABLE temp_update_table FIELDS OPTIONALLY ENCLOSED BY '\"' TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;";
@@ -154,8 +153,8 @@
                     die(mysqli_error($connect));
                 }
                 $colExists=implode(",",array_intersect($header,$headerName));
-                $dropTABLE="DROP TABLE IF EXISTS temp_append_table";
-                mysqli_query($connect,$dropTABLE);
+
+                
                 $createTable="CREATE TABLE temp_append_table AS SELECT $colExists FROM temp_main_table WHERE 1=0";
                 mysqli_query($connect,$createTable);
                 $loadQuery="LOAD DATA LOCAL INFILE '".$_FILES['file']['tmp_name']."' INTO TABLE temp_append_table FIELDS OPTIONALLY ENCLOSED BY '\"' TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;";
@@ -350,43 +349,41 @@
                     die(mysqli_error($connect));
                 }
                 $colExists=implode(",",array_intersect($header,$headerName));
-                $dropTABLE="DROP TABLE IF EXISTS update_table";
-                mysqli_query($connect,$dropTABLE);
-                
+
                 /* This will truncate the update table before loading the information into main_table
                   by Tom Tran 2018-05-25 */
-                $sqlTruncate4="TRUNCATE TABLE update_table;";
+                $sqlTruncate4="TRUNCATE TABLE temp_update_table;";
                 mysqli_query($connect,$sqlTruncate4);
                 
                  /* This will delete any NULL rows after the file has been created and inserted into update_table.
                  which will prevent the issue of empty rows before inserting into main_table. 
                  by Tom Tran 2018-5-24 */
                 
-                $removeEmptyRow2="DELETE FROM update_table WHERE symbol='' or symbol IS NULL"; 
+                $removeEmptyRow2="DELETE FROM temp_update_table WHERE symbol='' or symbol IS NULL"; 
                 mysqli_query($connect,$removeEmptyRow2);
                 
-                $createTable="CREATE TABLE update_table AS SELECT $colExists FROM main_table WHERE 1=0";
+                $createTable="CREATE TABLE temp_update_table AS SELECT $colExists FROM main_table WHERE 1=0";
                 mysqli_query($connect,$createTable);
-                $loadQuery="LOAD DATA LOCAL INFILE '".$_FILES['file']['tmp_name']."' INTO TABLE update_table FIELDS OPTIONALLY ENCLOSED BY '\"' TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES";
+                $loadQuery="LOAD DATA LOCAL INFILE '".$_FILES['file']['tmp_name']."' INTO TABLE temp_update_table FIELDS OPTIONALLY ENCLOSED BY '\"' TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES";
                 mysqli_query($connect,$loadQuery) or die(mysqli_error($connect));
-                $selectSymbolNotExists="SELECT symbol FROM update_table where symbol NOT IN (SELECT DISTINCT symbol from main_table);";
+                $selectSymbolNotExists="SELECT symbol FROM temp_update_table where symbol NOT IN (SELECT DISTINCT symbol from main_table);";
                 $symbolNotExists=mysqli_query($connect,$selectSymbolNotExists);
                 while($row = mysqli_fetch_assoc($symbolNotExists)){
                     $_SESSION["symbolNotExists"]=$row["symbol"]." ".$_SESSION["symbolNotExists"];
                 };
-                $findDuplicatedSymbol="SELECT symbol, COUNT(*) c FROM update_table GROUP BY symbol HAVING c > 1;";
+                $findDuplicatedSymbol="SELECT symbol, COUNT(*) c FROM temp_update_table GROUP BY symbol HAVING c > 1;";
                 $duplicatedSymbol=mysqli_query($connect,$findDuplicatedSymbol);
                 while($row = mysqli_fetch_assoc($duplicatedSymbol)){
                     $_SESSION["duplicates"]=$row["symbol"]." ".$_SESSION["duplicates"];
                 };
                 $set=array();
                 for($z=0;$z<count($header);$z++){
-                    $set[$z]="main_table.".$header[$z]."="."update_table.".$header[$z];
+                    $set[$z]="main_table.".$header[$z]."="."temp_update_table.".$header[$z];
                 }
                 $condition=implode(",",$set);
-                $updateTable="UPDATE main_table, update_table
+                $updateTable="UPDATE main_table, temp_update_table
                 SET $condition
-                WHERE main_table.symbol = update_table.symbol;";
+                WHERE main_table.symbol = temp_update_table.symbol;";
                 mysqli_query($connect,$updateTable);
                 $_SESSION["table"]="main_table";
                 $userAction="update main_table";
@@ -430,36 +427,33 @@
                     die(mysqli_error($connect));
                 }
                 $colExists=implode(",",array_intersect($header,$headerName));
-                $dropTABLE="DROP TABLE IF EXISTS append_table";
-                mysqli_query($connect,$dropTABLE);
-                
                 
                 /* This will truncate the append table before loading the information into main_table
                   by Tom Tran 2018-05-24 */
-                $sqlTruncate3="TRUNCATE TABLE append_table;";
+                $sqlTruncate3="TRUNCATE TABLE temp_append_table;";
                 mysqli_query($connect,$sqlTruncate3);
                 
                 
-                $createTable="CREATE TABLE append_table AS SELECT $colExists FROM main_table WHERE 1=0;";
+                $createTable="CREATE TABLE temp_append_table AS SELECT $colExists FROM main_table WHERE 1=0;";
                 mysqli_query($connect,$createTable);          
-                $loadQuery="LOAD DATA LOCAL INFILE '".$_FILES['file']['tmp_name']."' INTO TABLE append_table FIELDS OPTIONALLY ENCLOSED BY '\"' TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES";
+                $loadQuery="LOAD DATA LOCAL INFILE '".$_FILES['file']['tmp_name']."' INTO TABLE temp_append_table FIELDS OPTIONALLY ENCLOSED BY '\"' TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES";
                 mysqli_query($connect,$loadQuery) or die(mysqli_error($connect));
                 
                  /* This will delete any NULL rows after the file has been created and inserted into append_table.
                  which will prevent the issue of empty rows before inserting into main_table. 
                  by Tom Tran 2018-5-24 */
                 
-                $removeEmptyRow="DELETE FROM append_table WHERE symbol='' or symbol IS NULL"; 
+                $removeEmptyRow="DELETE FROM temp_append_table WHERE symbol='' or symbol IS NULL"; 
                 mysqli_query($connect,$removeEmptyRow);
                 
-                $findDuplicatedSymbol="SELECT symbol, COUNT(*) c FROM append_table GROUP BY symbol HAVING c > 1;";
+                $findDuplicatedSymbol="SELECT symbol, COUNT(*) c FROM temp_append_table GROUP BY symbol HAVING c > 1;";
                 $duplicatedSymbol=mysqli_query($connect,$findDuplicatedSymbol);
                 while($result = mysqli_fetch_assoc($duplicatedSymbol)){
                     $_SESSION["duplicates"]=$result["symbol"]." ".$_SESSION["duplicates"];
                     header("location:loader.php");
                     die(mysqli_error($connect));
                 };
-                $selectSymbolExists="SELECT symbol from append_table where symbol in (select distinct symbol from main_table);";
+                $selectSymbolExists="SELECT symbol from temp_append_table where symbol in (select distinct symbol from main_table);";
                 $symbolExists=mysqli_query($connect,$selectSymbolExists);
                 while($row = mysqli_fetch_assoc($symbolExists)){
                     $_SESSION["duplicates"]=$row["symbol"]." ".$_SESSION["duplicates"];
@@ -467,7 +461,7 @@
                     die(mysqli_error($connect));
                 };
                 $insertQuery="INSERT INTO main_table (symbol, industry, market_cap, current_price, biotech, penny_stock, active, catalysts, last_earnings, next_earnings, bo_ah, intern, cash, burn, related_tickers, analysis_date, analysis_price, variation, 1st_price_target, 1st_upside, 2nd_price_target, 2nd_upside, downside_risk, rank, confidence, worst_case, target_weight, target_position, actual_position, actual_weight, weight_difference, strategy, discussion, notes, last_update,id)
-                SELECT * FROM append_table;";           // WHERE append_table.symbol NOT IN (SELECT symbol from main_table)";
+                SELECT * FROM temp_append_table;";           // WHERE append_table.symbol NOT IN (SELECT symbol from main_table)";
                 mysqli_query($connect,$insertQuery);
                 fclose($handle);
                 $userAction="appended a CSV file";
