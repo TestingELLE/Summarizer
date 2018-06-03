@@ -43,7 +43,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <title>Document</title>
+    <title>Loader</title>
     <style type="text/css">
 		body {
 			font-size: 15px;
@@ -123,7 +123,7 @@
 		{
 			background-color: #ffcccc;
 		}
-	</style>
+	</style>       
 </head>
 <body>
     <form name="form" action="tableTools.php" method="POST" enctype="multipart/form-data">
@@ -137,13 +137,13 @@
     </form>
     <hr>
     <button><a href="Summarizer.php">Main Page</a></button>
-   
-<?php
+     
+<?php        
 if($_SESSION['type']=="Admin" || $_SESSION["type"]=="Programmer"){
     echo '
     <div id="mytable">
         <h1>Backup Table </h1>
-        <table class="data-table">
+        <table class="data-table" id="mytable">
             <caption class="title">Backup table Data (only available to programmers and administrators)</caption>
             <thead>
                 <tr>
@@ -159,14 +159,16 @@ if($_SESSION['type']=="Admin" || $_SESSION["type"]=="Programmer"){
         ';
     }
         ?>
-            <?php
+            <?php                     
             // create and load backup_table
             $connect=mysqli_connect("rendertech.com",$_SESSION['uname_long'],$_SESSION['psw'],"pupone_Summarizer");
             if (!$connect)
             {
             die('Could not connect: ' . mysqli_error());
             }
-            $query="SELECT * FROM backup_table";
+             // added order by DESC to reverse order of results
+             // by Tom Tran - 2018-05-30
+            $query="SELECT * FROM backup_table ORDER BY id DESC;"; 
             if($result = mysqli_query($connect,$query))
             {
             while ($row = mysqli_fetch_array($result))
@@ -347,7 +349,10 @@ if($_SESSION['type']=="Admin" || $_SESSION["type"]=="Programmer"){
     };
  
 ?>
-    
- 
+
 </body>
+<footer>
+    <center><p>working prototype 1.1.2d</p></center>
+    <center><p>Date Released: 2018-06-02</p></center>
+</footer>
 </html>
