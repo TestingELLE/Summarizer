@@ -1,0 +1,17 @@
+    .paginate_button{
+      margin-left:5px;
+    } 
+    
+    .navbar{
+      z-index:1;
+      min-height:33px;
+    }
+    
+    #SummarizerTable_filter{
+      position:fixed;
+      margin-left:60%;
+      margin-top:-77px;
+      z-index:9999;
+    }
+
+    
