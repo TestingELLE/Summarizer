@@ -132,34 +132,34 @@
                     <table class="table table-striped">
                       <tbody>
                         <tr>
-                          <td><h4>Last Earnings Date: <a id="LDate" contenteditable="true"><?= $row1['last_earnings'] ?></a></h4></td> 
-                          <td><h4>Current Price ($): <a contenteditable="true" id="price"><?= $row1['current_price']?></a></h4></td>
-                          <td><h4>Target Weight: <a contenteditable="true" id="Tweight"><?= $row1['target_weight'] ?></a></h4></td>
-                          <td><h4>Cash: <a contenteditable="true" id="cash"><?= $row1['cash'] ?></a></h4></td>    
+                          <td><h4>Current Price ($): <a contenteditable="true" id="price"><?= $row1['current_price']?></a></h4></td> 
+                          <td><h4>1st Price Target : <a contenteditable="true" id="PTarget"><?= $row1['1st_price_target'] ?></a></h4></td>
+                          <td><h4>1st Upside: <a contenteditable="true" id="upside"><?= $row1['1st_upside'] ?></a></h4></td>
+                          <td><h4>Down Risk: <a contenteditable="true" id="down"><?= $row1['downside_risk'] ?></a></h4></td>    
                         </tr>
                         <tr>
                           <td><h4>Next Earnings Date: <a contenteditable="true" id="NDate"><?= $row1['next_earnings'] ?></a><a style="margin-left:4px" contenteditable="true" id="boah"><?= " ".$row1['bo_ah'] ?></a></h4></td>
-                          <td><h4>1st Price Target : <a contenteditable="true" id="PTarget"><?= $row1['1st_price_target'] ?></a></h4></td>
+                          <td><h4></h4></td>
                           <td><h4>Actual Weight: <a contenteditable="true" id="actualWeight"><?=$row1['actual_weight'] ?></a></h4></td>
-                          <td><h4>Burn: <a contenteditable="true" id="burn"><?=$row1['burn'] ?></a></h4></td>
+                          <td><h4>Weight Difference: <a contenteditable="true" id="diff"><?= $row1['weight_difference'] ?></a></h4></td>
                         </tr>
                         <tr>
                           <td><h4>Last Update: <a contenteditable="true" id="LUpdate"><?= $row1['last_update'] ?></a></h4></td> 
-                          <td><h4>1st Upside: <a contenteditable="true" id="upside"><?= $row1['1st_upside'] ?></a></h4></td>
-                          <td><h4>Weight Difference: <a contenteditable="true" id="diff"><?= $row1['weight_difference'] ?></a></h4></td> 
+                          <td><h4>Target Weight: <a contenteditable="true" id="Tweight"><?= $row1['target_weight'] ?></a></h4></td>
+                          <td><h4></h4></td> 
                           <td><h4></h4></td> 
                         </tr>
                         <tr>
                           <td><h4></h4></td>
                           <td><h4></h4></td>
                           <td><h4></h4></td>
-                          <td><h4></h4></td>
+                          <td><h4>Last Earnings Date: <a id="LDate" contenteditable="true"><?= $row1['last_earnings'] ?></a></h4></td> 
                         </tr>
                         <tr>
                           <td><h4>Analysis Date: <a contenteditable="true" id="AnalysisDate"><?= $row1['analysis_date'] ?></a></h4></td>
                           <td><h4>2nd Price Target : <a contenteditable="true" id="2ndPTarget"><?= $row1['2nd_price_target'] ?></a></h4></td>
-                          <td><h4></h4></td>
-                          <td><h4>Rank: <a contenteditable="true" id="rank"><?= $row1['rank'] ?></a></h4></td>  
+                          <td><h4><!--Target Position: <a contenteditable="true" id="Tposition"><?= $row1['target_position'] ?></a>--></h4></td>
+                          <td><h4><!--Rank: <a contenteditable="true" id="rank"><?= $row1['rank'] ?></a>--></h4></td>  
                         </tr>
                         <tr>
                             <td><h4>Analysis Price: <a contenteditable="true" id="analysisPrice"><?= $row1['analysis_price'] ?></a></h4></td> 
@@ -169,21 +169,21 @@
                         </tr>
                         <tr>
                           <td><h4>Variation: <a contenteditable="true" id="LTarget"><?= $row1['variation'] ?></a></h4></td>
-                          <td><h4>Down Risk: <a contenteditable="true" id="down"><?= $row1['downside_risk'] ?></a></h4></td>
-                          <td><h4>Target Position: <a contenteditable="true" id="Tposition"><?= $row1['target_position'] ?></a></h4></td>
                           <td><h4></h4></td>
-                        </tr>
-                        <tr>
-                          <td><h4></h4></td>
-                          <td><h4></h4></td>
-                          <td><h4></h4></td>
-                          <td><h4></h4></td>
-                        </tr>
-                        <tr>
+                          <td><h4><!--Actual Position: <a contenteditable="true" id="actualPosition"><?= $row1['actual_position'] ?></a>--></h4></td>
                           <td><h4>Intern: <a id="intern" contenteditable="true"><?= $row1['intern'] ?></a></h4></td>
+                        </tr>
+                        <tr>
                           <td><h4></h4></td>
-                          <td><h4>Actual Position: <a contenteditable="true" id="actualPosition"><?= $row1['actual_position'] ?></a></h4></td> 
                           <td><h4></h4></td>
+                          <td><h4></h4></td>
+                          <td><h4>Cash: <a contenteditable="true" id="cash"><?= $row1['cash'] ?></a></h4></td>
+                        </tr>
+                        <tr>
+                          <td><h4></h4></td>
+                          <td><h4></h4></td>
+                          <td><h4></h4></td> 
+                          <td><h4>Burn: <a contenteditable="true" id="burn"><?=$row1['burn'] ?></a></h4></td>
                         </tr>
                       </tbody>
                     
