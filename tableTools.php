@@ -28,7 +28,7 @@
                 mysqli_query($connect,$sql2);
                 $header=array();
                 $newHeader=array();
-                $headerName=["symbol", "industry", "market_cap", "current_price", "biotech", "penny_stock", "active", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation", "1st_price_target", "1st_upside", "2nd_price_target", "2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update","id"];
+                $headerName=["symbol", "industry", "sub_industry", "market_cap", "current_price", "biotech", "penny_stock", "active", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation1", "1st_price_target", "1st_upside", "2nd_price_target", "2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update","last_price", "variationL", "id"];
                 $header=fgetcsv($handle);
                 $colNotexists=implode(",",array_diff($header, $headerName));
                 if(count(array_diff($header, $headerName))>=1){
@@ -81,7 +81,7 @@
                 
                 $header=array();
                 $newHeader=array();
-                $headerName=["symbol", "industry", "market_cap", "current_price", "biotech", "penny_stock", "active", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation", "1st_price_target", "1st_upside", "2nd_price_target", "2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update"];
+                $headerName=["symbol", "industry", "sub_industry", "market_cap", "current_price", "biotech", "penny_stock", "active", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation1", "1st_price_target", "1st_upside", "2nd_price_target", "2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update","last_price", "variationL", "id"];                
                 $header=fgetcsv($handle);
                 $colNotexists=implode(",",array_diff($header, $headerName));
                 if(count(array_diff($header, $headerName))>=1){
@@ -104,10 +104,12 @@
                 mysqli_query($connect,$removeEmptyRow2);
                
                 
-                $createTable="CREATE TABLE test_update_table AS SELECT $colExists FROM test_main_table WHERE 1=0";
-                mysqli_query($connect,$createTable);
+                /*$createTable="CREATE TABLE test_update_table AS SELECT $colExists FROM test_main_table WHERE 1=0";
+                mysqli_query($connect,$createTable);*/
+                
                 $loadQuery="LOAD DATA LOCAL INFILE '".$_FILES['file']['tmp_name']."' INTO TABLE test_update_table FIELDS OPTIONALLY ENCLOSED BY '\"' TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;";
                 mysqli_query($connect,$loadQuery) or die(mysqli_error($connect));
+                
                 $selectSymbolNotExists="SELECT symbol from test_update_table where symbol not in (select distinct symbol from test_main_table);";
                 $symbolNotExists=mysqli_query($connect,$selectSymbolNotExists);
                 while($row = mysqli_fetch_assoc($symbolNotExists)){
@@ -169,7 +171,7 @@
                 
                 $header=array();
                 $newHeader=array();
-                $headerName=["symbol", "industry", "market_cap", "current_price", "biotech", "penny_stock", "active", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation", "1st_price_target", "1st_upside", "2nd_price_target", "2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update","id"];
+                $headerName=["symbol", "industry", "sub_industry", "market_cap", "current_price", "biotech", "penny_stock", "active", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation1", "1st_price_target", "1st_upside", "2nd_price_target", "2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update","last_price", "variationL", "id"];                
                 $header=fgetcsv($handle);
                 $colNotexists=implode(",",array_diff($headerName,$header));
                 if(count(array_diff($headerName,$header))>=1){
@@ -240,7 +242,7 @@
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=temp_main_table_'.$date.'.csv');
         $output = fopen('php://output', 'w');
-        fputcsv($output, array("symbol", "industry", "market_cap", "current_price", "biotech", "penny_stock", "active", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation", "1st_price_target", "1st_upside","2nd_price_target","2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update"));
+        fputcsv($output, array("symbol", "industry", "sub_industry", "market_cap", "current_price", "biotech", "penny_stock", "active", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation1", "1st_price_target", "1st_upside", "2nd_price_target", "2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update","last_price", "variationL", "id"));
         if (count($users) > 0) {
             foreach ($users as $row) {
                 if(!empty($row)){
@@ -276,7 +278,7 @@
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=BackUpTable_'.$date.'.csv');
         $output = fopen('php://output', 'w');
-        fputcsv($output, array("symbol", "industry", "market_cap", "current_price", "biotech", "penny_stock", "active", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation", "1st_price_target", "1st_upside","2nd_price_target","2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update","id"));
+        fputcsv($output, array("symbol", "industry", "sub_industry", "market_cap", "current_price", "biotech", "penny_stock", "active", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation1", "1st_price_target", "1st_upside", "2nd_price_target", "2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update","last_price", "variationL", "id"));
         if (count($users) > 0) {
             foreach ($users as $row) {
                 if(!empty($row)){
@@ -304,14 +306,14 @@
                 $date = str_replace(":","_",$date);
                 $tableName='BackUpTable_'.$date.'';
                 $createTB="CREATE TABLE `$tableName` SELECT * FROM main_table";
+                mysqli_query($connect,$createTB);                                  // Moved up to actually create a backup table - Tom - 2018-06-19
                 $backTbquery="INSERT INTO backup_table (user,`filename`, `date`) VALUES('$user','$tableName','$date')";
                 mysqli_query($connect,$backTbquery);
-                mysqli_query($connect,$createTB);
                 //$sql2="TRUNCATE TABLE main_table";
                 //mysqli_query($connect,$sql2);
                 $header=array();
                 $newHeader=array();
-                $headerName=["symbol", "industry", "market_cap", "current_price", "biotech", "penny_stock", "active", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation", "1st_price_target", "1st_upside", "2nd_price_target", "2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update","id"];
+                $headerName=["symbol", "industry", "sub_industry", "market_cap", "current_price", "biotech", "penny_stock", "active", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation1", "1st_price_target", "1st_upside", "2nd_price_target", "2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update","last_price", "variationL", "id"];
                 $header=fgetcsv($handle);
                 $colNotexists=implode(",",array_diff($header, $headerName));
                 if(count(array_diff($header, $headerName))>=1){
@@ -364,7 +366,7 @@
                 mysqli_query($connect,$backTbquery);          
                 $header=array();
                 $newHeader=array();
-                $headerName=["symbol", "industry", "market_cap", "current_price", "biotech", "penny_stock", "active", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation", "1st_price_target", "1st_upside", "2nd_price_target", "2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update"];
+                $headerName=["symbol", "industry", "sub_industry", "market_cap", "current_price", "biotech", "penny_stock", "active", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation1", "1st_price_target", "1st_upside", "2nd_price_target", "2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update","last_price", "variationL", "id"];
                 $header=fgetcsv($handle);
                 $colNotexists=implode(",",array_diff($header, $headerName));
                 if(count(array_diff($header, $headerName))>=1){
@@ -442,7 +444,7 @@
                 mysqli_query($connect,$backTbquery);     
                 $header=array();
                 $newHeader=array();
-                $headerName=["symbol", "industry", "market_cap", "current_price", "biotech", "penny_stock", "active", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation", "1st_price_target", "1st_upside", "2nd_price_target", "2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update","id"];
+                $headerName=["symbol", "industry", "sub_industry", "market_cap", "current_price", "biotech", "penny_stock", "active", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation1", "1st_price_target", "1st_upside", "2nd_price_target", "2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update","last_price", "variationL", "id"];
                 $header=fgetcsv($handle);
                 $colNotexists=implode(",",array_diff($headerName,$header));
                 if(count(array_diff($headerName,$header))>=1){
@@ -484,8 +486,11 @@
                     header("location:loader.php");
                     die(mysqli_error($connect));
                 };
-                $insertQuery="INSERT INTO main_table (symbol, industry, market_cap, current_price, biotech, penny_stock, active, catalysts, last_earnings, next_earnings, bo_ah, intern, cash, burn, related_tickers, analysis_date, analysis_price, variation, 1st_price_target, 1st_upside, 2nd_price_target, 2nd_upside, downside_risk, rank, confidence, worst_case, target_weight, target_position, actual_position, actual_weight, weight_difference, strategy, discussion, notes, last_update,id)
-                SELECT * FROM temp_append_table;";           // WHERE append_table.symbol NOT IN (SELECT symbol from main_table)";
+                
+                //$insertQuery="INSERT INTO main_table (symbol, industry, sub_industry, market_cap, current_price, biotech, penny_stock, status, catalysts, last_earnings, next_earnings, bo_ah, intern, cash, burn, related_tickers, analysis_date, analysis_price, variation1, 1st_price_target, 1st_upside, 2nd_price_target, 2nd_upside, downside_risk, rank, confidence, worst_case, target_weight, target_position, actual_position, actual_weight, weight_difference, strategy, discussion, notes, last_update,last_price, variationL, id)
+                //SELECT * FROM temp_append_table;";           // WHERE append_table.symbol NOT IN (SELECT symbol from main_table)";
+                
+                $insertQuery = "INSERT INTO main_table SELECT * FROM temp_append_table;";  // Shortened this to work quicker - 2018-06-19 Tom
                 mysqli_query($connect,$insertQuery);
                 fclose($handle);
                 $userAction="appended a CSV file";
@@ -523,7 +528,7 @@
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=main_table_'.$date.'.csv');
         $output = fopen('php://output', 'w');
-        fputcsv($output, array("symbol", "industry", "market_cap", "current_price", "biotech", "penny_stock", "active", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation", "1st_price_target", "1st_upside","2nd_price_target","2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update","id"));
+        fputcsv($output, array("symbol", "industry","sub_industry", "market_cap", "current_price", "biotech", "penny_stock", "status", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation1", "1st_price_target", "1st_upside","2nd_price_target","2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update","last_price", "variationL", "id"));
         if (count($users) > 0) {
             foreach ($users as $row) {
                 if(!empty($row)){
@@ -563,7 +568,7 @@
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=BackUpTable_'.$date.'.csv');
         $output = fopen('php://output', 'w');
-        fputcsv($output, array("symbol", "industry", "market_cap", "current_price", "biotech", "penny_stock", "active", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation", "1st_price_target", "1st_upside","2nd_price_target","2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update","id"));
+        fputcsv($output, array("symbol", "industry","sub_industry", "market_cap", "current_price", "biotech", "penny_stock", "status", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation1", "1st_price_target", "1st_upside","2nd_price_target","2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update","last_price", "variationL", "id"));
         if (count($users) > 0) {
             foreach ($users as $row) {
                 if(!empty($row)){
