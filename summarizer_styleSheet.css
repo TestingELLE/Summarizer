@@ -61,8 +61,7 @@ p#securities_notice{
    
 table th, td{
     width:200px;
-    text-align: left;
-    align: justify;
+    text-align: right;
 }
 
 tr{

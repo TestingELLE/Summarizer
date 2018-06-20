@@ -153,7 +153,8 @@
                           <td><h4>VariationL:</h4></td> 
                           <td><h4></h4></td>
                           <td><h4></h4></td>
-                          <td><h4>Variation1: <a contenteditable="true" id="LTarget"><?= $row1['variation'] ?></a></h4></td>
+                          <td><h4>Actual Position:<a id="APosition" contenteditable="true"><?= $row1['actual_position'] ?></a></h4></td>
+                          <td><h4>Variation1: <a contenteditable="true" id="LTarget"><?= $row1['variation1'] ?></a></h4></td>
                             
                         </tr>
                       </tbody>

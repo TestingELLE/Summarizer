@@ -60,14 +60,18 @@
       <thead>
         <tr>
           <th>Symbol</th>
-          <th>Analysis Date</th>
+          <!--<th>Analysis Date</th>--->
           <th>Current Price ($)</th>
           <th>1st Price Target</th>
           <th>1st Upside</th>
-          <th>Rank</th>
+          <th>2nd Price Target</th>
+          <!--<th>Rank</th>-->
+          <th>2nd Upside</th>
+          <th>Last Analysis Price</th>
+          <th>VariationL</th>
           <th>Target Weight</th>
           <th>Actual Weight</th>
-          <th>Difference</th>
+          <th>Weight Difference</th>
           <th>Next Earnings Date</th>
         </tr>
       </thead>
@@ -79,12 +83,13 @@
             die('Could not connect: '.mysqli_error());
             } 
           mysqli_select_db($con,"pupone_Summarizer");
-          if($result = mysqli_query($con,"SELECT symbol, current_price, analysis_date, 1st_price_target, 1st_upside, rank, target_weight,actual_weight,weight_difference,next_earnings FROM main_table"))
+          /*if($result = mysqli_query($con,"SELECT symbol, current_price, analysis_date, 1st_price_target, 1st_price_target / current_price - 1 AS 1st_upside, rank, target_weight,actual_weight,weight_difference,next_earnings FROM main_table"))*/
+          if($result = mysqli_query($con,"SELECT symbol, current_price, 1st_price_target, 1st_price_target / current_price - 1 AS 1st_upside, 2nd_price_target, 2nd_price_target / current_price - 1 AS 2nd_upside, last_price, current_price - last_price AS variationL, actual_weight, target_weight, actual_weight - target_weight AS weight_difference, next_earnings FROM main_table"))
           {
               /* pull data from database and insert into data table. */
               while($row = mysqli_fetch_array($result))
               {
-                  $correct_format=preg_match_all('/(19|20)(\d{2})-(\d{1,2})-(\d{1,2})/', $row['analysis_date']);
+                  /*$correct_format=preg_match_all('/(19|20)(\d{2})-(\d{1,2})-(\d{1,2})/', $row['analysis_date']);
                   if($correct_format===0)
                   {
                     $row['analysis_date']=preg_replace('/(\d{1,2})[^a-zA-Z0-9](\d{1,2})[^a-zA-Z0-9]((19|20)?(\d{2}))/','20\3-\2-\1',$row['analysis_date']);
@@ -94,29 +99,33 @@
                   {
                     $row['next_earnings']=preg_replace('/(\d{1,2})[^a-zA-Z0-9](\d{1,2})[^a-zA-Z0-9]((19|20)?(\d{2}))/','20\3-\2-\1',$row['next_earnings']);
                   }
+                   
                   $row['current_price']=floatval($row['current_price']);
-                  $row['current_price']= number_format($row['current_price'],2,'.',',');
+                  $row['current_price']= number_format($row['current_price'],2,'.',',');*/
                   ?>  <tr>
-                          <td ><a  class="name" ><?= $row['symbol']?></a></td>
-                          <td><?= $row['analysis_date']?></td>
-                          <td id="<?= $row['symbol']?>"><?= $row['current_price']?></td>
-                          <td id="pt<?= $row['symbol']?>"><?= $row['1st_price_target']?></td>
-                          <td id="upside<?= $row['symbol']?>"><?= $row['1st_upside']?></td>
-                          <td><?= $row['rank']?></td>
-                          <td><?= $row['target_weight']?></td>
-                          <td><?= $row['actual_weight']?></td>
-                          <td><?= $row['weight_difference']?></td>
-                          <td><?= $row['next_earnings']?></td>
+                      <td ><a class="name" ><?= $row['symbol']?></a></td>
+                          <td id="<?= $row['symbol']?>" style = "text-align: center"><?= $row['current_price']?></div></td>
+                          <td id="pt<?= $row['symbol']?>" style = "text-align: center"><?= $row['1st_price_target']?></td>
+                          <td id="upside<?= $row['symbol']?>" style = "text-align: center"><?= $row['1st_upside']?></td>
+                          <td><div style ="text-align: center"> <?= $row['2nd_price_target']?></div></td>
+                          <td><div style ="text-align: center"> <?= $row['2nd_upside']?>%</div></td>
+                          <td><div style = "text-align: center"><?= $row['last_price']?></div></td>
+                          <td><div style ="text-align: center"> <?= $row['variationL']?></div></td>
+                          <td><div style = "text-align: center"><?= $row['target_weight']?>%</div></td>
+                          <td><div style = "text-align: center"><?= $row['actual_weight']?>%</div></td>
+                          <td><div style = "text-align: center"><?= $row['weight_difference']?>%</div></td>
+                          <td><div style = "text-align: center"><?= $row['next_earnings']?></div></td>
                         </tr>
                        <script>
+                           
                           $.get(`https://api.iextrading.com/1.0/stock/<?= $row['symbol'] ?>/price`, function (data){
-                            $("#<?= $row['symbol'] ?>").text(" "+data);
+                              $("#<?=$row['symbol']?>").text(" "+(Math.round(data*100)/100).toFixed(2));
                             var firstPriceTarget=$("#pt<?= $row['symbol'] ?>").text()
                             $("#upside<?= $row['symbol'] ?>").text(Math.round((firstPriceTarget/data-1)*100)+"%")
                           }) 
                          setInterval(function(){ 
                               $.get(`https://api.iextrading.com/1.0/stock/<?= $row['symbol']?> /price`, function (data){
-                                $("#<?= $row['symbol'] ?>").text(" "+data);
+                             $("#<?=$row['symbol']?>").text(" "+(Math.round(data*100)/100).toFixed(2));
                                     var firstPriceTarget=$("#pt<?= $row['symbol'] ?>").text()
                                 $("#upside<?= $row['symbol'] ?>").text(Math.round((firstPriceTarget/data-1)*100)+"%")
                                     }); 
@@ -136,8 +145,8 @@
 </div>
 <?php $_SESSION["selected_symbol"]=$_POST["symbol"] ?>
 <footer style="text-align:center">
-  <p>working prototype 1.1.2c</p>
-  <p>Date Released: 2018-06-04</p>
+  <p>working prototype 1.1.3</p>
+  <p>Date Released: 2018-06-19</p>
   <nav>
   <a href="SummarizerLogin.html">Login</a>
   <a href="SummarizerStock.html">Stock</a>
