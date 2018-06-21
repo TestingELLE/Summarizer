@@ -106,7 +106,7 @@
                 while($row1 = mysqli_fetch_array($result2))
                 {
                   ?>
-                    <h4 id="delay">15 minute delay</h4>
+                    <h4 id="delay"></h4>
                     <ul>
                         <li><h4>Active: <a contenteditable="true" id="active"><?= $row1['active'] ?></a></h4></li>
                         <li><h4>Penny Stock: <a contenteditable="true" id="PStock"><?= $row1['penny_stock'] ?></a></h4><h4>Cash: <a contenteditable="true" id="cash"><?= $row1['cash'] ?></a></h4><h4>Burn: <a contenteditable="true" id="burn"><?=$row1['burn'] ?></a></h4></li>
@@ -117,7 +117,7 @@
                     <h4 class="stock_title"><a contenteditable="true" id="mktCap"><?= $row1['market_cap'] ?></a></h4>
                     
                     <h4 class="stock_title"><a contenteditable="true" id="industry"><?= $row1['industry'] ?></a></h4>
-                    <h4>Current Price ($): <a contenteditable="true" id="price"><?= $row1['current_price']?></a></h4>   
+                    <h4>Current Price ($): <a contenteditable="true" id="price"><?= $row1['current_price']?></a><p id="api_return">!!</p></h4>   
                     
                    
                   <!--<div style="clear:both"></div>-->
@@ -150,7 +150,7 @@
                           <td><h4>Analysis Price: <a contenteditable="true" id="analysisPrice"><?= $row1['analysis_price'] ?></a></h4></td>                       
                         </tr>
                         <tr>
-                          <td><h4>VariationL:</h4></td> 
+                          <td id="varL"><h4>VariationL:</h4></td> 
                           <td><h4></h4></td>
                           <td><h4></h4></td>
                           <td><h4>Variation1: <a contenteditable="true" id="LTarget"><?= $row1['variation'] ?></a></h4></td>
@@ -210,23 +210,45 @@
         <script src="save.js"></script>
         <script>
           // API call to get the current stock price
-            var symbol=$("#mysymbol").text()
+            var symbol=$("#mysymbol").text();
             
             var firstPriceTarget=$("#PTarget").text()
-            $.get(`https://api.iextrading.com/1.0/stock/${symbol}/price`, function (data1){
-                    $("#price").text(" "+(Math.round(data1*100)/100).toFixed(2));
-                    $("#upside").text(Math.round((firstPriceTarget/data1-1)*100)+"%");
-                  })
-                     
+            /*$.get(`https://api.iextrading.com/1.0/stock/${symbol}/quote`, function (data1){
+                    $("#price").text(" "+(Math.round(data1[`latestPrice`]*100)/100).toFixed(2));
+                    $("#upside").text(Math.round((firstPriceTarget/data1[`latestPrice`]-1)*100)+"%");
+                    $("#delay").text(data1[`latestSource`]);
+                  });*/
+            $.ajax({// initial rendering of Symbol page with data from API
+                    url: `https://api.iextrading.com/1.0/stock/${symbol}/quote`,
+                    type: 'GET',
+                    success: function(data1){
+                            $("#price").text(" "+(Math.round(data1[`latestPrice`]*100)/100).toFixed(2));
+                            $("#upside").text(Math.round((firstPriceTarget/data1[`latestPrice`]-1)*100)+"%");
+                            $("#varL").text(Math.round(((data1[`current_price`]/<?=$row1[`last_price`]?>-1)*100)+"%");
+                            $("#delay").text(data1[`latestSource`]);
+                            $("#api_return").hide();
+                                },
+                    error: function() {
+                            console.log("api fail");
+                            $("#api_return").show();
+                            },
+                                dataType:"json"
+                                });         
             $.get(`https://api.iextrading.com/1.0/stock/${symbol}/stats`, function (data){
               $("#mktCap").text((+data["marketcap"]/1000000).toFixed(2)+"M");
-                });
+                }); 
+                
+                //refreshes the page every TT using the API.
             setInterval(function(){ 
-              $.get(`https://api.iextrading.com/1.0/stock/${symbol}/price`, function (data){
-                    $("#price").text(" "+Math.round(data*100)/100).toFixed(2));
-                    $("#upside").text(Math.round((firstPriceTarget/data-1)*100)+"%")
-                    }) 
+              $.get(`https://api.iextrading.com/1.0/stock/${symbol}/quote`, function (data1){
+                    $("#price").text(" "+(Math.round(data1[`latestPrice`]*100)/100).toFixed(2));
+                    $("#upside").text(Math.round((firstPriceTarget/data1[`latestPrice`]-1)*100)+"%");
+                    $("#varL").text(Math.round((data1[`current_price`]/<?=$row1[`last_price`]?>-1)*100)+"%");
+                    $("#delay").text(data1[`latestSource`]);
+                  }); 
               }, 60000);
+              
+              
               // $("#clear").on("click",function(){
               //   $("#userComment").val("");
               // })
