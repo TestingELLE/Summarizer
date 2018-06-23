@@ -84,7 +84,7 @@
             } 
           mysqli_select_db($con,"pupone_Summarizer");
           /*if($result = mysqli_query($con,"SELECT symbol, current_price, analysis_date, 1st_price_target, 1st_price_target / current_price - 1 AS 1st_upside, rank, target_weight,actual_weight,weight_difference,next_earnings FROM main_table"))*/
-          if($result = mysqli_query($con,"SELECT symbol, current_price, 1st_price_target, 1st_price_target / current_price - 1 AS 1st_upside, 2nd_price_target, 2nd_price_target / current_price - 1 AS 2nd_upside, last_price, current_price - last_price AS variationL, actual_weight, target_weight, actual_weight - target_weight AS weight_difference, next_earnings FROM main_table"))
+          if($result = mysqli_query($con,"SELECT symbol, current_price, 1st_price_target, 1st_price_target / current_price - 1 AS 1st_upside, 2nd_price_target, 2nd_price_target / current_price - 1 AS 2nd_upside, last_price, current_price - last_price AS variationL, actual_weight, target_weight, actual_weight - target_weight AS weight_difference, next_earnings FROM main_table where status = 'active';"))
           {
               /* pull data from database and insert into data table. */
               while($row = mysqli_fetch_array($result))
@@ -145,8 +145,8 @@
 </div>
 <?php $_SESSION["selected_symbol"]=$_POST["symbol"] ?>
 <footer style="text-align:center">
-  <p>working prototype 1.1.3</p>
-  <p>Date Released: 2018-06-19</p>
+  <p>working prototype 1.1.3L</p>
+  <p>Date Released: 2018-06-23</p>
   <nav>
   <a href="SummarizerLogin.html">Login</a>
   <a href="SummarizerStock.html">Stock</a>
