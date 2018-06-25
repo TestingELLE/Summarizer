@@ -108,7 +108,7 @@
                   ?>
                     <h4 id="delay"></h4>
                     <ul>
-                        <li><h4>Active: <a contenteditable="true" id="active"><?= $row1['active'] ?></a></h4></li>
+                        <li><h4><a contenteditable="true" id="status"><?= $row1['status'] ?></a></h4></li>
                         <li><h4>Penny Stock: <a contenteditable="true" id="PStock"><?= $row1['penny_stock'] ?></a></h4><h4>Cash: <a contenteditable="true" id="cash"><?= $row1['cash'] ?></a></h4><h4>Burn: <a contenteditable="true" id="burn"><?=$row1['burn'] ?></a></h4></li>
                         <li><h4>Biotech: <a contenteditable="true" id="biotech"><?= $row1['biotech'] ?></a></h4></li>         
                     </ul>
@@ -144,16 +144,15 @@
                           <td><h4>Analysis Date: <a contenteditable="true" id="AnalysisDate"><?= $row1['analysis_date'] ?></a></h4></td>
                         </tr>
                         <tr>
-                          <td><h4>Last Price:</h4></td>
+                            <td><h4>Last Price:<a style="width:60px; background-color:yellow" contenteditable="true" id="LPrice"><?= $row1['last_price'] ?></a></h4></td>
                            <td><h4>Confidence: <a contenteditable="true" id="confidence"><?= $row1['confidence'] ?></a></h4></td> 
                           <td><h4>Intern:<a id="intern" contenteditable="true"><?= $row1['intern'] ?></a></h4></td>
                           <td><h4>Analysis Price: <a contenteditable="true" id="analysisPrice"><?= $row1['analysis_price'] ?></a></h4></td>                       
                         </tr>
                         <tr>
-                          <td id="varL"><h4>VariationL:</h4></td> 
+                          <td><h4>VariationL:<a contenteditable="true" id="varL"><?= $row1['confidence'] ?></a></h4></td> 
                           <td><h4></h4></td>
-                          <td><h4></h4></td>
-                          <td><h4>Actual Position:<a id="APosition" contenteditable="true"><?= $row1['actual_position'] ?></a></h4></td>
+                          <td><h4><!--Actual Position:<a id="APosition" contenteditable="true"><?= $row1['actual_position'] ?></a>--></h4></td>
                           <td><h4>Variation1: <a contenteditable="true" id="LTarget"><?= $row1['variation1'] ?></a></h4></td>
                             
                         </tr>
@@ -214,24 +213,22 @@
             var symbol=$("#mysymbol").text();
             
             var firstPriceTarget=$("#PTarget").text()
-            /*$.get(`https://api.iextrading.com/1.0/stock/${symbol}/quote`, function (data1){
-                    $("#price").text(" "+(Math.round(data1[`latestPrice`]*100)/100).toFixed(2));
-                    $("#upside").text(Math.round((firstPriceTarget/data1[`latestPrice`]-1)*100)+"%");
-                    $("#delay").text(data1[`latestSource`]);
-                  });*/
+            var secondPriceTarget=$("#2ndPTarget").text();
+            var lastPrice=$("#LPrice").text();
             $.ajax({// initial rendering of Symbol page with data from API
-                    url: `https://api.iextrading.com/1.0/stock/${symbol}/quote`,
+                    url: `https://api.iextrading.com/1.0/stock/${symbol}/quote`, //GET JSON object from url
                     type: 'GET',
                     success: function(data1){
+                            $.post("Latest_price_into_Main.php",data1);//sends to php page to update sql table with new price
                             $("#price").text(" "+(Math.round(data1[`latestPrice`]*100)/100).toFixed(2));
                             $("#upside").text(Math.round((firstPriceTarget/data1[`latestPrice`]-1)*100)+"%");
-                            $("#varL").text(Math.round(((data1[`current_price`]/<?=$row1[`last_price`]?>-1)*100)+"%");
+                            $("#2ndupside").text(Math.round((secondPriceTarget/data1[`latestPrice`]-1)*100)+"%");
+                            $("#varL").text(Math.round((data1[`latestPrice`]/lastPrice-1)*100)+"%");
                             $("#delay").text(data1[`latestSource`]);
                             $("#api_return").hide();
                                 },
-                    error: function() {
-                            console.log("api fail");
-                            $("#api_return").show();
+                    error: function() {//if no JSON object is returned
+                            $("#api_return").show();  //display html element indicating JSON object did not return
                             },
                                 dataType:"json"
                                 });         
@@ -240,14 +237,26 @@
                 }); 
                 
                 //refreshes the page every TT using the API.
-            setInterval(function(){ 
-              $.get(`https://api.iextrading.com/1.0/stock/${symbol}/quote`, function (data1){
-                    $("#price").text(" "+(Math.round(data1[`latestPrice`]*100)/100).toFixed(2));
-                    $("#upside").text(Math.round((firstPriceTarget/data1[`latestPrice`]-1)*100)+"%");
-                    $("#varL").text(Math.round((data1[`current_price`]/<?=$row1[`last_price`]?>-1)*100)+"%");
-                    $("#delay").text(data1[`latestSource`]);
-                  }); 
-              }, 60000);
+                setInterval(function(){ 
+              $.ajax({// initial rendering of Symbol page with data from API
+                    url: `https://api.iextrading.com/1.0/stock/${symbol}/quote`,
+                    type: 'GET',
+                    success: function(data1){
+                           $.post("Latest_price_into_Main.php",data1);
+                            $("#price").text(" "+(Math.round(data1[`latestPrice`]*100)/100).toFixed(2));
+                            $("#upside").text(Math.round((firstPriceTarget/data1[`latestPrice`]-1)*100)+"%");
+                            $("#2ndupside").text(Math.round((secondPriceTarget/data1[`latestPrice`]-1)*100)+"%");
+                            $("#varL").text(Math.round(((data1[`latestPrice`]/lastPrice)-1)*100)+"%");
+                            $("#delay").text(data1[`latestSource`]);
+                            $("#api_return").hide();
+                                },
+                    error: function() {
+                            $("#api_return").show();
+                            },
+                                dataType:"json"
+                                });          
+              }, 60000);//sets minute interval to repeat ajax methods
+            
               
               
               // $("#clear").on("click",function(){

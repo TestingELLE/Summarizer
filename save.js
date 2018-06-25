@@ -30,7 +30,7 @@ $(document).ready(function() {
             "down": $("#down").text().trim(),
             "PStock": $("#PStock").text().trim(),
             "biotech": $("#biotech").text().trim(),
-            "active": $("#active").text().trim(),
+            "status": $("#status").text().trim(),
             "LUpdate": $("#LUpdate").text().trim(),
             "rank": $("#rank").text().trim(),
             "AnalysisDate": $("#AnalysisDate").text().trim(),
@@ -50,6 +50,7 @@ $(document).ready(function() {
             "case": $("#case1").val().trim(),
             "ticket": $("#ticket1").val().trim(),
             "note": $("#note1").html().trim(),
+            "last_price":$("#LPrice").html().trim()
             // "comment": $("#comment1").html().trim()
         }
 
