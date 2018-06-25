@@ -145,8 +145,10 @@
 </div>
 <?php $_SESSION["selected_symbol"]=$_POST["symbol"] ?>
 <footer style="text-align:center">
-  <p>working prototype 1.1.3L</p>
-  <p>Date Released: 2018-06-23</p>
+
+  <p>working prototype 1.1.4</p>
+  <p>Date Released: 2018-06-25</p>
+
   <nav>
   <a href="SummarizerLogin.html">Login</a>
   <a href="SummarizerStock.html">Stock</a>
