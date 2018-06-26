@@ -39,22 +39,26 @@
   <body>
   
     <div style="width:80%;margin-left:auto;margin-right:auto">
-      <nav class="navbar navbar-default navbar-fixed-top">
+      <nav class="navbar navbar-default navbar-fixed-top" style="display:inline" >
         <div class="container"> 
-            <p style="display:inline"> <?= ''.$user.'' ?></p>
-            <!-- <p style="display:inline"> <?php echo ''.$user.'' ?></p>  alternative 1 less compact-->
-            <!--   <?php echo '<p style="display:inline">'.$user.'</p>' ?>  alternative 2 least compact-->
-            
-          <button style="margin-left:40px;display:inline-block" ><a href="logout.php">Log Out</a></button>
+          <!--<p style="display:inline"> <?= ''.$user.'' ?></p>-->
+          <ul style="display:inline-block;float:left;margin-left:-231px;list-style-type: none">
+              <li><?= ''.$user.'' ?></li>
+              <li><?= ''.$type.''?></li>
+          </ul>
+          <button style="margin-left:50px;display:inline-block" ><a href="logout.php">Log Out</a></button>
           <button style="margin-top:5px;display:inline-block"><a href="loader.php">Loader</a></button>
-          <h2 style="text-align:center; margin-top:-29px;">Summarizer</h2>
-         <!-- <p style="margin-top:-23px;"> <?php echo ''.$type.''?></p> -->
-          <p style="margin-top:-23px;"> <?= ''.$type.''?></p> <!-- see above for alternatives -->
+          <h2 style="text-align:center; margin-top:-29px;margin-bottom:0px">Summarizer</h2>
+          
+        <h6 style="margin-left:510px;margin-top:5px;margin-bottom:5px;font-size:xx-small">working prototype 1.1.5</h6>
+        <h6 style="margin-left:500px;margin-top:5px;margin-bottom:5px;font-size:xx-small">Date Released: 2018-06-26</h6>
+
+          <!--<p style="margin-top:-23px;"> <?= ''.$type.''?></p>-->
     
         </div>
       </nav>
   
-    <p style="text-align:center; margin-top:58px">List of active securities</p>
+    <p style="text-align:center; margin-top:73px; margin-left:-10px">List of active securities</p>
     
     <table style="margin-right:10%" id="SummarizerTable" class="table table-striped">
       <thead>
@@ -145,9 +149,6 @@
 </div>
 <?php $_SESSION["selected_symbol"]=$_POST["symbol"] ?>
 <footer style="text-align:center">
-
-  <p>working prototype 1.1.4</p>
-  <p>Date Released: 2018-06-25</p>
 
   <nav>
   <a href="SummarizerLogin.html">Login</a>
