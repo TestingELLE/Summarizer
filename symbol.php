@@ -112,7 +112,7 @@
                         <li><h4>Penny Stock: <a contenteditable="true" id="PStock"><?= $row1['penny_stock'] ?></a></h4><h4>Cash: <a contenteditable="true" id="cash"><?= $row1['cash'] ?></a></h4><h4>Burn: <a contenteditable="true" id="burn"><?=$row1['burn'] ?></a></h4></li>
                         <li><h4>Biotech: <a contenteditable="true" id="biotech"><?= $row1['biotech'] ?></a></h4></li>         
                     </ul>
-                    <h2 id="mysymbol"><a href="https://seekingalpha.com/symbol/<?=$row1['symbol']?>/chart" onclick="javascript:void window.open(`https://seekingalpha.com/symbol/'.$row1['symbol'].'/chart`,`1520620719413`,`width=920,height=1200,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=200px,top=100px`);return false;"><span id="link" class="glyphicon glyphicon-picture" aria-hidden="true"></span></a><?= $row1['symbol'] ?></h2>
+                    <h2 id="mysymbol"><a href="https://seekingalpha.com/symbol/<?=$row1['symbol']?>/chart" onclick="javascript:void window.open(`https://seekingalpha.com/symbol/`<?$row1['symbol']?>`/chart`,`1520620719413`,`width=920,height=1200,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=200px,top=100px`);return false;"><span id="link" class="glyphicon glyphicon-picture" aria-hidden="true"></span></a><?= $row1['symbol'] ?></h2>
                     
                     <h4 class="stock_title"><a contenteditable="true" id="mktCap"><?= $row1['market_cap'] ?></a></h4>
                     
@@ -144,7 +144,7 @@
                           <td><h4>Analysis Date: <a contenteditable="true" id="AnalysisDate"><?= $row1['analysis_date'] ?></a></h4></td>
                         </tr>
                         <tr>
-                            <td><h4>Last Price:<a style="width:60px; background-color:yellow" contenteditable="true" id="LPrice"><?= $row1['last_price'] ?></a></h4></td>
+                            <td><h4>Last Price:<a style="width:60px" contenteditable="true" id="LPrice"><?= $row1['last_price'] ?></a></h4></td>
                            <td><h4>Confidence: <a contenteditable="true" id="confidence"><?= $row1['confidence'] ?></a></h4></td> 
                           <td><h4>Intern:<a id="intern" contenteditable="true"><?= $row1['intern'] ?></a></h4></td>
                           <td><h4>Analysis Price: <a contenteditable="true" id="analysisPrice"><?= $row1['analysis_price'] ?></a></h4></td>                       
@@ -152,7 +152,7 @@
                         <tr>
                           <td><h4>VariationL:<a contenteditable="true" id="varL"><?= $row1['confidence'] ?></a></h4></td> 
                           <td><h4></h4></td>
-                          <td><h4><!--Actual Position:<a id="APosition" contenteditable="true"><?= $row1['actual_position'] ?></a>--></h4></td>
+                          <td><h4></h4></td>
                           <td><h4>Variation1: <a contenteditable="true" id="LTarget"><?= $row1['variation1'] ?></a></h4></td>
                             
                         </tr>
@@ -235,7 +235,6 @@
             $.get(`https://api.iextrading.com/1.0/stock/${symbol}/stats`, function (data){
               $("#mktCap").text((+data["marketcap"]/1000000).toFixed(2)+"M");
                 }); 
-                
                 //refreshes the page every TT using the API.
                 setInterval(function(){ 
               $.ajax({// initial rendering of Symbol page with data from API
