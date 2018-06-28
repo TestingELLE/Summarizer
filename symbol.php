@@ -106,7 +106,6 @@
                 while($row1 = mysqli_fetch_array($result2))
                 {
                   ?>
-                    <h4 id="delay"></h4>
                     <ul>
                         <li><h4><a contenteditable="true" id="status"><?= $row1['status'] ?></a></h4></li>
                         <li><h4>Penny Stock: <a contenteditable="true" id="PStock"><?= $row1['penny_stock'] ?></a></h4><h4>Cash: <a contenteditable="true" id="cash"><?= $row1['cash'] ?></a></h4><h4>Burn: <a contenteditable="true" id="burn"><?=$row1['burn'] ?></a></h4></li>
@@ -134,7 +133,7 @@
                         <tr>
                           <td><h4>1st Upside: <a contenteditable="true" id="upside"><?= $row1['1st_upside'] ?></a></h4></td>
                           <td><h4>2nd Price Target : <a contenteditable="true" id="2ndPTarget"><?= $row1['2nd_price_target'] ?></a></h4></td>
-                          <td><h4>Actual Weight: <a contenteditable="true" id="actualWeight"><?=$row1['actual_weight'] ?></a></h4></td>
+                          <td><h4>Actual Weight: <a contenteditable="true" id="actualWeight"><?=$row1['actual_weight'] ?>%</a></h4></td>
                           <td><h4>Last Earnings Date: <a id="LDate" contenteditable="true"><?= $row1['last_earnings'] ?></a></h4></td>
                         </tr>
                         <tr>
@@ -150,10 +149,10 @@
                           <td><h4>Analysis Price: <a contenteditable="true" id="analysisPrice"><?= $row1['analysis_price'] ?></a></h4></td>                       
                         </tr>
                         <tr>
-                          <td><h4>VariationL:<a contenteditable="true" id="varL"><?= $row1['confidence'] ?></a></h4></td> 
+                          <td><h4>VariationL:<a contenteditable="true" id="varL"></a></h4></td> 
+                          <td><h4>Rank: <a contenteditable="true" id="rank"><?= $row1['rank'] ?></a></h4></td>
                           <td><h4></h4></td>
-                          <td><h4></h4></td>
-                          <td><h4>Variation1: <a contenteditable="true" id="LTarget"><?= $row1['variation1'] ?></a></h4></td>
+                          <td><h4>Variation1: <a contenteditable="true" id="LTarget"><?= $row1['variation1'] ?>%</a></h4></td>
                             
                         </tr>
                       </tbody>
@@ -215,6 +214,7 @@
             var firstPriceTarget=$("#PTarget").text()
             var secondPriceTarget=$("#2ndPTarget").text();
             var lastPrice=$("#LPrice").text();
+            console.log(lastPrice + typeof(lastPrice));
             $.ajax({// initial rendering of Symbol page with data from API
                     url: `https://api.iextrading.com/1.0/stock/${symbol}/quote`, //GET JSON object from url
                     type: 'GET',
@@ -223,8 +223,14 @@
                             $("#price").text(" "+(Math.round(data1[`latestPrice`]*100)/100).toFixed(2));
                             $("#upside").text(Math.round((firstPriceTarget/data1[`latestPrice`]-1)*100)+"%");
                             $("#2ndupside").text(Math.round((secondPriceTarget/data1[`latestPrice`]-1)*100)+"%");
-                            $("#varL").text(Math.round((data1[`latestPrice`]/lastPrice-1)*100)+"%");
-                            $("#delay").text(data1[`latestSource`]);
+                           if((lastPrice==="")||(lastPrice<=0))
+                            {
+                                 $("#varL").text("");
+                            }
+                            else{
+                               
+                                $("#varL").text(Math.round((data1[`latestPrice`]/lastPrice-1)*100)+"%"); 
+                            }
                             $("#api_return").hide();
                                 },
                     error: function() {//if no JSON object is returned
@@ -245,8 +251,14 @@
                             $("#price").text(" "+(Math.round(data1[`latestPrice`]*100)/100).toFixed(2));
                             $("#upside").text(Math.round((firstPriceTarget/data1[`latestPrice`]-1)*100)+"%");
                             $("#2ndupside").text(Math.round((secondPriceTarget/data1[`latestPrice`]-1)*100)+"%");
-                            $("#varL").text(Math.round(((data1[`latestPrice`]/lastPrice)-1)*100)+"%");
-                            $("#delay").text(data1[`latestSource`]);
+                            if((lastPrice==="")||(lastPrice<=0))
+                            {
+                                 $("#varL").text("");
+                            }
+                            else{
+                               
+                                $("#varL").text(Math.round((data1[`latestPrice`]/lastPrice-1)*100)+"%"); 
+                            }
                             $("#api_return").hide();
                                 },
                     error: function() {
