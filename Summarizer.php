@@ -42,25 +42,34 @@
       <nav class="navbar navbar-default navbar-fixed-top" style="display:inline" >
         <div class="container"> 
           <!--<p style="display:inline"> <?= ''.$user.'' ?></p>-->
-          <ul style="display:inline-block;float:left;margin-left:-231px;list-style-type: none">
+          <ul style="display:inline-block;float:left;margin-left:-231px;list-style-type: none;margin-left:-5px">
               <li><?= ''.$user.'' ?></li>
               <li><?= ''.$type.''?></li>
           </ul>
           <button style="margin-left:50px;display:inline-block" ><a href="logout.php">Log Out</a></button>
           <button style="margin-top:5px;display:inline-block"><a href="loader.php">Loader</a></button>
-          <h2 style="text-align:center; margin-top:-29px;margin-bottom:0px">Summarizer</h2>
+          <h2 style="text-align:center; margin-top:-29px;margin-bottom:0px;width:991px">Summarizer</h2>
           
-        <h6 style="margin-left:510px;margin-top:5px;margin-bottom:5px;font-size:xx-small">working prototype 1.1.5</h6>
-        <h6 style="margin-left:500px;margin-top:5px;margin-bottom:5px;font-size:xx-small">Date Released: 2018-06-26</h6>
+        <h6 style="margin-left:510px;margin-top:2px;margin-bottom:2px;font-size:xx-small">working prototype 1.1.4a</h6>
+        <h6 style="margin-left:500px;margin-top:2px;margin-bottom:8px;font-size:xx-small">Date Released: 2018-06-26</h6>
 
           <!--<p style="margin-top:-23px;"> <?= ''.$type.''?></p>-->
-    
         </div>
+          <form style="float:right;margin-right:20px;margin-top:-59px;padding:0px">
+            <ul style="padding:0px;list-style-type: none">
+            <li style="padding:0px"><input type="radio" value="active" checked="checked" name="active">
+            <label for="active">Active</label>&nbsp;&nbsp;<input type="radio" value="X" name="X">
+            <label for="X">X</label></li>
+             <li style="padding:0px"><input type="radio" value="watch" name="watch">
+            <label for="watch">Watch</label>&nbsp;&nbsp;<input type="radio" value="all" name="all">
+            <label for="all">All</label></li>
+            </ul>
+        </form>
       </nav>
   
-    <p style="text-align:center; margin-top:73px; margin-left:-10px">List of active securities</p>
+    <p style="text-align:center; margin-top:90px; margin-left:-37px"></p><!-- For some reason removing this element makes the search box disappear-->
     
-    <table style="margin-right:10%" id="SummarizerTable" class="table table-striped">
+    <table style="margin-right:10%;margin-left:-50px" id="SummarizerTable" class="table table-striped">
       <thead>
         <tr>
           <th>Symbol</th>
@@ -111,29 +120,90 @@
                           <td id="<?= $row['symbol']?>" style = "text-align: center"><?= $row['current_price']?></div></td>
                           <td id="pt<?= $row['symbol']?>" style = "text-align: center"><?= $row['1st_price_target']?></td>
                           <td id="upside<?= $row['symbol']?>" style = "text-align: center"><?= $row['1st_upside']?></td>
-                          <td><div style ="text-align: center"> <?= $row['2nd_price_target']?></div></td>
-                          <td><div style ="text-align: center"> <?= $row['2nd_upside']?>%</div></td>
-                          <td><div style = "text-align: center"><?= $row['last_price']?></div></td>
-                          <td><div style ="text-align: center"> <?= $row['variationL']?></div></td>
+                          <td><div id="2ndPT<?= $row['symbol']?>" style ="text-align: center"> <?= $row['2nd_price_target']?></div></td>
+                          <td id="2ndupside<?= $row['symbol']?>"><div style ="text-align: center"> <?= $row['2nd_upside']?></div></td>
+                          <td><div id="LPrice<?=$row['symbol']?>" style = "text-align: center"><?= $row['last_price']?></div></td>
+                          <td id="varL"><div id="varL<?=$row['symbol']?>" style ="text-align: center"> <?= $row['variationL']?></div></td>
                           <td><div style = "text-align: center"><?= $row['target_weight']?>%</div></td>
                           <td><div style = "text-align: center"><?= $row['actual_weight']?>%</div></td>
                           <td><div style = "text-align: center"><?= $row['weight_difference']?>%</div></td>
                           <td><div style = "text-align: center"><?= $row['next_earnings']?></div></td>
                         </tr>
                        <script>
-                           
-                          $.get(`https://api.iextrading.com/1.0/stock/<?= $row['symbol'] ?>/price`, function (data){
+                          /*$.get(`https://api.iextrading.com/1.0/stock/<?= $row['symbol'] ?>/price`, function (data){
                               $("#<?=$row['symbol']?>").text(" "+(Math.round(data*100)/100).toFixed(2));
-                            var firstPriceTarget=$("#pt<?= $row['symbol'] ?>").text()
-                            $("#upside<?= $row['symbol'] ?>").text(Math.round((firstPriceTarget/data-1)*100)+"%")
-                          }) 
-                         setInterval(function(){ 
+                            var firstPriceTarget=$("#pt<?= $row['symbol'] ?>").text();
+                            $("#upside<?=$row['symbol']?>").text(Math.round((firstPriceTarget/data-1)*100)+"%");
+                             var secondPriceTarget=$("#2ndPT<?= $row['symbol']?>").text();
+                             $("#2ndupside<?= $row['symbol']?>").text(Math.round((secondPriceTarget/data-1)*100)+"%");
+                             var lastPrice=$("#LPrice<?=$row['symbol']?>").text();
+                             $("#varL<?=$row['symbol']?>").text(Math.round((data/lastPrice-1)*100)+"%");
+                            console.log(lastPrice);
+                          });*/
+                           $.ajax({// initial rendering of Symbol page with data from API
+                    url: `https://api.iextrading.com/1.0/stock/<?= $row['symbol'] ?>/price`, //GET JSON object from url
+                    type: 'GET',
+                    success: function(data){
+                            //$.post("Latest_price_into_Main.php",data);//sends to php page to update sql table with new price
+                             $("#<?=$row['symbol']?>").text(" "+(Math.round(data*100)/100).toFixed(2));
+                            var firstPriceTarget=$("#pt<?= $row['symbol'] ?>").text();
+                            $("#upside<?=$row['symbol']?>").text(Math.round((firstPriceTarget/data-1)*100)+"%");
+                             var secondPriceTarget=$("#2ndPT<?= $row['symbol']?>").text();
+                             $("#2ndupside<?= $row['symbol']?>").text(Math.round((secondPriceTarget/data-1)*100)+"%");
+                             var lastPrice=$("#LPrice<?=$row['symbol']?>").text();
+                             if((lastPrice==="")||(lastPrice<=0))
+                            {
+                                 $("#varL<?=$row['symbol']?>").text("");
+                            }
+                            else{
+                               
+                                $("#varL<?=$row['symbol']?>").text(Math.round((data/lastPrice-1)*100)+"%"); 
+                            }
+            
+                                },
+                    error: function() {//if no JSON object is returned
+                           console.log("****************");  //display html element indicating JSON object did not return
+                            }
+                                });
+                        setInterval(function(){ 
+                             $.ajax({// initial rendering of Symbol page with data from API
+                    url: `https://api.iextrading.com/1.0/stock/<?= $row['symbol'] ?>/price`, //GET JSON object from url
+                    type: 'GET',
+                    success: function(data){
+                            //$.post("Latest_price_into_Main.php",data);//sends to php page to update sql table with new price
+                             $("#<?=$row['symbol']?>").text(" "+(Math.round(data*100)/100).toFixed(2));
+                            var firstPriceTarget=$("#pt<?= $row['symbol'] ?>").text();
+                            $("#upside<?=$row['symbol']?>").text(Math.round((firstPriceTarget/data-1)*100)+"%");
+                             var secondPriceTarget=$("#2ndPT<?= $row['symbol']?>").text();
+                             $("#2ndupside<?= $row['symbol']?>").text(Math.round((secondPriceTarget/data-1)*100)+"%");
+                             var lastPrice=$("#LPrice<?=$row['symbol']?>").text();
+                             //$("#varL<?=$row['symbol']?>").text(Math.round((data/lastPrice-1)*100)+"%");
+                             if((lastPrice==="")||(lastPrice<=0))
+                            {
+                                 $("#varL<?=$row['symbol']?>").text("");
+                            }
+                            else{
+                               
+                                $("#varL<?=$row['symbol']?>").text(Math.round((data/lastPrice-1)*100)+"%"); 
+                            }
+                            
+                                },
+                    error: function() {//if no JSON object is returned
+                           console.log("****************");  //display html element indicating JSON object did not return
+                            }
+                                }); 
+                              }, 60000);
+                         /*setInterval(function(){ 
                               $.get(`https://api.iextrading.com/1.0/stock/<?= $row['symbol']?> /price`, function (data){
                              $("#<?=$row['symbol']?>").text(" "+(Math.round(data*100)/100).toFixed(2));
-                                    var firstPriceTarget=$("#pt<?= $row['symbol'] ?>").text()
-                                $("#upside<?= $row['symbol'] ?>").text(Math.round((firstPriceTarget/data-1)*100)+"%")
+                                    var firstPriceTarget=$("#pt<?= $row['symbol'] ?>").text();
+                                $("#upside<?= $row['symbol'] ?>").text(Math.round((firstPriceTarget/data-1)*100)+"%");
+                                 var secondPriceTarget=$("#2ndPT<?= $row['symbol']?>").text();
+                             $("#2ndupside<?= $row['symbol']?>").text(Math.round((secondPriceTarget/data-1)*100)+"%");
+                             var lastPrice=$("#LPrice<?=$row['symbol']?>").text();
+                             $("#varL<?=$row['symbol']?>").text(Math.round((data/lastPrice-1)*100)+"%");
                                     }); 
-                              }, 60000);
+                              }, 60000);*/
                         </script> 
                        <?php
                      
@@ -162,11 +232,12 @@ $(document).ready(function() {
 $('#SummarizerTable').DataTable({
     paging: false
 });
+});
 $(document).on("click", ".name", function() {
     var mySymbol = $(this).text();  
     window.location.href = 'symbol.php?name='+mySymbol; 
 });
-})
+
 </script>
 </body>
 </html>
