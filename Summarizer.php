@@ -42,7 +42,7 @@
       <nav class="navbar navbar-default navbar-fixed-top" style="display:inline" >
         <div class="container"> 
           <!--<p style="display:inline"> <?= ''.$user.'' ?></p>-->
-          <ul style="display:inline-block;float:left;margin-left:-231px;list-style-type: none;margin-left:-5px">
+          <ul style="display:inline-block;float:left;margin-left:-231px;list-style-type: none;margin-left:-50px">
               <li><?= ''.$user.'' ?></li>
               <li><?= ''.$type.''?></li>
           </ul>
