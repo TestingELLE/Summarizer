@@ -48,10 +48,10 @@
           </ul>
           <button style="margin-left:50px;display:inline-block" ><a href="logout.php">Log Out</a></button>
           <button style="margin-top:5px;display:inline-block"><a href="loader.php">Loader</a></button>
-          <h2 style="text-align:center; margin-top:-29px;margin-bottom:0px;width:991px">Summarizer</h2>
+          <h2 style="text-align:center; margin-top:-29px;margin-left:55px;margin-bottom:0px;width:991px">Summarizer</h2>
           
-        <h6 style="margin-left:510px;margin-top:2px;margin-bottom:2px;font-size:xx-small">working prototype 1.1.4a</h6>
-        <h6 style="margin-left:500px;margin-top:2px;margin-bottom:8px;font-size:xx-small">Date Released: 2018-06-26</h6>
+        <h6 style="margin-left:510px;margin-top:2px;margin-bottom:2px;font-size:xx-small">working prototype 1.1.5a</h6>
+        <h6 style="margin-left:500px;margin-top:2px;margin-bottom:8px;font-size:xx-small">Date Released: 2018-06-28</h6>
 
           <!--<p style="margin-top:-23px;"> <?= ''.$type.''?></p>-->
         </div>
@@ -162,7 +162,7 @@
             
                                 },
                     error: function() {//if no JSON object is returned
-                           console.log("****************");  //display html element indicating JSON object did not return
+                           //does nothing so that only data from sql table remains
                             }
                                 });
                         setInterval(function(){ 
@@ -177,7 +177,6 @@
                              var secondPriceTarget=$("#2ndPT<?= $row['symbol']?>").text();
                              $("#2ndupside<?= $row['symbol']?>").text(Math.round((secondPriceTarget/data-1)*100)+"%");
                              var lastPrice=$("#LPrice<?=$row['symbol']?>").text();
-                             //$("#varL<?=$row['symbol']?>").text(Math.round((data/lastPrice-1)*100)+"%");
                              if((lastPrice==="")||(lastPrice<=0))
                             {
                                  $("#varL<?=$row['symbol']?>").text("");
@@ -189,7 +188,7 @@
                             
                                 },
                     error: function() {//if no JSON object is returned
-                           console.log("****************");  //display html element indicating JSON object did not return
+                           //does nothing so that only data from sql table remains
                             }
                                 }); 
                               }, 60000);
