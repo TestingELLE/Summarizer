@@ -233,8 +233,8 @@ $('#SummarizerTable').DataTable({
 });
 });
 $(document).on("click", ".name", function() {
-    var mySymbol = $(this).text();  
-    window.location.href = 'symbol.php?name='+mySymbol; 
+    var Symbol = $(this).text();  
+    window.location.href = 'symbol.php?name='+Symbol; 
 });
 
 </script>

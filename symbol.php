@@ -128,7 +128,7 @@
                          <td><h4>1st Price Target : <a contenteditable="true" id="PTarget"><?= $row1['1st_price_target'] ?></a></h4></td>
                            <td><h4>Down Risk: <a contenteditable="true" id="down"><?= $row1['downside_risk'] ?></a></h4></td>
                           <td><h4>Target Weight: <a contenteditable="true" id="Tweight"><?= $row1['target_weight'] ?></a></h4></td>
-                          <td><h4>Next Earnings: <a contenteditable="true" id="NEarnings"><?= $row1['next_earnings'] ?></a></h4></td>
+                          <td><h4>Next Earnings: <a contenteditable="true" id="next_earnings"><?= $row1['next_earnings'] ?></a></h4></td>
                         </tr>
                         <tr>
                           <td><h4>1st Upside: <a contenteditable="true" id="upside"><?= $row1['1st_upside'] ?></a></h4></td>
@@ -143,7 +143,7 @@
                           <td><h4>Analysis Date: <a contenteditable="true" id="AnalysisDate"><?= $row1['analysis_date'] ?></a></h4></td>
                         </tr>
                         <tr>
-                            <td><h4>Last Price:<a style="width:60px" contenteditable="true" id="LPrice"><?= $row1['last_price'] ?></a></h4></td>
+                            <td><h4>Last Price:<a style="width:60px" contenteditable="true" id="last_price"><?= $row1['last_price'] ?></a></h4></td>
                            <td><h4>Confidence: <a contenteditable="true" id="confidence"><?= $row1['confidence'] ?></a></h4></td> 
                           <td><h4>Intern:<a id="intern" contenteditable="true"><?= $row1['intern'] ?></a></h4></td>
                           <td><h4>Analysis Price: <a contenteditable="true" id="analysisPrice"><?= $row1['analysis_price'] ?></a></h4></td>                       
@@ -213,8 +213,8 @@
             
             var firstPriceTarget=$("#PTarget").text()
             var secondPriceTarget=$("#2ndPTarget").text();
-            var lastPrice=$("#LPrice").text();
-            console.log(lastPrice + typeof(lastPrice));
+            var last_price=$("#last_price").text();
+            console.log(last_price + typeof(last_price));
             $.ajax({// initial rendering of Symbol page with data from API
                     url: `https://api.iextrading.com/1.0/stock/${symbol}/quote`, //GET JSON object from url
                     type: 'GET',
@@ -223,13 +223,13 @@
                             $("#price").text(" "+(Math.round(data1[`latestPrice`]*100)/100).toFixed(2));
                             $("#upside").text(Math.round((firstPriceTarget/data1[`latestPrice`]-1)*100)+"%");
                             $("#2ndupside").text(Math.round((secondPriceTarget/data1[`latestPrice`]-1)*100)+"%");
-                           if((lastPrice==="")||(lastPrice<=0))
+                           if((last_price==="")||(last_price<=0))
                             {
                                  $("#varL").text("");
                             }
                             else{
                                
-                                $("#varL").text(Math.round((data1[`latestPrice`]/lastPrice-1)*100)+"%"); 
+                                $("#varL").text(Math.round((data1[`latestPrice`]/last_price-1)*100)+"%"); 
                             }
                             $("#api_return").hide();
                                 },
@@ -251,13 +251,13 @@
                             $("#price").text(" "+(Math.round(data1[`latestPrice`]*100)/100).toFixed(2));
                             $("#upside").text(Math.round((firstPriceTarget/data1[`latestPrice`]-1)*100)+"%");
                             $("#2ndupside").text(Math.round((secondPriceTarget/data1[`latestPrice`]-1)*100)+"%");
-                            if((lastPrice==="")||(lastPrice<=0))
+                            if((last_price==="")||(last_price<=0))
                             {
                                  $("#varL").text("");
                             }
                             else{
                                
-                                $("#varL").text(Math.round((data1[`latestPrice`]/lastPrice-1)*100)+"%"); 
+                                $("#varL").text(Math.round((data1[`latestPrice`]/last_price-1)*100)+"%"); 
                             }
                             $("#api_return").hide();
                                 },

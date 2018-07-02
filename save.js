@@ -15,12 +15,12 @@ $(document).ready(function() {
         // var divv2 = document.getElementById("comment1");
         // divv2.innerHTML = divv2.innerHTML.replace(/<div>/ig, "<br>").replace(/<\/div>/ig, "");
         var newData = {
-            "symbol": $("#mysymbol").text().trim(),
+            "symbol": $("#symbol").text().trim(),
             "price": $("#price").text().trim(),
             "intern": $("#intern").text().trim(),
             "LDate": $("#LDate").text().trim(),
             "mktCap": $("#mktCap").text().trim(),
-            "NDate": $("#NDate").text().trim(),
+            "next_earnings": $("#next_earnings").text().trim(),
             "PTarget": $("#PTarget").text().trim(),
             "LTarget": $("#LTarget").text().trim(),
             "industry": $("#industry").text().trim(),
@@ -50,7 +50,7 @@ $(document).ready(function() {
             "case": $("#case1").val().trim(),
             "ticket": $("#ticket1").val().trim(),
             "note": $("#note1").html().trim(),
-            "last_price":$("#LPrice").html().trim()
+            "last_price":$("#last_price").html().trim()
             // "comment": $("#comment1").html().trim()
         }
 
