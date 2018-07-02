@@ -50,8 +50,8 @@
           <button style="margin-top:5px;display:inline-block"><a href="loader.php">Loader</a></button>
           <h2 style="text-align:center; margin-top:-29px;margin-left:55px;margin-bottom:0px;width:991px">Summarizer</h2>
           
-        <h6 style="margin-left:510px;margin-top:2px;margin-bottom:2px;font-size:xx-small">working prototype 1.1.5a</h6>
-        <h6 style="margin-left:500px;margin-top:2px;margin-bottom:8px;font-size:xx-small">Date Released: 2018-06-28</h6>
+        <h6 style="margin-left:510px;margin-top:2px;margin-bottom:2px;font-size:xx-small">working prototype 1.1.6</h6>
+        <h6 style="margin-left:500px;margin-top:2px;margin-bottom:8px;font-size:xx-small">Date Released: 2018-07-02</h6>
 
           <!--<p style="margin-top:-23px;"> <?= ''.$type.''?></p>-->
         </div>

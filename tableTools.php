@@ -242,7 +242,7 @@
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=temp_main_table_'.$date.'.csv');
         $output = fopen('php://output', 'w');
-        fputcsv($output, array("symbol", "industry", "sub_industry", "market_cap", "current_price", "biotech", "penny_stock", "active", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation1", "1st_price_target", "1st_upside", "2nd_price_target", "2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update","last_price", "variationL", "id"));
+        fputcsv($output, array("symbol", "industry", "sub_industry", "market_cap", "current_price", "pharma", "biotech", "penny_stock", "status", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation1", "1st_price_target", "1st_upside", "2nd_price_target", "2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update","last_price", "variationL","variationD","id"));
         if (count($users) > 0) {
             foreach ($users as $row) {
                 if(!empty($row)){
@@ -528,7 +528,7 @@
         header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=main_table_'.$date.'.csv');
         $output = fopen('php://output', 'w');
-        fputcsv($output, array("symbol", "industry","sub_industry", "market_cap", "current_price", "biotech", "penny_stock", "status", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation1", "1st_price_target", "1st_upside","2nd_price_target","2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update","last_price", "variationL", "id"));
+        fputcsv($output, array("symbol", "industry", "sub_industry", "market_cap", "current_price", "pharma", "biotech", "penny_stock", "status", "catalysts", "last_earnings", "next_earnings", "bo_ah", "intern", "cash", "burn", "related_tickers", "analysis_date", "analysis_price", "variation1", "1st_price_target", "1st_upside", "2nd_price_target", "2nd_upside", "downside_risk", "rank", "confidence", "worst_case", "target_weight", "target_position", "actual_position", "actual_weight", "weight_difference", "strategy", "discussion", "notes", "last_update","last_price", "variationL","variationD","id"));
         if (count($users) > 0) {
             foreach ($users as $row) {
                 if(!empty($row)){
