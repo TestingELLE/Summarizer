@@ -55,7 +55,7 @@
 
 <!-- Latest compiled JavaScript -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
-<link rel="stylesheet" href="symbol_styleSheet.css">
+<link rel="stylesheet" href="symbol.css">
     </head>
     <body>
       <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -111,7 +111,7 @@
                         <li><h4>Penny Stock: <a contenteditable="true" id="PStock"><?= $row1['penny_stock'] ?></a></h4><h4>Cash: <a contenteditable="true" id="cash"><?= $row1['cash'] ?></a></h4><h4>Burn: <a contenteditable="true" id="burn"><?=$row1['burn'] ?></a></h4></li>
                         <li><h4>Biotech: <a contenteditable="true" id="biotech"><?= $row1['biotech'] ?></a></h4></li>         
                     </ul>
-                    <h2 id="mysymbol"><a href="https://seekingalpha.com/symbol/<?=$row1['symbol']?>/chart" onclick="javascript:void window.open(`https://seekingalpha.com/symbol/`<?$row1['symbol']?>`/chart`,`1520620719413`,`width=920,height=1200,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=200px,top=100px`);return false;"><span id="link" class="glyphicon glyphicon-picture" aria-hidden="true"></span></a><?= $row1['symbol'] ?></h2>
+                    <h2 id="symbol"><a href="https://seekingalpha.com/symbol/<?=$row1['symbol']?>/chart" onclick="javascript:void window.open(`https://seekingalpha.com/symbol/`<?$row1['symbol']?>`/chart`,`1520620719413`,`width=920,height=1200,toolbar=0,menubar=0,location=0,status=1,scrollbars=1,resizable=1,left=200px,top=100px`);return false;"><span id="link" class="glyphicon glyphicon-picture" aria-hidden="true"></span></a><?= $row1['symbol'] ?></h2>
                     
                     <h4 class="stock_title"><a contenteditable="true" id="mktCap"><?= $row1['market_cap'] ?></a></h4>
                     
@@ -209,7 +209,7 @@
         <script src="save.js"></script>
         <script>
           // API call to get the current stock price
-            var symbol=$("#mysymbol").text();
+            var symbol=$("#symbol").text();
             
             var firstPriceTarget=$("#PTarget").text()
             var secondPriceTarget=$("#2ndPTarget").text();
