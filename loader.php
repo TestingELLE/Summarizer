@@ -15,6 +15,11 @@
             window.location.href='Summarizer.php';
         </script>";   
     }
+    
+     //TO DO"  if user is Admin, Maintainer or developer show the buttons
+    //if user = viewer hide the buttons -- this functionality should be in loader.php page
+    
+    
     //export error messages during uploading or uploading
     if(isset($_SESSION["break"]) || isset($_SESSION["symbolNotExists"]) || isset($_SESSION["duplicates"])|| isset($_SESSION["colNotExists"])){
         echo '
