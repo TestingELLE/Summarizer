@@ -127,15 +127,17 @@
 </head>
 <body>
     <form name="form" action="tableTools.php" method="POST" enctype="multipart/form-data">
-        <input type="file" name="file" accept=".csv">
-        <input type="submit" name="submit" value="Truncate and load new file">
-        <input type="submit" name="update" value="Update">
+        <input type="file" name="file" accept=".csv">   
+        <input type="submit" name="update" value="Regular Update">
+        <input type="submit" name="flexupdate" value="Flexible Update"> <!-- added Flexible Update button -->
         <input type="submit" name="append" value="Append">
+        <input type="submit" name="download" style="float:right" value="Full Backup">
     </form>
-    <form method="POST" action="tableTools.php">
-        <input type="submit" name="download" value="Download table as CSV file">
+    <form>
+        <form name="form" action="tableTools.php" method="POST" enctype="multipart/form-data">
+         <input type="submit" name="regdownload" style="float:right" value="Regular Download">  <!-- added new button for regular download -->
+         <input type="submit" name="submit" style="float:right" value="Restore from file">
     </form>
-    <hr>
     <button><a href="Summarizer.php">Main Page</a></button>
      
 <?php        
@@ -352,7 +354,7 @@ if($_SESSION['type']=="Admin" || $_SESSION["type"]=="Programmer"){
 
 </body>
 <footer>
-    <center><p>working prototype 1.1.2d</p></center>
-    <center><p>Date Released: 2018-06-02</p></center>
+    <center><p>working prototype 1.1.2e</p></center>
+    <center><p>Date Released: 2018-07-11</p></center>
 </footer>
 </html>
