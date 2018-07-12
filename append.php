@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 /* 
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -50,7 +52,7 @@
                 $createTable="CREATE TABLE temp_append_table AS SELECT $colExists FROM $main_table WHERE 1=0";
                 mysqli_query($connect,$createTable);
                  */
-                $loadQuery="LOAD DATA LOCAL INFILE '".$_FILES['file']['tmp_name']."' INTO TABLE temp_append_table FIELDS OPTIONALLY ENCLOSED BY '\"' TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;";
+                $loadQuery="LOAD DATA LOCAL INFILE '".$_FILES['file']['tmp_name']."' INTO TABLE temp_append_table FIELDS OPTIONALLY ENCLOSED BY '\"' TERMINATED BY ',' LINES TERMINATED BY '\n\r' IGNORE 1 LINES;";
                 mysqli_query($connect,$loadQuery) or die(mysqli_error($connect));
                 
                 /* This will delete any NULL rows after the file has been created and inserted into temp_append_table.
@@ -86,3 +88,4 @@
         }
     }
     
+?>

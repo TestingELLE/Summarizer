@@ -1,153 +1,165 @@
 <?php
-    session_start();
+session_start();
 
-     if(!isset($_SESSION['uname'])){
-       
-      header("Location:logout.php");
-      exit();
-    }
-    
-    if($_SESSION['type']=="viewer"){
-        
-        echo "
+if (!isset($_SESSION['uname'])) {
+
+    header("Location:logout.php");
+    exit();
+}
+
+if ($_SESSION['type'] == "viewer") {
+
+    echo "
         <script>
             alert('You do not have privilege to access the page. Please contact website manager.');
             window.location.href='Summarizer.php';
-        </script>";   
-    }
-    
-     //TO DO"  if user is Admin, Maintainer or developer show the buttons
-    //if user = viewer hide the buttons -- this functionality should be in loader.php page
-    
-    
-    //export error messages during uploading or uploading
-    if(isset($_SESSION["break"]) || isset($_SESSION["symbolNotExists"]) || isset($_SESSION["duplicates"])|| isset($_SESSION["colNotExists"])){
-        echo '
+        </script>";
+}
+
+//TO DO"  if user is Admin, Maintainer or developer show the buttons
+//if user = viewer hide the buttons -- this functionality should be in loader.php page
+//export error messages during uploading or uploading
+if (isset($_SESSION["break"]) || isset($_SESSION["symbolNotExists"]) || isset($_SESSION["duplicates"]) || isset($_SESSION["colNotExists"])) {
+    echo '
         <script>
-            alert(`You are updating '.$_SESSION["table"].';\n\nThe following symbols do not exist in the database:\n   '.$_SESSION["symbolNotExists"].';\nDuplicated symbols:'.$_SESSION["duplicates"].';\nColumns not exist: '.$_SESSION["colNotExists"].'`);
+            alert(`You are updating ' . $_SESSION["table"] . ';\n\nThe following symbols do not exist in the database:\n   ' . $_SESSION["symbolNotExists"] . ';\nDuplicated symbols:' . $_SESSION["duplicates"] . ';\nColumns not exist: ' . $_SESSION["colNotExists"] . '`);
         </script>
         ';
-        $_SESSION["break"]=null;
-        $_SESSION["symbolNotExists"]=null;
-        $_SESSION["duplicates"]=null;
-        $_SESSION["colNotExists"]=null;
-        echo '
+    $_SESSION["break"] = null;
+    $_SESSION["symbolNotExists"] = null;
+    $_SESSION["duplicates"] = null;
+    $_SESSION["colNotExists"] = null;
+    echo '
         <script>
         window.location.href="loader.php";
         </script>
-        ';  
-    }
-    ;
-  
-
+        ';
+}
+;
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-    <title>Loader</title>
-    <style type="text/css">
-		body {
-			font-size: 15px;
-			color: #343d44;
-			font-family: "segoe-ui", "open-sans", tahoma, arial;
-			padding: 0;
-			margin: 0;
-		}
-		table {
-			margin: auto;
-			font-family: "Lucida Sans Unicode", "Lucida Grande", "Segoe Ui";
-			font-size: 12px;
-		}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <title>Loader</title>
+        <style type="text/css">
+            body {
+                font-size: 15px;
+                color: #343d44;
+                font-family: "segoe-ui", "open-sans", tahoma, arial;
+                padding: 0;
+                margin: 0;
+            }
+            table {
+                margin: auto;
+                font-family: "Lucida Sans Unicode", "Lucida Grande", "Segoe Ui";
+                font-size: 12px;
+            }
 
-		h1 {
-			margin: 25px auto 0;
-			text-align: center;
-			text-transform: uppercase;
-			font-size: 17px;
-		}
+            h1 {
+                margin: 25px auto 0;
+                text-align: center;
+                text-transform: uppercase;
+                font-size: 17px;
+            }
 
-		table td {
-			transition: all .5s;
-		}
-		
-		/* Table */
-		.data-table {
-			border-collapse: collapse;
-			font-size: 14px;
-			min-width: 537px;
-		}
+            table td {
+                transition: all .5s;
+            }
 
-		.data-table th, 
-		.data-table td {
-			border: 1px solid #e1edff;
-			padding: 7px 17px;
-		}
-		.data-table caption {
-			margin: 7px;
-		}
+            /* Table */
+            .data-table {
+                border-collapse: collapse;
+                font-size: 14px;
+                min-width: 537px;
+            }
 
-		/* Table Header */
-		.data-table thead th {
-			background-color: #508abb;
-			color: #FFFFFF;
-			border-color: #6ea1cc !important;
-			text-transform: uppercase;
-		}
+            .data-table th, 
+            .data-table td {
+                border: 1px solid #e1edff;
+                padding: 7px 17px;
+            }
+            .data-table caption {
+                margin: 7px;
+            }
 
-		/* Table Body */
-		.data-table tbody td {
-			color: #353535;
-		}
-		.data-table tbody td:first-child,
-		.data-table tbody td:nth-child(4),
-		.data-table tbody td:last-child {
-			text-align: right;
-		}
+            /* Table Header */
+            .data-table thead th {
+                background-color: #508abb;
+                color: #FFFFFF;
+                border-color: #6ea1cc !important;
+                text-transform: uppercase;
+            }
 
-		.data-table tbody tr:nth-child(odd) td {
-			background-color: #f4fbff;
-		}
-		.data-table tbody tr:hover td {
-			background-color: #ffffa2;
-			border-color: #ffff0f;
-		}
+            /* Table Body */
+            .data-table tbody td {
+                color: #353535;
+            }
+            .data-table tbody td:first-child,
+            .data-table tbody td:nth-child(4),
+            .data-table tbody td:last-child {
+                text-align: right;
+            }
 
-		/* Table Footer */
-		.data-table tfoot th {
-			background-color: #e5f5ff;
-			text-align: right;
-		}
-		.data-table tfoot th:first-child {
-			text-align: left;
-		}
-		.data-table tbody td:empty
-		{
-			background-color: #ffcccc;
-		}
-	</style>       
-</head>
-<body>
-    <form name="form" action="tableTools.php" method="POST" enctype="multipart/form-data">
-        <input type="file" name="file" accept=".csv">   
-        <input type="submit" name="update" value="Regular Update">
-        <input type="submit" name="flexupdate" value="Flexible Update"> <!-- added Flexible Update button -->
-        <input type="submit" name="append" value="Append">
-        <input type="submit" name="download" style="float:right" value="Full Backup">
-    </form>
-    <form>
+            .data-table tbody tr:nth-child(odd) td {
+                background-color: #f4fbff;
+            }
+            .data-table tbody tr:hover td {
+                background-color: #ffffa2;
+                border-color: #ffff0f;
+            }
+
+            /* Table Footer */
+            .data-table tfoot th {
+                background-color: #e5f5ff;
+                text-align: right;
+            }
+            .data-table tfoot th:first-child {
+                text-align: left;
+            }
+            .data-table tbody td:empty
+            {
+                background-color: #ffcccc;
+            }
+        </style>       
+    </head>
+    <body>
         <form name="form" action="tableTools.php" method="POST" enctype="multipart/form-data">
-         <input type="submit" name="regdownload" style="float:right" value="Regular Download">  <!-- added new button for regular download -->
-         <input type="submit" name="submit" style="float:right" value="Restore from file">
-    </form>
-    <button><a href="Summarizer.php">Main Page</a></button>
-     
-<?php        
-if($_SESSION['type']=="Admin" || $_SESSION["type"]=="Programmer"){
-    echo '
+            <input type="file" name="file" accept=".csv">   
+            <input type="submit" name="flexUpdate" value="Flexible Update"> <!-- added Flexible Update button -->
+            <input type="submit" name="fullUpdate" style="float:right" value="Full Update">
+
+            <form name="form" action="Download.php" method="POST" enctype="multipart/form-data">
+                <input type="submit" name="download" style="float:right" value="Full Backup">
+
+
+                <form name="form" action="append.php" method="POST" enctype="multipart/form-data">
+                    <input type="submit" name="append"value="Append">   
+                </form> 
+
+
+                <form>
+                    <form name="form" action="restore.php" method="POST" enctype="multipart/form-data">
+                        <input type="submit" name="submit" style="float:right" value="Restore from file">
+                    </form>
+
+                    <form>
+                        <form name="form" action="Download.php" method="POST" enctype="multipart/form-data">
+                            <input type="submit" name="download" style="float:right" value="Regular Download">  <!-- added new button for regular download -->
+                        </form>
+
+
+
+
+
+                        <button><a href="Summarizer.php">Main Page</a></button>
+
+                        <?php
+                        if ($_SESSION['type'] == "Admin" || $_SESSION["type"] == "Programmer") {
+                            echo '
     <div id="mytable">
         <h1>Backup Table </h1>
         <table class="data-table" id="mytable">
@@ -164,118 +176,112 @@ if($_SESSION['type']=="Admin" || $_SESSION["type"]=="Programmer"){
             </thead>
             <tbody>
         ';
-    }
-        ?>
-            <?php                     
-            // create and load backup_table
-            $connect=mysqli_connect("rendertech.com",$_SESSION['uname_long'],$_SESSION['psw'],"pupone_Summarizer");
-            if (!$connect)
-            {
-            die('Could not connect: ' . mysqli_error());
-            }
-             // added order by DESC to reverse order of results
-             // by Tom Tran - 2018-05-30
-            $query="SELECT * FROM backup_table ORDER BY id DESC;"; 
-            if($result = mysqli_query($connect,$query))
-            {
-            while ($row = mysqli_fetch_array($result))
-            {   
-                if($row['locked']==1){
-                    $row['locked']="YES";
-                }
-                else{
-                    $row['locked']="NO";
-                }
-                if($_SESSION["type"]=="Admin"){
-                echo '<tr>
-                        <td>'.$row['id'].'</td>
-                        <td>'.$row['user'].'</td>
-                        <td id='.'deleteTB'.$row['id'].'>'.$row['filename'].'</td>
-                        <td>'.$row['date'].'</td>
-                        <td id='.$row['id'].'>'.$row['locked'].'</td>
-                        <td><input id='.'btn'.$row['id'].' class="lockRow" data-id='.$row['id'].' type="button" name="edit"><input class="delete" data-id='.$row['id'].' type="button" name="edit" value="Delete"><a href="tableTools.php?filename='.$row['filename'].'"><input class="downloadTable" data-id='.$row['filename'].' type="button" name="edit" value="Download"></a></td>
+                        }
+                        ?>
+                        <?php
+                        // create and load backup_table
+                        $connect = mysqli_connect("rendertech.com", $_SESSION['uname_long'], $_SESSION['psw'], "pupone_Summarizer");
+                        if (!$connect) {
+                            die('Could not connect: ' . mysqli_error());
+                        }
+                        // added order by DESC to reverse order of results
+                        // by Tom Tran - 2018-05-30
+                        $query = "SELECT * FROM backup_table ORDER BY id DESC;";
+                        if ($result = mysqli_query($connect, $query)) {
+                            while ($row = mysqli_fetch_array($result)) {
+                                if ($row['locked'] == 1) {
+                                    $row['locked'] = "YES";
+                                } else {
+                                    $row['locked'] = "NO";
+                                }
+                                if ($_SESSION["type"] == "Admin") {
+                                    echo '<tr>
+                        <td>' . $row['id'] . '</td>
+                        <td>' . $row['user'] . '</td>
+                        <td id=' . 'deleteTB' . $row['id'] . '>' . $row['filename'] . '</td>
+                        <td>' . $row['date'] . '</td>
+                        <td id=' . $row['id'] . '>' . $row['locked'] . '</td>
+                        <td><input id=' . 'btn' . $row['id'] . ' class="lockRow" data-id=' . $row['id'] . ' type="button" name="edit"><input class="delete" data-id=' . $row['id'] . ' type="button" name="edit" value="Delete"><a href="tableTools.php?filename=' . $row['filename'] . '"><input class="downloadTable" data-id=' . $row['filename'] . ' type="button" name="edit" value="Download"></a></td>
                     </tr>
                     <script>
-                        if($("#'.$row['id'].'").text()=="YES"){
-                            $("#'.'btn'.$row['id'].'").val("Unlock")
-                            $("#'.'btn'.$row['id'].'").removeClass("lockRow").addClass("unlockRow")
+                        if($("#' . $row['id'] . '").text()=="YES"){
+                            $("#' . 'btn' . $row['id'] . '").val("Unlock")
+                            $("#' . 'btn' . $row['id'] . '").removeClass("lockRow").addClass("unlockRow")
                         }else{
-                            $("#'.'btn'.$row['id'].'").val("Lock")
-                            $("#'.'btn'.$row['id'].'").removeClass("unlockRow").addClass("lockRow")
+                            $("#' . 'btn' . $row['id'] . '").val("Lock")
+                            $("#' . 'btn' . $row['id'] . '").removeClass("unlockRow").addClass("lockRow")
                         }
                     </script>
                 ';
-                }else if($_SESSION["type"]=="Programmer"){
-                    echo '<tr>
-                    <td>'.$row['id'].'</td>
-                    <td>'.$row['user'].'</td>
-                    <td id='.'deleteTB'.$row['id'].'>'.$row['filename'].'</td>
-                    <td>'.$row['date'].'</td>
-                    <td id='.$row['id'].'>'.$row['locked'].'</td>
-                    <td><input class="delete" data-id='.$row['id'].' type="button" name="edit" value="Delete"><a href="tableTools.php?filename='.$row['filename'].'"><input class="downloadTable" data-id='.$row['filename'].' type="button" name="edit" value="Download"></a></td>
+                                } else if ($_SESSION["type"] == "Programmer") {
+                                    echo '<tr>
+                    <td>' . $row['id'] . '</td>
+                    <td>' . $row['user'] . '</td>
+                    <td id=' . 'deleteTB' . $row['id'] . '>' . $row['filename'] . '</td>
+                    <td>' . $row['date'] . '</td>
+                    <td id=' . $row['id'] . '>' . $row['locked'] . '</td>
+                    <td><input class="delete" data-id=' . $row['id'] . ' type="button" name="edit" value="Delete"><a href="tableTools.php?filename=' . $row['filename'] . '"><input class="downloadTable" data-id=' . $row['filename'] . ' type="button" name="edit" value="Download"></a></td>
                 </tr>
             ';
-                }
-            }
-        }?>
-            </tbody>
-        </table>
-    </div>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
-<?php
-    //lock the selected row in backup_table 
-    if(isset($_POST["id"])) {
-    $id=$_POST["id"];
-    $editSQL="UPDATE backup_table SET locked=1 WHERE id=$id";
-    mysqli_query($connect,$editSQL);
-    }
-    //unlock the selected row in backup_table
-    if(isset($_POST["unlockId"])) {
-        $unlockId=$_POST["unlockId"];
-        $editSQL="UPDATE backup_table SET locked=0 WHERE id=$unlockId";
-        mysqli_query($connect,$editSQL);
-    }
-    //delete the selected row from backup_table and the table in database
-    if($_SESSION["type"]=="Programmer"){
-        if(isset($_POST["deleteId"])) {
-                $unlockId=$_POST["deleteId"];
-                $newID=$_POST["newID"];
-                $checkStatus="SELECT * FROM backup_table WHERE id=$newID limit 1";
-                if($result = mysqli_query($connect,$checkStatus))
-                {
-                    while ($row = mysqli_fetch_array($result))
-                    { 
-                        if($row["locked"]==1){
+                                }
+                            }
                         }
-                        //if it is unlocked, drop the table
-                        if($row["locked"]==0){
-                            $updateSQL="DELETE FROM backup_table WHERE id=$newID";
-                            $editSQL="DROP TABLE `$unlockId`";
-                            mysqli_query($connect,$editSQL);
-                            mysqli_query($connect,$updateSQL);
+                        ?>
+                        </tbody>
+                        </table>
+                        </div>
+                        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+                        <?php
+                        //lock the selected row in backup_table 
+                        if (isset($_POST["id"])) {
+                            $id = $_POST["id"];
+                            $editSQL = "UPDATE backup_table SET locked=1 WHERE id=$id";
+                            mysqli_query($connect, $editSQL);
                         }
-                    }
-                }
-        };
-    }
-    if($_SESSION["type"]=="Admin"){
-        if(isset($_POST["deleteId"])) {
-            $unlockId=$_POST["deleteId"];
-            $newID=$_POST["newID"];
-        
-            $checkStatus="SELECT * FROM backup_table WHERE id=$newID limit 1";
-           
-            $updateSQL="DELETE FROM backup_table WHERE id=$newID";
-            $editSQL="DROP TABLE `$unlockId`";
-            mysqli_query($connect,$editSQL);
-            mysqli_query($connect,$updateSQL);
-        }
-                
-        
-    };
-    
-    //send post request for "lock", "unlock" and "delete" button
-    echo '
+                        //unlock the selected row in backup_table
+                        if (isset($_POST["unlockId"])) {
+                            $unlockId = $_POST["unlockId"];
+                            $editSQL = "UPDATE backup_table SET locked=0 WHERE id=$unlockId";
+                            mysqli_query($connect, $editSQL);
+                        }
+                        //delete the selected row from backup_table and the table in database
+                        if ($_SESSION["type"] == "Programmer") {
+                            if (isset($_POST["deleteId"])) {
+                                $unlockId = $_POST["deleteId"];
+                                $newID = $_POST["newID"];
+                                $checkStatus = "SELECT * FROM backup_table WHERE id=$newID limit 1";
+                                if ($result = mysqli_query($connect, $checkStatus)) {
+                                    while ($row = mysqli_fetch_array($result)) {
+                                        if ($row["locked"] == 1) {
+                                            
+                                        }
+                                        //if it is unlocked, drop the table
+                                        if ($row["locked"] == 0) {
+                                            $updateSQL = "DELETE FROM backup_table WHERE id=$newID";
+                                            $editSQL = "DROP TABLE `$unlockId`";
+                                            mysqli_query($connect, $editSQL);
+                                            mysqli_query($connect, $updateSQL);
+                                        }
+                                    }
+                                }
+                            };
+                        }
+                        if ($_SESSION["type"] == "Admin") {
+                            if (isset($_POST["deleteId"])) {
+                                $unlockId = $_POST["deleteId"];
+                                $newID = $_POST["newID"];
+
+                                $checkStatus = "SELECT * FROM backup_table WHERE id=$newID limit 1";
+
+                                $updateSQL = "DELETE FROM backup_table WHERE id=$newID";
+                                $editSQL = "DROP TABLE `$unlockId`";
+                                mysqli_query($connect, $editSQL);
+                                mysqli_query($connect, $updateSQL);
+                            }
+                        };
+
+                        //send post request for "lock", "unlock" and "delete" button
+                        echo '
     <script>
         $(document).on("click",".lockRow",function(){
             let id=$(this).attr("data-id")
@@ -307,8 +313,8 @@ if($_SESSION['type']=="Admin" || $_SESSION["type"]=="Programmer"){
         })
     </script>
     ';
-    if($_SESSION['type']=="Programmer"){
-        echo '
+                        if ($_SESSION['type'] == "Programmer") {
+                            echo '
         <script>
             $(document).on("click",".delete",function(){
                 let id=$(this).attr("data-id");
@@ -332,9 +338,9 @@ if($_SESSION['type']=="Admin" || $_SESSION["type"]=="Programmer"){
             })
         </script>
         ';
-    };
-    if($_SESSION['type']=="Admin"){
-        echo '
+                        };
+                        if ($_SESSION['type'] == "Admin") {
+                            echo '
         <script>
             $(document).on("click",".delete",function(){
                 let id=$(this).attr("data-id");
@@ -353,13 +359,12 @@ if($_SESSION['type']=="Admin" || $_SESSION["type"]=="Programmer"){
             })
         </script>
         ';
-    };
- 
-?>
+                        };
+                        ?>
 
-</body>
-<footer>
-    <center><p>working prototype 1.1.2e</p></center>
-    <center><p>Date Released: 2018-07-11</p></center>
-</footer>
-</html>
+                        </body>
+                        <footer>
+                            <center><p>working prototype 1.1.2e</p></center>
+                            <center><p>Date Released: 2018-07-11</p></center>
+                        </footer>
+                        </html>

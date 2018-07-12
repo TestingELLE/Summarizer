@@ -43,7 +43,7 @@
     
     
     //load csv file and update data 
-    if(isset($_POST["update"])){
+    if(isset($_POST["flexUpdate"])){
         $connect=mysqli_connect("rendertech.com",$_SESSION['uname_long'],$_SESSION['psw'],"pupone_Summarizer");
         if (!$connect)
         {
@@ -89,7 +89,7 @@
                     // Import the data into the newly created table.
                     $file = $_SERVER['PWD'].'/'.$file;
                     
-                $loadQuery="LOAD DATA LOCAL INFILE '".$_FILES['file']['tmp_name']."' INTO TABLE temp_update_table FIELDS OPTIONALLY ENCLOSED BY '\"' TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES";
+                $loadQuery="LOAD DATA LOCAL INFILE '".$_FILES['file']['tmp_name']."' INTO TABLE temp_update_table FIELDS OPTIONALLY ENCLOSED BY '\"' TERMINATED BY ',' LINES TERMINATED BY '\n\r' IGNORE 1 LINES";
                 mysqli_query($connect,$loadQuery) or die(mysqli_error($connect));
                 
                 
@@ -168,7 +168,7 @@
                 mysqli_query($connect,$updateTable1) or die(mysqli_error($connect));
                        
                 // this updates all values with the new values if they are not NULL
-                $updateTable2 = "call copyValuesFromA2B ('temp_update_table', '$main_table');";
+                $updateTable2 = "call copyValuesFromA2B ('temp_update_table', '$main_table',0);";
                 //echo $updateTable2;
                 mysqli_query($connect,$updateTable2) or die(mysqli_error($connect));
                
