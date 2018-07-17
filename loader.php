@@ -19,23 +19,7 @@ if ($_SESSION['type'] == "viewer") {
 //TO DO"  if user is Admin, Maintainer or developer show the buttons
 //if user = viewer hide the buttons -- this functionality should be in loader.php page
 //export error messages during uploading or uploading
-if (isset($_SESSION["break"]) || isset($_SESSION["symbolNotExists"]) || isset($_SESSION["duplicates"]) || isset($_SESSION["colNotExists"])) {
-    echo '
-        <script>
-            alert(`You are updating ' . $_SESSION["table"] . ';\n\nThe following symbols do not exist in the database:\n   ' . $_SESSION["symbolNotExists"] . ';\nDuplicated symbols:' . $_SESSION["duplicates"] . ';\nColumns not exist: ' . $_SESSION["colNotExists"] . '`);
-        </script>
-        ';
-    $_SESSION["break"] = null;
-    $_SESSION["symbolNotExists"] = null;
-    $_SESSION["duplicates"] = null;
-    $_SESSION["colNotExists"] = null;
-    echo '
-        <script>
-        window.location.href="loader.php";
-        </script>
-        ';
-}
-;
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -129,35 +113,33 @@ if (isset($_SESSION["break"]) || isset($_SESSION["symbolNotExists"]) || isset($_
     <body>
         <form name="form" action="tableTools.php" method="POST" enctype="multipart/form-data">
             <input type="file" name="file" accept=".csv">   
-            <input type="submit" name="flexUpdate" value="Flexible Update"> <!-- added Flexible Update button -->
-            <input type="submit" name="fullUpdate" style="float:right" value="Full Update">
+            <input type ="submit" name="flexible_update" value="Flexible Update"> 
+            <input type="submit" name="append" value="Append">  
+            /<!-- this would redirect directly to different page
+             <input type="submit" formaction="append.php" name="append" value="Append"> 
+             -->
+            <input type="submit" name="full_update" value="Full Update">
+            </form> 
 
             <form name="form" action="Download.php" method="POST" enctype="multipart/form-data">
                 <input type="submit" name="download" style="float:right" value="Full Backup">
+            </form> 
 
-
-                <form name="form" action="append.php" method="POST" enctype="multipart/form-data">
-                    <input type="submit" name="append"value="Append">   
-                </form> 
-
-
-                <form>
-                    <form name="form" action="restore.php" method="POST" enctype="multipart/form-data">
+            <form name="form" action="restore.php" method="POST" enctype="multipart/form-data">
                         <input type="submit" name="submit" style="float:right" value="Restore from file">
-                    </form>
+             </form>
 
-                    <form>
-                        <form name="form" action="Download.php" method="POST" enctype="multipart/form-data">
-                            <input type="submit" name="download" style="float:right" value="Regular Download">  <!-- added new button for regular download -->
-                        </form>
-
-
+              <form>
+                    <form name="form" action="Download.php" method="POST" enctype="multipart/form-data">
+                          <input type="submit" name="download" style="float:right" value="Regular Download">  <!-- added new button for regular download -->
+              </form>
 
 
-
-                        <button><a href="Summarizer.php">Main Page</a></button>
-
-                        <?php
+             <button><a href="Summarizer.php">Main Page</a></button>
+             
+      <!-- most of the blow is probably garbage -->       
+             
+                <?php
                         if ($_SESSION['type'] == "Admin" || $_SESSION["type"] == "Programmer") {
                             echo '
     <div id="mytable">
