@@ -119,20 +119,23 @@ if ($_SESSION['type'] == "viewer") {
              <input type="submit" formaction="append.php" name="append" value="Append"> 
              -->
             <input type="submit" name="full_update" value="Full Update">
-            </form> 
+        </form> 
 
+           
             <form name="form" action="Download.php" method="POST" enctype="multipart/form-data">
-                <input type="submit" name="download" style="float:right" value="Full Backup">
-            </form> 
+                          <input type="submit" name="download" style="float:right" value="Regular Download">  <!-- added new button for regular download -->
+              </form>
+       
 
             <form name="form" action="restore.php" method="POST" enctype="multipart/form-data">
                         <input type="submit" name="submit" style="float:right" value="Restore from file">
              </form>
+        
+         <form name="form" action="BackUp.php" method="POST" enctype="multipart/form-data">
+                <input type="submit" name="download" style="float:right" value="Full Backup">
+            </form> 
 
-              <form>
-                    <form name="form" action="Download.php" method="POST" enctype="multipart/form-data">
-                          <input type="submit" name="download" style="float:right" value="Regular Download">  <!-- added new button for regular download -->
-              </form>
+          
 
 
              <button><a href="Summarizer.php">Main Page</a></button>

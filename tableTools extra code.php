@@ -91,21 +91,26 @@
                //mysqli_free_result($res);
                */
 
- 
-                /*  NOT WORKING -- TO FIX - CUT OUT FOR NOW
+
+    
+                //NOT WORKING -- TO FIX - CUT OUT FOR NOW
                 //replaces the above
                 //check that the columns are those expected. If not, abort.
-                 $checkColumns = "Call checkIfColumnsofA_areinB ('temp_update_table', '$main_table', @a);";
-                // echo $checkColumns;
- 
+                 $checkColumns = "Call checkIfColumnsofA_areinB ('temp_update_table', '$main_table', @out);";
+                echo $checkColumns ."<br>" ;
                 mysqli_query($connect, $checkColumns);
-                $checkColumnsCount = mysqli_query($connect, "select @a");
-                //$checkColumnsCount = $res->fetch_assoc();
-                // echo $checkColumnsCount;
+                
+                $checkColumnsCount = mysqli_query($connect, "select @out");
+               $res = $checkColumnsCount->fetch_assoc();
+               echo $res['@out'];
+               
+               /*
                  if($checkColumnsCount>=1){
                     $_SESSION["colNotExists"]=$colNotexists;
                     header("location:loader.php");
                     die(mysqli_error($connect));
                 }
-               mysqli_free_result($res);
-               */
+                */
+               
+               
+               

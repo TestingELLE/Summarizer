@@ -20,9 +20,7 @@
     if($_SESSION['type']=="Admin" || $_SESSION['type']=="Maintainer") {$main_table ="main_table";}
     //echo "$main_table  ";
 
-    
-    
-
+ 
     
     //which operation is selected
     if( array_key_exists( 'flexible_update', $_POST ) ) {$actionSelection = "flexible_update";}
@@ -78,8 +76,16 @@
                  
                  // check that the column names are right
                     // all columns of append table should exist in $main_table
-                    // and ideally vice-versa  -- temp moved to code snippets
-                       
+                    // and ideally vice-versa 
+                //check that the columns are those expected. If not, abort.
+                 $checkColumns = "Call checkIfColumnsofA_areinB ('$tempTable', '$main_table', @out);";
+                echo $checkColumns ."<br>" ;
+                mysqli_query($connect, $checkColumns);
+                
+                $checkColumnsCount = mysqli_query($connect, "select @out");
+               $res = $checkColumnsCount->fetch_assoc();
+               echo $res['@out'];
+               
                 
                 //load the table
                 $loadQuery="LOAD DATA LOCAL INFILE '".$_FILES['file']['tmp_name']."' INTO TABLE $tempTable FIELDS OPTIONALLY ENCLOSED BY '\"' TERMINATED BY ',' LINES TERMINATED BY '\n' IGNORE 1 LINES;";
