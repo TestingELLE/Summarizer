@@ -123,7 +123,7 @@ if ($_SESSION['type'] == "viewer") {
 
            
             <form name="form" action="Download.php" method="POST" enctype="multipart/form-data">
-                          <input type="submit" name="download" style="float:right" value="Regular Download">  <!-- added new button for regular download -->
+             <input type="submit" name="reg_download" style="float:right" value="Regular Download">  <!-- added new button for regular download -->
               </form>
        
 
@@ -131,8 +131,8 @@ if ($_SESSION['type'] == "viewer") {
                         <input type="submit" name="submit" style="float:right" value="Restore from file">
              </form>
         
-         <form name="form" action="BackUp.php" method="POST" enctype="multipart/form-data">
-                <input type="submit" name="download" style="float:right" value="Full Backup">
+         <form name="form" action="Download.php" method="POST" enctype="multipart/form-data">
+                <input type="submit" name="full_download" style="float:right" value="Full Download">
             </form> 
 
           

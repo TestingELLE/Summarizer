@@ -84,7 +84,7 @@
                 
                 $checkColumnsCount = mysqli_query($connect, "select @out");
                $res = $checkColumnsCount->fetch_assoc();
-               echo $res['@out'];
+               echo "Columns Found: " . $res['@out'];
                
                 
                 //load the table
